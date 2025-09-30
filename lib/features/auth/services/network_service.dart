@@ -21,12 +21,12 @@ class NetworkService {
     );
   }
 
-  Future<http.Response> get(
-    String endpoint, {
-    Map<String, String>? headers,
-  }) async {
-    final url = Uri.parse('$baseUrl$endpoint');
-    final defaultHeaders = {'Content-Type': 'application/json', ...?headers};
-    return await http.get(url, headers: defaultHeaders);
-  }
+  // Future<http.Response> get(
+  //   String endpoint, {
+  //   Map<String, String>? headers,
+  // }) async {
+  //   final url = Uri.parse('$baseUrl$endpoint');
+  //   final defaultHeaders = {'Content-Type': 'application/json', ...?headers};
+  //   return await http.get(url, headers: defaultHeaders);
+  // }
 }

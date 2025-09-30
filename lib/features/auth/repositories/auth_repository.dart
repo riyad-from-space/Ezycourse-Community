@@ -1,13 +1,14 @@
 import 'dart:convert';
 
-import 'package:ezycourse_community/features/auth/services/api_services.dart';
+import 'package:ezycourse_community/features/auth/models/auth_login_model.dart';
+import 'package:ezycourse_community/features/auth/services/network_service.dart';
 
 class AuthRepository {
   final NetworkService _apiServices;
 
   AuthRepository(this._apiServices);
 
-  Future<Map<String, dynamic>?> login({
+  Future<AuthLoginModel?> login({
     required String email,
     required String password,
   }) async {
@@ -22,7 +23,7 @@ class AuthRepository {
       print('Response body: ${response.body}');
       if (response.statusCode == 200) {
         print('Login successful');
-        return jsonDecode(response.body);
+        return AuthLoginModel.fromJson(jsonDecode(response.body));
       } else {
         print('Login failed with status: ${response.statusCode}');
         print('Error: ${response.body}');

@@ -1,24 +1,31 @@
-import 'package:ezycourse_community/features/auth/repositories/auth_repository.dart';
-import 'package:ezycourse_community/features/auth/services/api_services.dart';
+import 'package:ezycourse_community/features/auth/viewmodel/auth_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
-
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  bool _rememberMe = false;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  final AuthRepository authRepository = AuthRepository(NetworkService());
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
+    final authState = ref.watch(authViewModelProvider);
+    final authViewModel = ref.read(authViewModelProvider.notifier);
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Color(0xff115C67),
@@ -75,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(height: 20),
                           TextField(
                             controller: passwordController,
-                            // obscureText: true,
+                            obscureText: true,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Color(0xff115C67),
@@ -92,12 +99,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Checkbox(
-                                value: _rememberMe,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _rememberMe = value ?? false;
-                                  });
-                                },
+                                value: false,
+                                onChanged: (value) {},
                                 activeColor: Color(0xffE8F54A),
                                 checkColor: Color(0xff115C67),
                                 materialTapTargetSize:
@@ -118,12 +121,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: () async {
-                                await authRepository.login(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                );
-                              },
+                              onPressed: authState.isLoading
+                                  ? null
+                                  : () async {
+                                      await authViewModel.login(
+                                        emailController.text,
+                                        passwordController.text,
+                                      );
+                                      if (authState.token != null) {
+                                        // TODO: Navigate or save token
+                                      }
+                                    },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xffE8F54A),
                                 padding: EdgeInsets.symmetric(vertical: 15),
@@ -131,15 +139,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
-                              child: Text(
-                                'Login',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xff115C67),
-                                ),
-                              ),
+                              child: authState.isLoading
+                                  ? CircularProgressIndicator(
+                                      color: Color(0xff115C67),
+                                    )
+                                  : Text(
+                                      'Login',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color(0xff115C67),
+                                      ),
+                                    ),
                             ),
                           ),
+                          if (authState.errorMessage != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: Text(
+                                authState.errorMessage!,
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
                         ],
                       ),
                     ),
