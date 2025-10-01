@@ -2,7 +2,7 @@ import 'package:ezycourse_community/core/services/network_service.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/community/models/community_post_model.dart';
 import 'package:ezycourse_community/features/community/repositories/community_repository.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CommunityState {
   final bool isLoading;
@@ -78,8 +78,6 @@ final communityViewModelProvider =
       final repository = CommunityRepository(
         NetworkService(baseUrl: 'https://ezyappteam.ezycourse.com/api/app/'),
       );
-
       final tokenStorage = TokenStorageService();
-
       return CommunityViewModel(repository, tokenStorage);
     });

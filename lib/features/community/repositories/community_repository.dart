@@ -27,9 +27,16 @@ class CommunityRepository {
     print('Posts Response body: ${response.body}');
 
     if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body) as List;
-      return jsonData
-          .map((postJson) => CommunityPostModel.fromJson(postJson))
+      final jsonData = jsonDecode(response.body);
+      // If the response is a map, extract the list from a key like 'data' or 'posts'
+      final List<dynamic> postsList = jsonData is List
+          ? jsonData
+          : (jsonData['data'] ?? jsonData['posts'] ?? []);
+      return postsList
+          .map(
+            (postJson) =>
+                CommunityPostModel.fromJson(postJson as Map<String, dynamic>),
+          )
           .toList();
     } else if (response.statusCode == 401) {
       throw NetworkException('Unauthorized access', 401);

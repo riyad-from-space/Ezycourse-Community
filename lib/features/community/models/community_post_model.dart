@@ -31,26 +31,49 @@ class CommunityPostModel {
     this.bgColor,
     required this.user,
     required this.meta,
-    required String content,
   });
 
   factory CommunityPostModel.fromJson(Map<String, dynamic> json) {
+    // Safely parse files field
+    List<String> parseFiles(dynamic filesData) {
+      if (filesData == null) return [];
+
+      if (filesData is List) {
+        return filesData
+            .map((item) {
+              if (item is String) return item;
+              if (item is Map) return item['url']?.toString() ?? '';
+              return item.toString();
+            })
+            .where((item) => item.isNotEmpty)
+            .toList();
+      }
+
+      if (filesData is String) return [filesData];
+
+      return [];
+    }
+
     return CommunityPostModel(
       id: json['id'] ?? 0,
-      title: json['title'] ?? '',
-      feedText: json['feed_txt'] ?? '',
-      fileType: json['file_type'] ?? 'text',
-      files: List<String>.from(json['files'] ?? []),
-      likeCount: json['like_count'] ?? 0,
-      commentCount: json['comment_count'] ?? 0,
-      shareCount: json['share_count'] ?? 0,
-      createdAt: json['created_at'] ?? '',
-      feedPrivacy: json['feed_privacy'] ?? 'Public',
-      isBackground: json['is_background'] == 1,
-      bgColor: json['bg_color'],
-      user: PostUserModel.fromJson(json['user'] ?? {}),
-      meta: json['meta'] ?? {},
-      content: '',
+      title: json['title']?.toString() ?? '',
+      feedText: json['feed_txt']?.toString() ?? '',
+      fileType: json['file_type']?.toString() ?? 'text',
+      files: parseFiles(json['files']),
+      likeCount: int.tryParse(json['like_count']?.toString() ?? '0') ?? 0,
+      commentCount: int.tryParse(json['comment_count']?.toString() ?? '0') ?? 0,
+      shareCount: int.tryParse(json['share_count']?.toString() ?? '0') ?? 0,
+      createdAt: json['created_at']?.toString() ?? '',
+      feedPrivacy: json['feed_privacy']?.toString() ?? 'Public',
+      isBackground:
+          json['is_background'] == 1 ||
+          json['is_background'] == '1' ||
+          json['is_background'] == true,
+      bgColor: json['bg_color']?.toString(),
+      user: PostUserModel.fromJson(
+        json['user'] is Map<String, dynamic> ? json['user'] : {},
+      ),
+      meta: json['meta'] is Map<String, dynamic> ? json['meta'] : {},
     );
   }
 

@@ -15,12 +15,13 @@ class PostUserModel {
 
   factory PostUserModel.fromJson(Map<String, dynamic> json) {
     return PostUserModel(
-      id: json['id'] ?? 0,
-      fullName: json['full_name'] ?? 'Unknown User',
+      id: int.tryParse(json['id']?.toString() ?? '0') ?? 0,
+      fullName: json['full_name']?.toString() ?? 'Unknown User',
       profilePic:
-          json['profile_pic'] ?? 'https://letcheck.b-cdn.net/human_icon.png',
-      status: json['status'] ?? 'ACTIVE',
-      userType: json['user_type'] ?? 'STUDENT',
+          json['profile_pic']?.toString() ??
+          'https://letcheck.b-cdn.net/human_icon.png',
+      status: json['status']?.toString() ?? 'ACTIVE',
+      userType: json['user_type']?.toString() ?? 'STUDENT',
     );
   }
 }
