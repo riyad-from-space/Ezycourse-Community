@@ -1,54 +1,26 @@
 import 'dart:convert';
 
 import 'package:ezycourse_community/core/services/network_service.dart';
-import 'package:ezycourse_community/features/community/models/community_post_model.dart';
+import 'package:ezycourse_community/features/community/models/community_feed_model.dart';
 
-class CommunityRepository {
-  final NetworkService _networkService;
+class FeedRepository {
+  final NetworkService networkService;
 
-  CommunityRepository(this._networkService);
+  FeedRepository(this.networkService);
 
-  Future<List<CommunityPostModel>> fetchPosts({
-    required String token,
-    required int communityId,
-    required int spaceId,
-  }) async {
-    final header = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-    final endpoint = 'teacher/community/getFeed?status=feed&';
-    final response = await _networkService.post(
-      endpoint,
-      headers: header,
-      body: {'community_id': communityId, 'space_id': spaceId},
+  Future<FeedModel> fetchFeeds({required String token}) async {
+    final response = await networkService.post(
+      'teacher/community/getFeed?status=feed&',
+      token: token,
     );
-    print('Posts Response status: ${response.statusCode}');
-    print('Posts Response body: ${response.body}');
+    print(response.statusCode);
+    print(response.body);
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
-      // If the response is a map, extract the list from a key like 'data' or 'posts'
-      final List<dynamic> postsList = jsonData is List
-          ? jsonData
-          : (jsonData['data'] ?? jsonData['posts'] ?? []);
-      return postsList
-          .map(
-            (postJson) =>
-                CommunityPostModel.fromJson(postJson as Map<String, dynamic>),
-          )
-          .toList();
-    } else if (response.statusCode == 401) {
-      throw NetworkException('Unauthorized access', 401);
-    } else if (response.statusCode >= 500) {
-      throw NetworkException(
-        'Server error. Please try again later',
-        response.statusCode,
-      );
+      return FeedModel.fromJson(jsonData);
     } else {
-      final error = jsonDecode(response.body);
-      final message = error['message'] ?? 'Failed to fetch posts';
-      throw NetworkException(message, response.statusCode);
+      throw Exception('Failed to load feeds');
     }
   }
 }

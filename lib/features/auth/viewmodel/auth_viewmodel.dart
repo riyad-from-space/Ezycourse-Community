@@ -80,7 +80,6 @@ class AuthViewModel extends StateNotifier<AuthState> {
   }
 }
 
-// Modern Provider (not legacy)
 final authViewModelProvider = StateNotifierProvider<AuthViewModel, AuthState>((
   ref,
 ) {

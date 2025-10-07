@@ -1,83 +1,58 @@
 import 'package:ezycourse_community/core/services/network_service.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
-import 'package:ezycourse_community/features/community/models/community_post_model.dart';
 import 'package:ezycourse_community/features/community/repositories/community_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CommunityState {
+class FeedState {
   final bool isLoading;
   final String? errorMessage;
-  final List<CommunityPostModel> posts;
-  final bool hasError;
-  final int spaceId;
-  final int communityId;
-  CommunityState({
-    this.isLoading = false,
-    this.errorMessage,
-    this.posts = const [],
-    this.hasError = false,
-    this.spaceId = 5883,
-    this.communityId = 2914,
-  });
-  CommunityState copyWith({
+
+  final bool success;
+
+  FeedState({this.isLoading = false, this.errorMessage, this.success = false});
+
+  FeedState copyWith({
     bool? isLoading,
     String? errorMessage,
-    List<CommunityPostModel>? posts,
-    bool? hasError,
+
+    bool? success,
     bool clearError = false,
-    int? spaceId,
-    int? communityId,
   }) {
-    return CommunityState(
+    return FeedState(
       isLoading: isLoading ?? this.isLoading,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
-      posts: posts ?? this.posts,
-      hasError: hasError ?? this.hasError,
-      spaceId: spaceId ?? this.spaceId,
-      communityId: communityId ?? this.communityId,
+      success: success ?? this.success,
     );
   }
 }
 
-class CommunityViewModel extends StateNotifier<CommunityState> {
-  final CommunityRepository _communityRepository;
-  final TokenStorageService _tokenStorageService;
-  CommunityViewModel(this._communityRepository, this._tokenStorageService)
-    : super(CommunityState());
+class FeedViewModel extends StateNotifier<FeedState> {
+  final FeedRepository _feedRepository;
+  final TokenStorageService _tokenStorageService = TokenStorageService();
 
-  Future<void> fetchPosts() async {
-    state = state.copyWith(isLoading: true, clearError: true);
-    try {
-      final token = await _tokenStorageService.getToken();
-      if (token == null) {
-        state = state.copyWith(
-          isLoading: false,
-          hasError: true,
-          errorMessage: 'Authentication token not found',
-        );
-        return;
-      }
-      final posts = await _communityRepository.fetchPosts(
-        token: token,
-        communityId: state.communityId,
-        spaceId: state.spaceId,
-      );
-      state = state.copyWith(isLoading: false, posts: posts, hasError: false);
-    } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        hasError: true,
-        errorMessage: e.toString(),
-      );
-    }
+  FeedViewModel(this._feedRepository) : super(FeedState());
+
+  Future<void> fetchFeeds() async {
+    state = state.copyWith(isLoading: true);
+
+    final token = await _tokenStorageService.getToken();
+    final result = await _feedRepository.fetchFeeds(token: token ?? '');
+    print(result);
+    // if(result.isEmpty){
+    //   state = state.copyWith(isLoading: false, errorMessage: 'No feeds available');
+    //   return;
+    // }else{
+    //   state = state.copyWith(isLoading: false, success: true);
+    // }
+    state = state.copyWith(isLoading: false, success: true);
   }
 }
 
-final communityViewModelProvider =
-    StateNotifierProvider<CommunityViewModel, CommunityState>((ref) {
-      final repository = CommunityRepository(
-        NetworkService(baseUrl: 'https://ezyappteam.ezycourse.com/api/app/'),
-      );
-      final tokenStorage = TokenStorageService();
-      return CommunityViewModel(repository, tokenStorage);
-    });
+final feedViewModelProvider = StateNotifierProvider<FeedViewModel, FeedState>((
+  ref,
+) {
+  final feedRepository = FeedRepository(
+    NetworkService(baseUrl: 'https://ezyappteam.ezycourse.com/api/app/'),
+  );
+  return FeedViewModel(feedRepository);
+});
