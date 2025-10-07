@@ -8,17 +8,22 @@ class FeedRepository {
 
   FeedRepository(this.networkService);
 
-  Future<FeedModel> fetchFeeds({required String token}) async {
+  Future<FeedModel> fetchFeeds({
+    required String token,
+    int? communityId,
+    int? spaceId,
+  }) async {
     final response = await networkService.post(
       'teacher/community/getFeed?status=feed&',
       token: token,
+      body: {'community_id': communityId, 'space_id': spaceId},
     );
     print(response.statusCode);
     print(response.body);
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
-      return FeedModel.fromJson(jsonData);
+      return await FeedModel.fromJson(jsonData);
     } else {
       throw Exception('Failed to load feeds');
     }

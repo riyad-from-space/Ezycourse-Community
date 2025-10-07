@@ -106,7 +106,6 @@ class FeedModel {
   });
 
   static Future<FeedModel> fromJson(jsonData) async {
-    await Future.delayed(const Duration(seconds: 2));
     return FeedModel(
       id: jsonData['id'],
       schoolId: jsonData['school_id'],
