@@ -1,3 +1,5 @@
+import 'package:ezycourse_community/core/services/token_storage_service.dart';
+import 'package:ezycourse_community/features/auth/view/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class Post {
@@ -110,7 +112,12 @@ class _CommunityScreenState extends State<HomeScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                TokenStorageService().deleteToken();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Logged out successfully')),
                 );
@@ -220,7 +227,7 @@ class _CommunityScreenState extends State<HomeScreen> {
         onTap: _onBottomNavTap,
         selectedItemColor: const Color(0xFF2D5F5D),
         unselectedItemColor: Colors.grey,
-        items: const [
+        items: [
           BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Community'),
           BottomNavigationBarItem(icon: Icon(Icons.logout), label: 'Logout'),
         ],

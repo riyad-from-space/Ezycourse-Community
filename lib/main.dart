@@ -1,13 +1,19 @@
+import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/auth/view/screens/login_screen.dart';
+import 'package:ezycourse_community/features/community/view/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
-  runApp(ProviderScope(child: const MyApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final tokenStorageService = TokenStorageService();
+  final hasToken = await tokenStorageService.hasToken();
+  runApp(ProviderScope(child: MyApp(isLoggedIn: hasToken)));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
+  const MyApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: LoginScreen(),
+      home: isLoggedIn ? HomeScreen() : LoginScreen(),
     );
   }
 }

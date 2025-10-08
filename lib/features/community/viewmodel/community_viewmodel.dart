@@ -8,7 +8,7 @@ class FeedState {
   final bool isLoading;
   final String? errorMessage;
   final bool success;
-  final FeedModel? feedData;
+  final List<FeedModel>? feedData;
 
   FeedState({
     this.isLoading = false,
@@ -21,7 +21,7 @@ class FeedState {
     bool? isLoading,
     String? errorMessage,
     bool? success,
-    FeedModel? feedData,
+    List<FeedModel>? feedData,
     bool clearError = false,
   }) {
     return FeedState(
@@ -53,24 +53,14 @@ class FeedViewModel extends StateNotifier<FeedState> {
         return;
       }
 
-      final result = await _feedRepository.fetchFeeds(
+      final List<FeedModel> result = await _feedRepository.fetchFeeds(
         communityId: 2914,
         spaceId: 5883,
 
         token: token,
       );
 
-      // Print the result for debugging
-      print('=== Feed Result ===');
-      print('Feed ID: ${result.id}');
-      print('Author: ${result.name}');
-      print('Content: ${result.feedTxt}');
-      print('Likes: ${result.likeCount}');
-      print('Comments: ${result.commentCount}');
-      print('Created At: ${result.createdAt}');
-      print('Files count: ${result.files.length}');
-      print('Has Poll: ${result.poll != null}');
-      print('==================');
+      print('Fetched Feeds: ${result.length}');
 
       state = state.copyWith(isLoading: false, success: true, feedData: result);
     } on NetworkException catch (e) {

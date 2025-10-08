@@ -105,7 +105,7 @@ class FeedModel {
     required this.meta,
   });
 
-  static Future<FeedModel> fromJson(jsonData) async {
+  factory FeedModel.fromJson(Map<String, dynamic> jsonData) {
     return FeedModel(
       id: jsonData['id'],
       schoolId: jsonData['school_id'],

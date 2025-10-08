@@ -19,8 +19,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    if (!rememberMe) {
+      emailController.dispose();
+      passwordController.dispose();
+    }
     super.dispose();
   }
 
@@ -63,8 +65,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           );
           await ref.read(feedViewModelProvider.notifier).fetchFeeds();
-
-          Navigator.of(context).pushAndRemoveUntil(
+          await Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => HomeScreen()),
             (route) => false,
           );
