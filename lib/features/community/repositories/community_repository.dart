@@ -8,26 +8,17 @@ class FeedRepository {
 
   FeedRepository(this.networkService);
 
-  Future<List<FeedModel>> fetchFeeds({
-    required String token,
-    int? communityId,
-    int? spaceId,
-  }) async {
+  Future<FeedModel> fetchFeeds({required String token}) async {
     final response = await networkService.post(
       'teacher/community/getFeed?status=feed&',
       token: token,
-      body: {'community_id': communityId, 'space_id': spaceId},
     );
     print(response.statusCode);
     print(response.body);
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
-      List<FeedModel> feed = (response as List<dynamic>)
-          .map((e) => FeedModel.fromJson(e))
-          .toList();
-      print('Parsed Feeds: ${feed.length}');
-      return feed;
+      return await FeedModel.fromJson(jsonData);
     } else {
       throw Exception('Failed to load feeds');
     }

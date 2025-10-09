@@ -7,28 +7,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class FeedState {
   final bool isLoading;
   final String? errorMessage;
+  final FeedModel? feedModel;
+
   final bool success;
-  final List<FeedModel>? feedData;
 
   FeedState({
     this.isLoading = false,
     this.errorMessage,
     this.success = false,
-    this.feedData,
+    this.feedModel,
   });
 
   FeedState copyWith({
     bool? isLoading,
     String? errorMessage,
+    FeedModel? feedModel,
     bool? success,
-    List<FeedModel>? feedData,
     bool clearError = false,
   }) {
     return FeedState(
       isLoading: isLoading ?? this.isLoading,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
       success: success ?? this.success,
-      feedData: feedData ?? this.feedData,
+      feedModel: feedModel ?? this.feedModel,
     );
   }
 }
@@ -40,37 +41,17 @@ class FeedViewModel extends StateNotifier<FeedState> {
   FeedViewModel(this._feedRepository) : super(FeedState());
 
   Future<void> fetchFeeds() async {
+    state = state.copyWith(isLoading: true, clearError: true);
+
     try {
-      state = state.copyWith(isLoading: true, clearError: true);
-
       final token = await _tokenStorageService.getToken();
-
-      if (token == null || token.isEmpty) {
-        state = state.copyWith(
-          isLoading: false,
-          errorMessage: 'No authentication token found',
-        );
-        return;
-      }
-
-      final List<FeedModel> result = await _feedRepository.fetchFeeds(
-        communityId: 2914,
-        spaceId: 5883,
-
-        token: token,
-      );
-
-      print('Fetched Feeds: ${result.length}');
-
-      state = state.copyWith(isLoading: false, success: true, feedData: result);
-    } on NetworkException catch (e) {
-      print('Network Error: ${e.message}');
-      state = state.copyWith(isLoading: false, errorMessage: e.message);
+      final result = await _feedRepository.fetchFeeds(token: token ?? '');
+      print(result);
+      state = state.copyWith(isLoading: false, success: true);
     } catch (e) {
-      print('Error fetching feeds: $e');
       state = state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to load feeds: ${e.toString()}',
+        errorMessage: 'Failed to fetch feeds: ${e.toString()}',
       );
     }
   }

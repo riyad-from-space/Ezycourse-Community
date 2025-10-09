@@ -1,3 +1,4 @@
+import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/auth/viewmodel/auth_viewmodel.dart';
 import 'package:ezycourse_community/features/community/view/home_screen.dart';
 import 'package:ezycourse_community/features/community/viewmodel/community_viewmodel.dart';
@@ -15,14 +16,37 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final _storageService = TokenStorageService();
   bool rememberMe = false;
+  bool _isLoading = true;
+  bool obscurePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedCredentials();
+  }
+
+  Future<void> _loadSavedCredentials() async {
+    final credentials = await _storageService.getCredentials();
+
+    if (mounted) {
+      setState(() {
+        if (credentials['rememberMe'] == 'true') {
+          emailController.text = credentials['email'] ?? '';
+          passwordController.text = credentials['password'] ?? '';
+          rememberMe = true;
+        }
+        _isLoading = false;
+      });
+    }
+    print('Loaded credentials: $credentials');
+  }
 
   @override
   void dispose() {
-    if (!rememberMe) {
-      emailController.dispose();
-      passwordController.dispose();
-    }
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -65,7 +89,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           );
           await ref.read(feedViewModelProvider.notifier).fetchFeeds();
-          await Navigator.of(context).pushAndRemoveUntil(
+          await _storageService.saveCredentials(
+            emailController.text.trim(),
+            passwordController.text,
+            rememberMe,
+          );
+          Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => HomeScreen()),
             (route) => false,
           );
@@ -140,10 +169,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         const SizedBox(height: 20),
                         TextFormField(
                           controller: passwordController,
-                          obscureText: true,
+                          obscureText: obscurePassword,
                           validator: validatePassword,
                           style: const TextStyle(color: Colors.white),
                           decoration: InputDecoration(
+                            suffixIcon: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  obscurePassword = !obscurePassword;
+                                });
+                              },
+                              child: Icon(
+                                obscurePassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.white70,
+                              ),
+                            ),
                             filled: true,
                             fillColor: const Color(0xff115C67),
                             hintText: 'Password',
