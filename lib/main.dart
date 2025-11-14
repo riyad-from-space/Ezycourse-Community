@@ -1,6 +1,7 @@
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/auth/view/screens/login_screen.dart';
-import 'package:ezycourse_community/features/community/view/home_screen.dart';
+import 'package:ezycourse_community/features/community/view/feed_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
