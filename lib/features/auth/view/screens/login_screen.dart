@@ -96,7 +96,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             rememberMe,
           );
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => HomeScreen()),
+            MaterialPageRoute(builder: (context) => FeedScreen()),
             (route) => false,
           );
         }
