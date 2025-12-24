@@ -33,9 +33,9 @@ class FeedState {
 /// ViewModel for managing feed list state
 class FeedViewModel extends StateNotifier<FeedState> {
   final CommunityRepository _repository;
-  final TokenStorageService _tokenStorageService;
+  final TokenStorageService _tokenStorageService = TokenStorageService();
 
-  FeedViewModel(this._repository, this._tokenStorageService)
+  FeedViewModel(this._repository)
       : super(const FeedState());
 
   /// Fetch feeds from API
@@ -75,7 +75,6 @@ final feedViewModelProvider =
     baseUrl: 'https://ezyappteam.ezycourse.com/api/app/',
   );
   final repository = CommunityRepository(networkService);
-  final tokenService = TokenStorageService();
 
-  return FeedViewModel(repository, tokenService);
+  return FeedViewModel(repository);
 });

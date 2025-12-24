@@ -1,6 +1,6 @@
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/auth/viewmodel/auth_viewmodel.dart';
-import 'package:ezycourse_community/features/community/view/feed_screen.dart';
+import 'package:ezycourse_community/features/community/presentation/view/feed_screen.dart';
 
 import 'package:ezycourse_community/features/community/viewmodel/community_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +76,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (_formKey.currentState!.validate()) {
       await ref
           .read(authViewModelProvider.notifier)
-          .login(emailController.text.trim(), passwordController.text);
+          .login(email:emailController.text, password:passwordController.text);
 
       if (mounted) {
         final authState = ref.read(authViewModelProvider);
@@ -89,7 +89,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               duration: Duration(seconds: 2),
             ),
           );
-          await ref.read(feedViewModelProvider.notifier).fetchFeeds();
+          
           await _storageService.saveCredentials(
             emailController.text.trim(),
             passwordController.text,
@@ -256,36 +256,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   ),
                           ),
                         ),
-                        if (authState.errorMessage != null)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: Colors.red.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: Colors.red.withOpacity(0.5),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.error_outline,
-                                    color: Colors.red,
-                                    size: 20,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: Text(
-                                      authState.errorMessage!,
-                                      style: const TextStyle(color: Colors.red),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+
                       ],
                     ),
                   ),
