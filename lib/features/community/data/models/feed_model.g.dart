@@ -15,6 +15,9 @@ _FeedModel _$FeedModelFromJson(Map<String, dynamic> json) => _FeedModel(
   userName: json['name'] as String,
   userPic: json['pic'] as String,
   createdAt: DateTime.parse(json['created_at'] as String),
+  likeCount: (json['like_count'] as num).toInt(),
+  commentCount: (json['comment_count'] as num).toInt(),
+  shareCount: (json['share_count'] as num).toInt(),
 );
 
 Map<String, dynamic> _$FeedModelToJson(_FeedModel instance) =>
@@ -27,4 +30,7 @@ Map<String, dynamic> _$FeedModelToJson(_FeedModel instance) =>
       'name': instance.userName,
       'pic': instance.userPic,
       'created_at': instance.createdAt.toIso8601String(),
+      'like_count': instance.likeCount,
+      'comment_count': instance.commentCount,
+      'share_count': instance.shareCount,
     };

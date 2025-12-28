@@ -1,6 +1,6 @@
 import 'package:ezycourse_community/core/services/network_service.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
-import 'package:ezycourse_community/features/auth/repositories/auth_repository.dart';
+import 'package:ezycourse_community/features/auth/data/repositories/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthState {

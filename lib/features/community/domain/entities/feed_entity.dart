@@ -15,6 +15,9 @@ abstract class FeedEntity with _$FeedEntity {
     required String userName,
     required String userPic,
     required DateTime createdAt,
+    required int likeCount,
+    required int commentCount,
+    required int shareCount,
   }) = _FeedEntity;
 
 

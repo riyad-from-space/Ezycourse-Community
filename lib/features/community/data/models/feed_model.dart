@@ -21,7 +21,13 @@ abstract class FeedModel with _$FeedModel {
     @JsonKey(name: 'name') required final String userName,
     @JsonKey(name: 'pic') required final String userPic,
     @JsonKey(name: 'created_at') required final DateTime createdAt,
+
+    //ENGAGEMENT FIELDS
+    @JsonKey(name:'like_count') required final int likeCount,
+    @JsonKey(name:'comment_count') required final int commentCount,
+    @JsonKey(name:'share_count') required final int shareCount,
   }) = _FeedModel;
+
 
   factory FeedModel.fromJson(Map<String, Object?> json) =>
       _$FeedModelFromJson(json);
@@ -37,6 +43,10 @@ abstract class FeedModel with _$FeedModel {
       userName: userName,
       userPic: userPic,
       createdAt: createdAt,
+      likeCount: likeCount,
+      commentCount: commentCount,
+      shareCount: shareCount,
+
     );
   }
 }
