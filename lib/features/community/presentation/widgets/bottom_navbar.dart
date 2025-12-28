@@ -7,28 +7,22 @@ import 'package:ezycourse_community/features/community/presentation/widgets/logo
 
 class BottomNavBar extends ConsumerWidget {
   final int currentIndex;
-  final ValueChanged<int> onIndexChanged; 
+  final ValueChanged<int> onIndexChanged;
 
   const BottomNavBar({
     super.key,
     required this.currentIndex,
-    required this.onIndexChanged, 
+    required this.onIndexChanged,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {  
+  Widget build(BuildContext context, WidgetRef ref) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: (index) => _handleNavigation(index, context, ref),
       items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.group),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.logout),
-          label: 'Logout',
-        ),
+        BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.logout), label: 'Logout'),
       ],
     );
   }
@@ -39,34 +33,29 @@ class BottomNavBar extends ConsumerWidget {
     WidgetRef ref,
   ) async {
     if (index == 0) {
-      onIndexChanged(0);  
+      onIndexChanged(0);
       ref.read(feedViewModelProvider.notifier).fetchFeeds();
       return;
     }
 
-    
     final navigator = Navigator.of(context);
 
     final confirmed = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => ShowLogoutDialog(
-        onConfirm: () => Navigator.of(ctx).pop(true),
-      ),
+      builder: (ctx) =>
+          ShowLogoutDialog(onConfirm: () => Navigator.of(ctx).pop(true)),
     );
 
     if (confirmed == true) {
       try {
-
         await ref.read(authViewModelProvider.notifier).logout();
-
 
         navigator.pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => const LoginScreen()),
           (route) => false,
         );
       } catch (e) {
-  
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

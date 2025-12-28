@@ -6,11 +6,7 @@ class FeedList extends StatelessWidget {
   final List<FeedEntity> feeds;
   final VoidCallback? onRefresh;
 
-  const FeedList({
-    super.key,
-    required this.feeds,
-    this.onRefresh,
-  });
+  const FeedList({super.key, required this.feeds, this.onRefresh});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +16,7 @@ class FeedList extends StatelessWidget {
         child: _buildList(),
       );
     }
-    
+
     return _buildList();
   }
 

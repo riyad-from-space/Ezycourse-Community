@@ -24,20 +24,15 @@ class FeedCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Author header
-            AuthorHeader(
-              feed: feed,
-              onMenuTap: onMenuTap,
-            ),
-            
+            AuthorHeader(feed: feed, onMenuTap: onMenuTap),
+
             // Post content
             if (feed.feedText.isNotEmpty) ...[
               const SizedBox(height: 12),
@@ -61,10 +56,7 @@ class FeedCard extends StatelessWidget {
   Widget _buildPostContent() {
     return Text(
       feed.feedText,
-      style: const TextStyle(
-        fontSize: 15,
-        height: 1.4,
-      ),
+      style: const TextStyle(fontSize: 15, height: 1.4),
     );
   }
 }
