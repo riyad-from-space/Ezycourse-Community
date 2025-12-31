@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
 
 import 'package:ezycourse_community/core/services/network_service.dart';
 import 'package:ezycourse_community/features/community/data/models/feed_model.dart';
@@ -19,7 +17,7 @@ class CommunityRepository {
     try {
       final response = await networkService.post(
         'teacher/community/getFeed?status=feed&',
-        
+
         token: token,
         body: body,
       );
@@ -43,5 +41,3 @@ class CommunityRepository {
     }
   }
 }
-
-

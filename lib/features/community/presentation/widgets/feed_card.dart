@@ -1,3 +1,4 @@
+import 'package:ezycourse_community/features/community/presentation/widgets/feed_file_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/author_header.dart';
@@ -54,7 +55,9 @@ class FeedCard extends StatelessWidget {
   }
 
   Widget _buildPostContent() {
-    return Text(
+    return feed.files.isNotEmpty ? FeedFileHandler(
+      files: feed.files,
+    ) : Text(
       feed.feedText,
       style: const TextStyle(fontSize: 15, height: 1.4),
     );

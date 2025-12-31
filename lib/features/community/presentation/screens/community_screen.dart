@@ -1,3 +1,4 @@
+import 'package:ezycourse_community/features/community/presentation/widgets/create_post_field.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/feed_list.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/bottom_navbar.dart';
 import 'package:ezycourse_community/features/community/presentation/viewmodel/community_viewmodel.dart';
@@ -35,7 +36,14 @@ class _FeedScreenState extends ConsumerState<FeedScreen>{
       ),
       body: feedState.isLoading
           ? const Center(child: CircularProgressIndicator())
-          : FeedList(feeds:   feedState.feeds),
+          : Column(
+            
+            children: [
+              CreatePostField(),
+              
+              Expanded(child: FeedList(feeds:   feedState.feeds)),
+            ],
+          ),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,  
         onIndexChanged: (index) {     

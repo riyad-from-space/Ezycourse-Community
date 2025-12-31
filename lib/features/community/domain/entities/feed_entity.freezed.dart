@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FeedEntity {
 
- int get id; int get schoolId; int get communityId; int get spaceId; String get feedText; String get userName; String get userPic; DateTime get createdAt; int get likeCount; int get commentCount; int get shareCount;
+ int get id; int get schoolId; int get communityId; int get spaceId; String get feedText; String get userName; String get userPic; DateTime get createdAt; int get likeCount; int get commentCount; int get shareCount; List<FeedFileEntity> get files;
 /// Create a copy of FeedEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $FeedEntityCopyWith<FeedEntity> get copyWith => _$FeedEntityCopyWithImpl<FeedEnt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FeedEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.schoolId, schoolId) || other.schoolId == schoolId)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.spaceId, spaceId) || other.spaceId == spaceId)&&(identical(other.feedText, feedText) || other.feedText == feedText)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.userPic, userPic) || other.userPic == userPic)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likeCount, likeCount) || other.likeCount == likeCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.shareCount, shareCount) || other.shareCount == shareCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FeedEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.schoolId, schoolId) || other.schoolId == schoolId)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.spaceId, spaceId) || other.spaceId == spaceId)&&(identical(other.feedText, feedText) || other.feedText == feedText)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.userPic, userPic) || other.userPic == userPic)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likeCount, likeCount) || other.likeCount == likeCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.shareCount, shareCount) || other.shareCount == shareCount)&&const DeepCollectionEquality().equals(other.files, files));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,schoolId,communityId,spaceId,feedText,userName,userPic,createdAt,likeCount,commentCount,shareCount);
+int get hashCode => Object.hash(runtimeType,id,schoolId,communityId,spaceId,feedText,userName,userPic,createdAt,likeCount,commentCount,shareCount,const DeepCollectionEquality().hash(files));
 
 @override
 String toString() {
-  return 'FeedEntity(id: $id, schoolId: $schoolId, communityId: $communityId, spaceId: $spaceId, feedText: $feedText, userName: $userName, userPic: $userPic, createdAt: $createdAt, likeCount: $likeCount, commentCount: $commentCount, shareCount: $shareCount)';
+  return 'FeedEntity(id: $id, schoolId: $schoolId, communityId: $communityId, spaceId: $spaceId, feedText: $feedText, userName: $userName, userPic: $userPic, createdAt: $createdAt, likeCount: $likeCount, commentCount: $commentCount, shareCount: $shareCount, files: $files)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $FeedEntityCopyWith<$Res>  {
   factory $FeedEntityCopyWith(FeedEntity value, $Res Function(FeedEntity) _then) = _$FeedEntityCopyWithImpl;
 @useResult
 $Res call({
- int id, int schoolId, int communityId, int spaceId, String feedText, String userName, String userPic, DateTime createdAt, int likeCount, int commentCount, int shareCount
+ int id, int schoolId, int communityId, int spaceId, String feedText, String userName, String userPic, DateTime createdAt, int likeCount, int commentCount, int shareCount, List<FeedFileEntity> files
 });
 
 
@@ -62,7 +62,7 @@ class _$FeedEntityCopyWithImpl<$Res>
 
 /// Create a copy of FeedEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? schoolId = null,Object? communityId = null,Object? spaceId = null,Object? feedText = null,Object? userName = null,Object? userPic = null,Object? createdAt = null,Object? likeCount = null,Object? commentCount = null,Object? shareCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? schoolId = null,Object? communityId = null,Object? spaceId = null,Object? feedText = null,Object? userName = null,Object? userPic = null,Object? createdAt = null,Object? likeCount = null,Object? commentCount = null,Object? shareCount = null,Object? files = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,schoolId: null == schoolId ? _self.schoolId : schoolId // ignore: cast_nullable_to_non_nullable
@@ -75,7 +75,8 @@ as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: 
 as DateTime,likeCount: null == likeCount ? _self.likeCount : likeCount // ignore: cast_nullable_to_non_nullable
 as int,commentCount: null == commentCount ? _self.commentCount : commentCount // ignore: cast_nullable_to_non_nullable
 as int,shareCount: null == shareCount ? _self.shareCount : shareCount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,files: null == files ? _self.files : files // ignore: cast_nullable_to_non_nullable
+as List<FeedFileEntity>,
   ));
 }
 
@@ -160,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int schoolId,  int communityId,  int spaceId,  String feedText,  String userName,  String userPic,  DateTime createdAt,  int likeCount,  int commentCount,  int shareCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int schoolId,  int communityId,  int spaceId,  String feedText,  String userName,  String userPic,  DateTime createdAt,  int likeCount,  int commentCount,  int shareCount,  List<FeedFileEntity> files)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FeedEntity() when $default != null:
-return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount);case _:
+return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount,_that.files);case _:
   return orElse();
 
 }
@@ -181,10 +182,10 @@ return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.fe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int schoolId,  int communityId,  int spaceId,  String feedText,  String userName,  String userPic,  DateTime createdAt,  int likeCount,  int commentCount,  int shareCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int schoolId,  int communityId,  int spaceId,  String feedText,  String userName,  String userPic,  DateTime createdAt,  int likeCount,  int commentCount,  int shareCount,  List<FeedFileEntity> files)  $default,) {final _that = this;
 switch (_that) {
 case _FeedEntity():
-return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount);case _:
+return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount,_that.files);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +202,10 @@ return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.fe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int schoolId,  int communityId,  int spaceId,  String feedText,  String userName,  String userPic,  DateTime createdAt,  int likeCount,  int commentCount,  int shareCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int schoolId,  int communityId,  int spaceId,  String feedText,  String userName,  String userPic,  DateTime createdAt,  int likeCount,  int commentCount,  int shareCount,  List<FeedFileEntity> files)?  $default,) {final _that = this;
 switch (_that) {
 case _FeedEntity() when $default != null:
-return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount);case _:
+return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount,_that.files);case _:
   return null;
 
 }
@@ -216,7 +217,7 @@ return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.fe
 
 
 class _FeedEntity implements FeedEntity {
-  const _FeedEntity({required this.id, required this.schoolId, required this.communityId, required this.spaceId, required this.feedText, required this.userName, required this.userPic, required this.createdAt, required this.likeCount, required this.commentCount, required this.shareCount});
+  const _FeedEntity({required this.id, required this.schoolId, required this.communityId, required this.spaceId, required this.feedText, required this.userName, required this.userPic, required this.createdAt, required this.likeCount, required this.commentCount, required this.shareCount, required final  List<FeedFileEntity> files}): _files = files;
   
 
 @override final  int id;
@@ -230,6 +231,13 @@ class _FeedEntity implements FeedEntity {
 @override final  int likeCount;
 @override final  int commentCount;
 @override final  int shareCount;
+ final  List<FeedFileEntity> _files;
+@override List<FeedFileEntity> get files {
+  if (_files is EqualUnmodifiableListView) return _files;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_files);
+}
+
 
 /// Create a copy of FeedEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -241,16 +249,16 @@ _$FeedEntityCopyWith<_FeedEntity> get copyWith => __$FeedEntityCopyWithImpl<_Fee
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FeedEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.schoolId, schoolId) || other.schoolId == schoolId)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.spaceId, spaceId) || other.spaceId == spaceId)&&(identical(other.feedText, feedText) || other.feedText == feedText)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.userPic, userPic) || other.userPic == userPic)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likeCount, likeCount) || other.likeCount == likeCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.shareCount, shareCount) || other.shareCount == shareCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FeedEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.schoolId, schoolId) || other.schoolId == schoolId)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.spaceId, spaceId) || other.spaceId == spaceId)&&(identical(other.feedText, feedText) || other.feedText == feedText)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.userPic, userPic) || other.userPic == userPic)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likeCount, likeCount) || other.likeCount == likeCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.shareCount, shareCount) || other.shareCount == shareCount)&&const DeepCollectionEquality().equals(other._files, _files));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,schoolId,communityId,spaceId,feedText,userName,userPic,createdAt,likeCount,commentCount,shareCount);
+int get hashCode => Object.hash(runtimeType,id,schoolId,communityId,spaceId,feedText,userName,userPic,createdAt,likeCount,commentCount,shareCount,const DeepCollectionEquality().hash(_files));
 
 @override
 String toString() {
-  return 'FeedEntity(id: $id, schoolId: $schoolId, communityId: $communityId, spaceId: $spaceId, feedText: $feedText, userName: $userName, userPic: $userPic, createdAt: $createdAt, likeCount: $likeCount, commentCount: $commentCount, shareCount: $shareCount)';
+  return 'FeedEntity(id: $id, schoolId: $schoolId, communityId: $communityId, spaceId: $spaceId, feedText: $feedText, userName: $userName, userPic: $userPic, createdAt: $createdAt, likeCount: $likeCount, commentCount: $commentCount, shareCount: $shareCount, files: $files)';
 }
 
 
@@ -261,7 +269,7 @@ abstract mixin class _$FeedEntityCopyWith<$Res> implements $FeedEntityCopyWith<$
   factory _$FeedEntityCopyWith(_FeedEntity value, $Res Function(_FeedEntity) _then) = __$FeedEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int schoolId, int communityId, int spaceId, String feedText, String userName, String userPic, DateTime createdAt, int likeCount, int commentCount, int shareCount
+ int id, int schoolId, int communityId, int spaceId, String feedText, String userName, String userPic, DateTime createdAt, int likeCount, int commentCount, int shareCount, List<FeedFileEntity> files
 });
 
 
@@ -278,7 +286,7 @@ class __$FeedEntityCopyWithImpl<$Res>
 
 /// Create a copy of FeedEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? schoolId = null,Object? communityId = null,Object? spaceId = null,Object? feedText = null,Object? userName = null,Object? userPic = null,Object? createdAt = null,Object? likeCount = null,Object? commentCount = null,Object? shareCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? schoolId = null,Object? communityId = null,Object? spaceId = null,Object? feedText = null,Object? userName = null,Object? userPic = null,Object? createdAt = null,Object? likeCount = null,Object? commentCount = null,Object? shareCount = null,Object? files = null,}) {
   return _then(_FeedEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,schoolId: null == schoolId ? _self.schoolId : schoolId // ignore: cast_nullable_to_non_nullable
@@ -291,7 +299,8 @@ as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: 
 as DateTime,likeCount: null == likeCount ? _self.likeCount : likeCount // ignore: cast_nullable_to_non_nullable
 as int,commentCount: null == commentCount ? _self.commentCount : commentCount // ignore: cast_nullable_to_non_nullable
 as int,shareCount: null == shareCount ? _self.shareCount : shareCount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,files: null == files ? _self._files : files // ignore: cast_nullable_to_non_nullable
+as List<FeedFileEntity>,
   ));
 }
 

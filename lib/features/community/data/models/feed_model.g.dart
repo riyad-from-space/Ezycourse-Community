@@ -18,6 +18,9 @@ _FeedModel _$FeedModelFromJson(Map<String, dynamic> json) => _FeedModel(
   likeCount: (json['like_count'] as num).toInt(),
   commentCount: (json['comment_count'] as num).toInt(),
   shareCount: (json['share_count'] as num).toInt(),
+  files: (json['files'] as List<dynamic>)
+      .map((e) => FeedFileModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$FeedModelToJson(_FeedModel instance) =>
@@ -33,4 +36,5 @@ Map<String, dynamic> _$FeedModelToJson(_FeedModel instance) =>
       'like_count': instance.likeCount,
       'comment_count': instance.commentCount,
       'share_count': instance.shareCount,
+      'files': instance.files,
     };

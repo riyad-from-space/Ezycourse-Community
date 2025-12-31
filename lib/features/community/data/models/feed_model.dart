@@ -1,3 +1,4 @@
+import 'package:ezycourse_community/features/community/data/models/feed_file_model.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -26,6 +27,9 @@ abstract class FeedModel with _$FeedModel {
     @JsonKey(name:'like_count') required final int likeCount,
     @JsonKey(name:'comment_count') required final int commentCount,
     @JsonKey(name:'share_count') required final int shareCount,
+
+    //Files 
+    @JsonKey(name:'files') required final List<FeedFileModel> files,
   }) = _FeedModel;
 
 
@@ -46,6 +50,7 @@ abstract class FeedModel with _$FeedModel {
       likeCount: likeCount,
       commentCount: commentCount,
       shareCount: shareCount,
+      files: files.map((fileModel) => fileModel.toEntity()).toList(),
 
     );
   }
