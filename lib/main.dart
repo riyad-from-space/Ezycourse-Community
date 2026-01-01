@@ -1,5 +1,6 @@
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/auth/presentation/screens/login_screen.dart';
+import 'package:ezycourse_community/features/community/presentation/screens/community_list_screen.dart';
 import 'package:ezycourse_community/features/community/presentation/screens/community_screen.dart';
 
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: isLoggedIn ? FeedScreen() : LoginScreen(),
+      home: isLoggedIn ? CommunityListScreen() : LoginScreen(),
     );
   }
 }

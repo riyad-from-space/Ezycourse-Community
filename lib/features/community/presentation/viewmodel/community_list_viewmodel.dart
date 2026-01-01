@@ -1,45 +1,45 @@
 import 'package:ezycourse_community/core/services/network_service.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
-import 'package:ezycourse_community/features/community/data/repositories/community_repository.dart';
-import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
+import 'package:ezycourse_community/features/community/data/repositories/community_list_repository.dart';
+import 'package:ezycourse_community/features/community/domain/entities/community_list_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for feed list
-class FeedState {
+class CommunityListState {
   final bool isLoading;
   final String? errorMessage;
-  final List<FeedEntity> feeds;
+  final List<CommunityListEntity> communityList;
 
-  const FeedState({
+  const CommunityListState({
     this.isLoading = false,
     this.errorMessage,
-    this.feeds = const [],
+    this.communityList = const [],
   });
 
-  FeedState copyWith({
+  CommunityListState copyWith({
     bool? isLoading,
     String? errorMessage,
-    List<FeedEntity>? feeds,
+    List<CommunityListEntity>? communityList,
     bool clearError = false,
   }) {
-    return FeedState(
+    return CommunityListState(
       isLoading: isLoading ?? this.isLoading,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
-      feeds: feeds ?? this.feeds,
+      communityList: communityList ?? this.communityList,
     );
   }
 }
 
 /// ViewModel for managing feed list state
-class FeedViewModel extends StateNotifier<FeedState> {
-  final CommunityRepository _repository;
+class CommunityListViewModel extends StateNotifier<CommunityListState> {
+  final CommunityListRepository _repository;
   final TokenStorageService _tokenStorageService = TokenStorageService();
 
-  FeedViewModel(this._repository)
-      : super(const FeedState());
+  CommunityListViewModel(this._repository)
+      : super(const CommunityListState());
 
-  /// Fetch feeds from API
-  Future<void> fetchFeeds() async {
+  /// Fetch community list from API
+  Future<void> fetchCommunityList() async {
     // Don't fetch if already loading
     if (state.isLoading) return;
 
@@ -52,12 +52,12 @@ class FeedViewModel extends StateNotifier<FeedState> {
         throw Exception('No authentication token found');
       }
 
-      final newFeeds = await _repository.getFeedList(token: token);
+      final newCommunityList = await _repository.getCommunityList(token: token);
 
       // Update state with new feeds
       state = state.copyWith(
         isLoading: false,
-        feeds: newFeeds,
+        communityList: newCommunityList,
       );
     } catch (e) {
       state = state.copyWith(
@@ -69,12 +69,12 @@ class FeedViewModel extends StateNotifier<FeedState> {
 }
 
 /// Provider for FeedViewModel
-final feedViewModelProvider =
-    StateNotifierProvider<FeedViewModel, FeedState>((ref) {
+final communityListViewModelProvider =
+    StateNotifierProvider<CommunityListViewModel, CommunityListState>((ref) {
   final networkService = NetworkService(
-    baseUrl: 'https://ezyappteam.ezycourse.com/api/app/',
+    baseUrl: 'demo1.ezycourse.com/api/app',
   );
-  final repository = CommunityRepository(networkService);
+  final repository = CommunityListRepository(networkService);
 
-  return FeedViewModel(repository);
+  return CommunityListViewModel(repository);
 });

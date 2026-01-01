@@ -1,7 +1,7 @@
 import 'package:ezycourse_community/features/community/presentation/widgets/create_post_field.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/feed_list.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/bottom_navbar.dart';
-import 'package:ezycourse_community/features/community/presentation/viewmodel/community_viewmodel.dart';
+import 'package:ezycourse_community/features/community/presentation/viewmodel/community_feed_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

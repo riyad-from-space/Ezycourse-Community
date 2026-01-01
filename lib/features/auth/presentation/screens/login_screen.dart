@@ -1,6 +1,7 @@
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/auth/presentation/viewmodel/auth_viewmodel.dart';
-import 'package:ezycourse_community/features/community/presentation/screens/community_screen.dart';
+import 'package:ezycourse_community/features/community/presentation/screens/community_list_screen.dart';
+
 
 
 import 'package:flutter/material.dart';
@@ -96,7 +97,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             rememberMe,
           );
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => FeedScreen()),
+            MaterialPageRoute(builder: (context) => CommunityListScreen()),
             (route) => false,
           );
         }

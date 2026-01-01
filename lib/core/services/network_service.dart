@@ -48,4 +48,29 @@ class NetworkService {
       throw NetworkException("Unexpected error: ${e.toString()}");
     }
   }
+
+  Future<dynamic> get( {String? endpoint,String? token,Map<String, String>? headers,})async{
+    try{
+      final url = Uri.parse('$baseUrl$endpoint');
+      final defaultHeaders = {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+        ...?headers,
+      };
+      final response = await http
+          .get(url, headers: defaultHeaders,)
+          .timeout(
+            const Duration(seconds: 30),
+            onTimeout: () => throw NetworkException("Request timeout"),
+          );
+
+          return response;
+
+
+    }catch(e){
+      throw NetworkException("Unexpected error: ${e.toString()}");
+
+    }
+
+  }
 }

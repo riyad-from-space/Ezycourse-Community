@@ -65,7 +65,7 @@ final authViewModelProvider = StateNotifierProvider<AuthViewmodel, AuthState>((
 ){
 
   final networkService = NetworkService(
-    baseUrl: 'https://ezyappteam.ezycourse.com/api/app/',
+    baseUrl: 'https://demo1.ezycourse.com/api/app',
   );
 
   final authRepository = AuthRepository(networkService);
