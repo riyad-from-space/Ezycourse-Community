@@ -34,9 +34,9 @@ class FeedState {
 class FeedViewModel extends StateNotifier<FeedState> {
   final CommunityRepository _repository;
   final TokenStorageService _tokenStorageService = TokenStorageService();
+  final String communityId;
 
-  FeedViewModel(this._repository)
-      : super(const FeedState());
+  FeedViewModel(this._repository, this.communityId) : super(const FeedState());
 
   /// Fetch feeds from API
   Future<void> fetchFeeds() async {
@@ -52,29 +52,28 @@ class FeedViewModel extends StateNotifier<FeedState> {
         throw Exception('No authentication token found');
       }
 
-      final newFeeds = await _repository.getFeedList(token: token);
+      final newFeeds = await _repository.getFeedList(
+        token: token,
+        communityId: communityId,
+      );
 
       // Update state with new feeds
-      state = state.copyWith(
-        isLoading: false,
-        feeds: newFeeds,
-      );
+      state = state.copyWith(isLoading: false, feeds: newFeeds);
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
 }
 
 /// Provider for FeedViewModel
-final feedViewModelProvider =
-    StateNotifierProvider<FeedViewModel, FeedState>((ref) {
+final feedViewModelProvider = StateNotifierProvider.family<FeedViewModel, FeedState, String>((
+  ref,
+  communityId,
+) {
   final networkService = NetworkService(
     baseUrl: 'https://ezyappteam.ezycourse.com/api/app/',
   );
-  final repository = CommunityRepository(networkService);
+  final repository = CommunityRepository(networkService, communityId: communityId);
 
-  return FeedViewModel(repository);
+  return FeedViewModel(repository, communityId);
 });

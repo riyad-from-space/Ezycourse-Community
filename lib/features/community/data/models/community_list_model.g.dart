@@ -14,6 +14,7 @@ _CommunityListModel _$CommunityListModelFromJson(Map<String, dynamic> json) =>
       totalFeeds: (json['total_feeds'] as num).toInt(),
       totalMembers: (json['total_members'] as num).toInt(),
       status: json['status'] as String,
+      thumbnail: json['thumbnail'] as String,
     );
 
 Map<String, dynamic> _$CommunityListModelToJson(_CommunityListModel instance) =>
@@ -24,4 +25,5 @@ Map<String, dynamic> _$CommunityListModelToJson(_CommunityListModel instance) =>
       'total_feeds': instance.totalFeeds,
       'total_members': instance.totalMembers,
       'status': instance.status,
+      'thumbnail': instance.thumbnail,
     };

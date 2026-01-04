@@ -6,12 +6,13 @@ import 'package:ezycourse_community/features/community/domain/entities/feed_enti
 
 class CommunityRepository {
   final NetworkService networkService;
-  CommunityRepository(this.networkService);
+  final String communityId;
+  CommunityRepository(this.networkService,{required this.communityId});
 
   Future<List<FeedEntity>> getFeedList({
     required String token,
-    int communityId = 2914,
-    int spaceId = 5883,
+    
+    int spaceId = 5883, required String communityId,
   }) async {
     final body = {'space_id': spaceId, 'community_id': communityId};
     try {

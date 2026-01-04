@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ezycourse_community/features/community/presentation/viewmodel/community_feed_viewmodel.dart';
 import 'package:ezycourse_community/features/auth/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:ezycourse_community/features/auth/presentation/screens/login_screen.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/logout_dialog.dart';
@@ -34,7 +33,7 @@ class BottomNavBar extends ConsumerWidget {
   ) async {
     if (index == 0) {
       onIndexChanged(0);
-      ref.read(feedViewModelProvider.notifier).fetchFeeds();
+      // ref.read(feedViewModelProvider.notifier).fetchFeeds();
       return;
     }
 

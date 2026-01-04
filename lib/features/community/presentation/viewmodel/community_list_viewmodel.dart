@@ -72,7 +72,7 @@ class CommunityListViewModel extends StateNotifier<CommunityListState> {
 final communityListViewModelProvider =
     StateNotifierProvider<CommunityListViewModel, CommunityListState>((ref) {
   final networkService = NetworkService(
-    baseUrl: 'demo1.ezycourse.com/api/app',
+    baseUrl: 'https://demo1.ezycourse.com/api/app',
   );
   final repository = CommunityListRepository(networkService);
 

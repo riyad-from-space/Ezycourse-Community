@@ -19,6 +19,7 @@ abstract class CommunityListModel with _$CommunityListModel {
     @JsonKey(name: 'total_feeds') required int totalFeeds,
     @JsonKey(name: 'total_members') required int totalMembers,
     @JsonKey(name: 'status') required String status,
+    @JsonKey(name: 'thumbnail') required String thumbnail,
   }) = _CommunityListModel;
 
   factory CommunityListModel.fromJson(Map<String, Object?> json) => _$CommunityListModelFromJson(json);
@@ -31,6 +32,7 @@ abstract class CommunityListModel with _$CommunityListModel {
       totalFeeds: totalFeeds,
       totalMembers: totalMembers,
       status: status,
+      thumbnail: thumbnail,
     );
   }
 }

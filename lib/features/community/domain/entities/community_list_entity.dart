@@ -12,5 +12,6 @@ abstract class CommunityListEntity with _$CommunityListEntity {
     required int totalFeeds,
     required int totalMembers,
     required String status,
+    required String? thumbnail,
   }) = _CommunityListEntity;
 }

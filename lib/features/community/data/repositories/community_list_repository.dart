@@ -13,7 +13,7 @@ class CommunityListRepository {
     required String token,
   }) async {
     final responseData = await networkService.get(
-      endpoint: 'student/community/getEnrolledCommunityList',
+      endpoint: '/student/community/getEnrolledCommunityList',
       token: token,
     );
 

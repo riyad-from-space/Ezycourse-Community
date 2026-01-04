@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CommunityListEntity {
 
- int get id; String get title; String get coverImage; int get totalFeeds; int get totalMembers; String get status;
+ int get id; String get title; String get coverImage; int get totalFeeds; int get totalMembers; String get status; String? get thumbnail;
 /// Create a copy of CommunityListEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $CommunityListEntityCopyWith<CommunityListEntity> get copyWith => _$CommunityLis
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityListEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.totalFeeds, totalFeeds) || other.totalFeeds == totalFeeds)&&(identical(other.totalMembers, totalMembers) || other.totalMembers == totalMembers)&&(identical(other.status, status) || other.status == status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityListEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.totalFeeds, totalFeeds) || other.totalFeeds == totalFeeds)&&(identical(other.totalMembers, totalMembers) || other.totalMembers == totalMembers)&&(identical(other.status, status) || other.status == status)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,title,coverImage,totalFeeds,totalMembers,status);
+int get hashCode => Object.hash(runtimeType,id,title,coverImage,totalFeeds,totalMembers,status,thumbnail);
 
 @override
 String toString() {
-  return 'CommunityListEntity(id: $id, title: $title, coverImage: $coverImage, totalFeeds: $totalFeeds, totalMembers: $totalMembers, status: $status)';
+  return 'CommunityListEntity(id: $id, title: $title, coverImage: $coverImage, totalFeeds: $totalFeeds, totalMembers: $totalMembers, status: $status, thumbnail: $thumbnail)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $CommunityListEntityCopyWith<$Res>  {
   factory $CommunityListEntityCopyWith(CommunityListEntity value, $Res Function(CommunityListEntity) _then) = _$CommunityListEntityCopyWithImpl;
 @useResult
 $Res call({
- int id, String title, String coverImage, int totalFeeds, int totalMembers, String status
+ int id, String title, String coverImage, int totalFeeds, int totalMembers, String status, String? thumbnail
 });
 
 
@@ -62,7 +62,7 @@ class _$CommunityListEntityCopyWithImpl<$Res>
 
 /// Create a copy of CommunityListEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? coverImage = null,Object? totalFeeds = null,Object? totalMembers = null,Object? status = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? coverImage = null,Object? totalFeeds = null,Object? totalMembers = null,Object? status = null,Object? thumbnail = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -70,7 +70,8 @@ as String,coverImage: null == coverImage ? _self.coverImage : coverImage // igno
 as String,totalFeeds: null == totalFeeds ? _self.totalFeeds : totalFeeds // ignore: cast_nullable_to_non_nullable
 as int,totalMembers: null == totalMembers ? _self.totalMembers : totalMembers // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,
+as String,thumbnail: freezed == thumbnail ? _self.thumbnail : thumbnail // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  String coverImage,  int totalFeeds,  int totalMembers,  String status)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  String coverImage,  int totalFeeds,  int totalMembers,  String status,  String? thumbnail)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CommunityListEntity() when $default != null:
-return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status);case _:
+return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status,_that.thumbnail);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.tot
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  String coverImage,  int totalFeeds,  int totalMembers,  String status)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  String coverImage,  int totalFeeds,  int totalMembers,  String status,  String? thumbnail)  $default,) {final _that = this;
 switch (_that) {
 case _CommunityListEntity():
-return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status);case _:
+return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status,_that.thumbnail);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.tot
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  String coverImage,  int totalFeeds,  int totalMembers,  String status)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  String coverImage,  int totalFeeds,  int totalMembers,  String status,  String? thumbnail)?  $default,) {final _that = this;
 switch (_that) {
 case _CommunityListEntity() when $default != null:
-return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status);case _:
+return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status,_that.thumbnail);case _:
   return null;
 
 }
@@ -211,7 +212,7 @@ return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.tot
 
 
 class _CommunityListEntity implements CommunityListEntity {
-  const _CommunityListEntity({required this.id, required this.title, required this.coverImage, required this.totalFeeds, required this.totalMembers, required this.status});
+  const _CommunityListEntity({required this.id, required this.title, required this.coverImage, required this.totalFeeds, required this.totalMembers, required this.status, required this.thumbnail});
   
 
 @override final  int id;
@@ -220,6 +221,7 @@ class _CommunityListEntity implements CommunityListEntity {
 @override final  int totalFeeds;
 @override final  int totalMembers;
 @override final  String status;
+@override final  String? thumbnail;
 
 /// Create a copy of CommunityListEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +233,16 @@ _$CommunityListEntityCopyWith<_CommunityListEntity> get copyWith => __$Community
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityListEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.totalFeeds, totalFeeds) || other.totalFeeds == totalFeeds)&&(identical(other.totalMembers, totalMembers) || other.totalMembers == totalMembers)&&(identical(other.status, status) || other.status == status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityListEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.totalFeeds, totalFeeds) || other.totalFeeds == totalFeeds)&&(identical(other.totalMembers, totalMembers) || other.totalMembers == totalMembers)&&(identical(other.status, status) || other.status == status)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,title,coverImage,totalFeeds,totalMembers,status);
+int get hashCode => Object.hash(runtimeType,id,title,coverImage,totalFeeds,totalMembers,status,thumbnail);
 
 @override
 String toString() {
-  return 'CommunityListEntity(id: $id, title: $title, coverImage: $coverImage, totalFeeds: $totalFeeds, totalMembers: $totalMembers, status: $status)';
+  return 'CommunityListEntity(id: $id, title: $title, coverImage: $coverImage, totalFeeds: $totalFeeds, totalMembers: $totalMembers, status: $status, thumbnail: $thumbnail)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$CommunityListEntityCopyWith<$Res> implements $CommunityLi
   factory _$CommunityListEntityCopyWith(_CommunityListEntity value, $Res Function(_CommunityListEntity) _then) = __$CommunityListEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String title, String coverImage, int totalFeeds, int totalMembers, String status
+ int id, String title, String coverImage, int totalFeeds, int totalMembers, String status, String? thumbnail
 });
 
 
@@ -268,7 +270,7 @@ class __$CommunityListEntityCopyWithImpl<$Res>
 
 /// Create a copy of CommunityListEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? coverImage = null,Object? totalFeeds = null,Object? totalMembers = null,Object? status = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? coverImage = null,Object? totalFeeds = null,Object? totalMembers = null,Object? status = null,Object? thumbnail = freezed,}) {
   return _then(_CommunityListEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -276,7 +278,8 @@ as String,coverImage: null == coverImage ? _self.coverImage : coverImage // igno
 as String,totalFeeds: null == totalFeeds ? _self.totalFeeds : totalFeeds // ignore: cast_nullable_to_non_nullable
 as int,totalMembers: null == totalMembers ? _self.totalMembers : totalMembers // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,
+as String,thumbnail: freezed == thumbnail ? _self.thumbnail : thumbnail // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

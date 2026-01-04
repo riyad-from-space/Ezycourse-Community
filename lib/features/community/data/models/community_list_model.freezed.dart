@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CommunityListModel {
 
-@JsonKey(name: 'id') int get id;@JsonKey(name: 'title') String get title;@JsonKey(name: 'cover') String get coverImage;@JsonKey(name: 'total_feeds') int get totalFeeds;@JsonKey(name: 'total_members') int get totalMembers;@JsonKey(name: 'status') String get status;
+@JsonKey(name: 'id') int get id;@JsonKey(name: 'title') String get title;@JsonKey(name: 'cover') String get coverImage;@JsonKey(name: 'total_feeds') int get totalFeeds;@JsonKey(name: 'total_members') int get totalMembers;@JsonKey(name: 'status') String get status;@JsonKey(name: 'thumbnail') String get thumbnail;
 /// Create a copy of CommunityListModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CommunityListModelCopyWith<CommunityListModel> get copyWith => _$CommunityListM
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.totalFeeds, totalFeeds) || other.totalFeeds == totalFeeds)&&(identical(other.totalMembers, totalMembers) || other.totalMembers == totalMembers)&&(identical(other.status, status) || other.status == status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.totalFeeds, totalFeeds) || other.totalFeeds == totalFeeds)&&(identical(other.totalMembers, totalMembers) || other.totalMembers == totalMembers)&&(identical(other.status, status) || other.status == status)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,coverImage,totalFeeds,totalMembers,status);
+int get hashCode => Object.hash(runtimeType,id,title,coverImage,totalFeeds,totalMembers,status,thumbnail);
 
 @override
 String toString() {
-  return 'CommunityListModel(id: $id, title: $title, coverImage: $coverImage, totalFeeds: $totalFeeds, totalMembers: $totalMembers, status: $status)';
+  return 'CommunityListModel(id: $id, title: $title, coverImage: $coverImage, totalFeeds: $totalFeeds, totalMembers: $totalMembers, status: $status, thumbnail: $thumbnail)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CommunityListModelCopyWith<$Res>  {
   factory $CommunityListModelCopyWith(CommunityListModel value, $Res Function(CommunityListModel) _then) = _$CommunityListModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'id') int id,@JsonKey(name: 'title') String title,@JsonKey(name: 'cover') String coverImage,@JsonKey(name: 'total_feeds') int totalFeeds,@JsonKey(name: 'total_members') int totalMembers,@JsonKey(name: 'status') String status
+@JsonKey(name: 'id') int id,@JsonKey(name: 'title') String title,@JsonKey(name: 'cover') String coverImage,@JsonKey(name: 'total_feeds') int totalFeeds,@JsonKey(name: 'total_members') int totalMembers,@JsonKey(name: 'status') String status,@JsonKey(name: 'thumbnail') String thumbnail
 });
 
 
@@ -65,7 +65,7 @@ class _$CommunityListModelCopyWithImpl<$Res>
 
 /// Create a copy of CommunityListModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? coverImage = null,Object? totalFeeds = null,Object? totalMembers = null,Object? status = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? coverImage = null,Object? totalFeeds = null,Object? totalMembers = null,Object? status = null,Object? thumbnail = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -73,6 +73,7 @@ as String,coverImage: null == coverImage ? _self.coverImage : coverImage // igno
 as String,totalFeeds: null == totalFeeds ? _self.totalFeeds : totalFeeds // ignore: cast_nullable_to_non_nullable
 as int,totalMembers: null == totalMembers ? _self.totalMembers : totalMembers // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,thumbnail: null == thumbnail ? _self.thumbnail : thumbnail // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -158,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'title')  String title, @JsonKey(name: 'cover')  String coverImage, @JsonKey(name: 'total_feeds')  int totalFeeds, @JsonKey(name: 'total_members')  int totalMembers, @JsonKey(name: 'status')  String status)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'title')  String title, @JsonKey(name: 'cover')  String coverImage, @JsonKey(name: 'total_feeds')  int totalFeeds, @JsonKey(name: 'total_members')  int totalMembers, @JsonKey(name: 'status')  String status, @JsonKey(name: 'thumbnail')  String thumbnail)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CommunityListModel() when $default != null:
-return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status);case _:
+return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status,_that.thumbnail);case _:
   return orElse();
 
 }
@@ -179,10 +180,10 @@ return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.tot
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'title')  String title, @JsonKey(name: 'cover')  String coverImage, @JsonKey(name: 'total_feeds')  int totalFeeds, @JsonKey(name: 'total_members')  int totalMembers, @JsonKey(name: 'status')  String status)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'title')  String title, @JsonKey(name: 'cover')  String coverImage, @JsonKey(name: 'total_feeds')  int totalFeeds, @JsonKey(name: 'total_members')  int totalMembers, @JsonKey(name: 'status')  String status, @JsonKey(name: 'thumbnail')  String thumbnail)  $default,) {final _that = this;
 switch (_that) {
 case _CommunityListModel():
-return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status);case _:
+return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status,_that.thumbnail);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +200,10 @@ return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.tot
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'title')  String title, @JsonKey(name: 'cover')  String coverImage, @JsonKey(name: 'total_feeds')  int totalFeeds, @JsonKey(name: 'total_members')  int totalMembers, @JsonKey(name: 'status')  String status)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'title')  String title, @JsonKey(name: 'cover')  String coverImage, @JsonKey(name: 'total_feeds')  int totalFeeds, @JsonKey(name: 'total_members')  int totalMembers, @JsonKey(name: 'status')  String status, @JsonKey(name: 'thumbnail')  String thumbnail)?  $default,) {final _that = this;
 switch (_that) {
 case _CommunityListModel() when $default != null:
-return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status);case _:
+return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.totalMembers,_that.status,_that.thumbnail);case _:
   return null;
 
 }
@@ -214,7 +215,7 @@ return $default(_that.id,_that.title,_that.coverImage,_that.totalFeeds,_that.tot
 @JsonSerializable()
 
 class _CommunityListModel extends CommunityListModel {
-  const _CommunityListModel({@JsonKey(name: 'id') required this.id, @JsonKey(name: 'title') required this.title, @JsonKey(name: 'cover') required this.coverImage, @JsonKey(name: 'total_feeds') required this.totalFeeds, @JsonKey(name: 'total_members') required this.totalMembers, @JsonKey(name: 'status') required this.status}): super._();
+  const _CommunityListModel({@JsonKey(name: 'id') required this.id, @JsonKey(name: 'title') required this.title, @JsonKey(name: 'cover') required this.coverImage, @JsonKey(name: 'total_feeds') required this.totalFeeds, @JsonKey(name: 'total_members') required this.totalMembers, @JsonKey(name: 'status') required this.status, @JsonKey(name: 'thumbnail') required this.thumbnail}): super._();
   factory _CommunityListModel.fromJson(Map<String, dynamic> json) => _$CommunityListModelFromJson(json);
 
 @override@JsonKey(name: 'id') final  int id;
@@ -223,6 +224,7 @@ class _CommunityListModel extends CommunityListModel {
 @override@JsonKey(name: 'total_feeds') final  int totalFeeds;
 @override@JsonKey(name: 'total_members') final  int totalMembers;
 @override@JsonKey(name: 'status') final  String status;
+@override@JsonKey(name: 'thumbnail') final  String thumbnail;
 
 /// Create a copy of CommunityListModel
 /// with the given fields replaced by the non-null parameter values.
@@ -237,16 +239,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.totalFeeds, totalFeeds) || other.totalFeeds == totalFeeds)&&(identical(other.totalMembers, totalMembers) || other.totalMembers == totalMembers)&&(identical(other.status, status) || other.status == status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityListModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.totalFeeds, totalFeeds) || other.totalFeeds == totalFeeds)&&(identical(other.totalMembers, totalMembers) || other.totalMembers == totalMembers)&&(identical(other.status, status) || other.status == status)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,coverImage,totalFeeds,totalMembers,status);
+int get hashCode => Object.hash(runtimeType,id,title,coverImage,totalFeeds,totalMembers,status,thumbnail);
 
 @override
 String toString() {
-  return 'CommunityListModel(id: $id, title: $title, coverImage: $coverImage, totalFeeds: $totalFeeds, totalMembers: $totalMembers, status: $status)';
+  return 'CommunityListModel(id: $id, title: $title, coverImage: $coverImage, totalFeeds: $totalFeeds, totalMembers: $totalMembers, status: $status, thumbnail: $thumbnail)';
 }
 
 
@@ -257,7 +259,7 @@ abstract mixin class _$CommunityListModelCopyWith<$Res> implements $CommunityLis
   factory _$CommunityListModelCopyWith(_CommunityListModel value, $Res Function(_CommunityListModel) _then) = __$CommunityListModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'id') int id,@JsonKey(name: 'title') String title,@JsonKey(name: 'cover') String coverImage,@JsonKey(name: 'total_feeds') int totalFeeds,@JsonKey(name: 'total_members') int totalMembers,@JsonKey(name: 'status') String status
+@JsonKey(name: 'id') int id,@JsonKey(name: 'title') String title,@JsonKey(name: 'cover') String coverImage,@JsonKey(name: 'total_feeds') int totalFeeds,@JsonKey(name: 'total_members') int totalMembers,@JsonKey(name: 'status') String status,@JsonKey(name: 'thumbnail') String thumbnail
 });
 
 
@@ -274,7 +276,7 @@ class __$CommunityListModelCopyWithImpl<$Res>
 
 /// Create a copy of CommunityListModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? coverImage = null,Object? totalFeeds = null,Object? totalMembers = null,Object? status = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? coverImage = null,Object? totalFeeds = null,Object? totalMembers = null,Object? status = null,Object? thumbnail = null,}) {
   return _then(_CommunityListModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -282,6 +284,7 @@ as String,coverImage: null == coverImage ? _self.coverImage : coverImage // igno
 as String,totalFeeds: null == totalFeeds ? _self.totalFeeds : totalFeeds // ignore: cast_nullable_to_non_nullable
 as int,totalMembers: null == totalMembers ? _self.totalMembers : totalMembers // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,thumbnail: null == thumbnail ? _self.thumbnail : thumbnail // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
