@@ -6,22 +6,19 @@ import 'package:ezycourse_community/features/community/domain/entities/feed_enti
 
 class CommunityRepository {
   final NetworkService networkService;
-  final String communityId;
-  CommunityRepository(this.networkService,{required this.communityId});
+
+  
+  CommunityRepository(this.networkService);
 
   Future<List<FeedEntity>> getFeedList({
     required String token,
-    
-    int spaceId = 5883, required String communityId,
-  }) async {
-    final body = {'space_id': spaceId, 'community_id': communityId};
-    try {
-      final response = await networkService.post(
-        'teacher/community/getFeed?status=feed&',
 
-        token: token,
-        body: body,
-      );
+    required String communityUrl,
+   
+  }) async {
+    
+    try {
+      final response = await networkService.get(token: token, url: communityUrl);
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body) as List;

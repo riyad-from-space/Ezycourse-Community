@@ -29,10 +29,7 @@ class AuthViewmodel extends StateNotifier<AuthState> {
 
   AuthViewmodel(this._authRepository) : super(AuthState());
 
-  Future<void> login({
-    required String email,
-    required String password
-    }) async {
+  Future<void> login({required String email, required String password}) async {
     state = state.copyWith(isLoading: true);
 
     try {
@@ -62,13 +59,6 @@ class AuthViewmodel extends StateNotifier<AuthState> {
 
 final authViewModelProvider = StateNotifierProvider<AuthViewmodel, AuthState>((
   ref,
-){
-
-  final networkService = NetworkService(
-    baseUrl: 'https://demo1.ezycourse.com/api/app',
-  );
-
-  final authRepository = AuthRepository(networkService);
-  
-  return AuthViewmodel(authRepository);
+) {
+  return AuthViewmodel(AuthRepository(NetworkService()));
 });

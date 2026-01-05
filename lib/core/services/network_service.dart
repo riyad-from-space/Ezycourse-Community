@@ -13,19 +13,15 @@ class NetworkException implements Exception {
 }
 
 class NetworkService {
-  final String baseUrl;
+  NetworkService();
 
-  NetworkService({required this.baseUrl});
-
-  Future<http.Response> post(
-    String endpoint, {
+  Future<http.Response> post({
     Map<String, String>? headers,
     Map<String, dynamic>? body,
     String? token,
+    required String url,
   }) async {
     try {
-      final url = Uri.parse('$baseUrl$endpoint');
-
       final defaultHeaders = {
         'Content-Type': 'application/json',
         if (token != null) 'Authorization': 'Bearer $token',
@@ -33,7 +29,11 @@ class NetworkService {
       };
 
       final response = await http
-          .post(url, headers: defaultHeaders, body: jsonEncode(body ?? {}))
+          .post(
+            Uri.parse(url),
+            headers: defaultHeaders,
+            body: jsonEncode(body ?? {}),
+          )
           .timeout(
             const Duration(seconds: 30),
             onTimeout: () => throw NetworkException("Request timeout"),
@@ -49,28 +49,28 @@ class NetworkService {
     }
   }
 
-  Future<dynamic> get( {String? endpoint,String? token,Map<String, String>? headers,})async{
-    try{
-      final url = Uri.parse('$baseUrl$endpoint');
+  Future<dynamic> get({
+    String? token,
+    Map<String, String>? headers,
+    required String url,
+  }) async {
+    try {
+      final uriUrl = Uri.parse(url);
       final defaultHeaders = {
         'Content-Type': 'application/json',
         if (token != null) 'Authorization': 'Bearer $token',
         ...?headers,
       };
       final response = await http
-          .get(url, headers: defaultHeaders,)
+          .get(uriUrl, headers: defaultHeaders)
           .timeout(
             const Duration(seconds: 30),
             onTimeout: () => throw NetworkException("Request timeout"),
           );
 
-          return response;
-
-
-    }catch(e){
+      return response;
+    } catch (e) {
       throw NetworkException("Unexpected error: ${e.toString()}");
-
     }
-
   }
 }

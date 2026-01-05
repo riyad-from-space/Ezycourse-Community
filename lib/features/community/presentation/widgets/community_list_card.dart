@@ -32,7 +32,7 @@ class CommunityListCard extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => FeedScreen(communityId: community.id.toString()),
+                builder: (_) => FeedScreen(communityId: community.id),
               ),
             );
           },

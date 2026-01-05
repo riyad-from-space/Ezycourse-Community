@@ -35,8 +35,7 @@ class CommunityListViewModel extends StateNotifier<CommunityListState> {
   final CommunityListRepository _repository;
   final TokenStorageService _tokenStorageService = TokenStorageService();
 
-  CommunityListViewModel(this._repository)
-      : super(const CommunityListState());
+  CommunityListViewModel(this._repository) : super(const CommunityListState());
 
   /// Fetch community list from API
   Future<void> fetchCommunityList() async {
@@ -55,15 +54,9 @@ class CommunityListViewModel extends StateNotifier<CommunityListState> {
       final newCommunityList = await _repository.getCommunityList(token: token);
 
       // Update state with new feeds
-      state = state.copyWith(
-        isLoading: false,
-        communityList: newCommunityList,
-      );
+      state = state.copyWith(isLoading: false, communityList: newCommunityList);
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
 }
@@ -71,10 +64,5 @@ class CommunityListViewModel extends StateNotifier<CommunityListState> {
 /// Provider for FeedViewModel
 final communityListViewModelProvider =
     StateNotifierProvider<CommunityListViewModel, CommunityListState>((ref) {
-  final networkService = NetworkService(
-    baseUrl: 'https://demo1.ezycourse.com/api/app',
-  );
-  final repository = CommunityListRepository(networkService);
-
-  return CommunityListViewModel(repository);
-});
+      return CommunityListViewModel(CommunityListRepository(NetworkService()));
+    });

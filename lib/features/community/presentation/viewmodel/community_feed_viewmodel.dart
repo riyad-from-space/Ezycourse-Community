@@ -1,4 +1,6 @@
+import 'package:ezycourse_community/core/config/api_endpoints.dart';
 import 'package:ezycourse_community/core/services/network_service.dart';
+
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/community/data/repositories/community_feed_repository.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
@@ -32,14 +34,15 @@ class FeedState {
 
 /// ViewModel for managing feed list state
 class FeedViewModel extends StateNotifier<FeedState> {
+
   final CommunityRepository _repository;
   final TokenStorageService _tokenStorageService = TokenStorageService();
-  final String communityId;
 
-  FeedViewModel(this._repository, this.communityId) : super(const FeedState());
+  FeedViewModel(this._repository)
+    : super(const FeedState());
 
   /// Fetch feeds from API
-  Future<void> fetchFeeds() async {
+  Future<void> fetchFeeds(int communityId, int spaceId) async {
     // Don't fetch if already loading
     if (state.isLoading) return;
 
@@ -51,11 +54,9 @@ class FeedViewModel extends StateNotifier<FeedState> {
       if (token == null || token.isEmpty) {
         throw Exception('No authentication token found');
       }
+      final communityUrl = ApiEndpoints.communityFeed(communityId, spaceId);
 
-      final newFeeds = await _repository.getFeedList(
-        token: token,
-        communityId: communityId,
-      );
+      final newFeeds = await _repository.getFeedList(token: token, communityUrl: communityUrl);
 
       // Update state with new feeds
       state = state.copyWith(isLoading: false, feeds: newFeeds);
@@ -66,14 +67,13 @@ class FeedViewModel extends StateNotifier<FeedState> {
 }
 
 /// Provider for FeedViewModel
-final feedViewModelProvider = StateNotifierProvider.family<FeedViewModel, FeedState, String>((
-  ref,
-  communityId,
-) {
-  final networkService = NetworkService(
-    baseUrl: 'https://ezyappteam.ezycourse.com/api/app/',
-  );
-  final repository = CommunityRepository(networkService, communityId: communityId);
+final feedViewModelProvider = StateNotifierProvider<FeedViewModel, FeedState>((ref) {
 
-  return FeedViewModel(repository, communityId);
+  
+
+  
+  
+
+  return FeedViewModel(CommunityRepository(NetworkService())
+  );
 });

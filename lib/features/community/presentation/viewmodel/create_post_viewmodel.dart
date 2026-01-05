@@ -1,3 +1,4 @@
+import 'package:ezycourse_community/core/config/api_endpoints.dart';
 import 'package:ezycourse_community/core/services/network_service.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/community/data/repositories/create_post_repository.dart';
@@ -38,10 +39,7 @@ class CreatePostViewmodel extends StateNotifier<CreatePostState> {
 }
   final createPostViewmodelProvider =
       StateNotifierProvider<CreatePostViewmodel, CreatePostState>((ref) {
-        final networkService = NetworkService(
-          baseUrl: 'https://ezyappteam.ezycourse.com/api/app/',
-        );
-        final createPostRepository = CreatePostRepository(networkService);
+        
 
-        return CreatePostViewmodel(createPostRepository);
+        return CreatePostViewmodel(CreatePostRepository(NetworkService()));
       });

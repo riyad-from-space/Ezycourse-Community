@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FeedScreen extends ConsumerStatefulWidget{
-  final String communityId;
+  final int communityId;
   const FeedScreen({super.key, required this.communityId});
   @override
   ConsumerState<FeedScreen> createState() => _FeedScreenState();
@@ -25,12 +25,12 @@ class _FeedScreenState extends ConsumerState<FeedScreen>{
 
   void _loadFeeds() {
     Future.microtask(() {
-      ref.read(feedViewModelProvider(widget.communityId).notifier).fetchFeeds();
+      ref.read(feedViewModelProvider.notifier).fetchFeeds(widget.communityId, 400);
     });
   }
   @override
   Widget build(BuildContext context) {
-    final feedState = ref.watch(feedViewModelProvider(widget.communityId));
+    final feedState = ref.watch(feedViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Community Feed'),
