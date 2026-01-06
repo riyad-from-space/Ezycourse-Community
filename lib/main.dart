@@ -1,7 +1,7 @@
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/auth/presentation/screens/login_screen.dart';
 import 'package:ezycourse_community/features/community/presentation/screens/community_list_screen.dart';
-import 'package:ezycourse_community/features/community/presentation/screens/community_screen.dart';
+import 'package:ezycourse_community/features/community/presentation/screens/community_feed_screen.dart';
 
 
 import 'package:flutter/material.dart';

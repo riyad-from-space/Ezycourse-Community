@@ -34,18 +34,19 @@ class FeedState {
 
 /// ViewModel for managing feed list state
 class FeedViewModel extends StateNotifier<FeedState> {
-
   final CommunityRepository _repository;
   final TokenStorageService _tokenStorageService = TokenStorageService();
 
-  FeedViewModel(this._repository)
-    : super(const FeedState());
+  FeedViewModel(this._repository) : super(const FeedState());
+
+
+  // void resetFeed() {
+
+  //   state = const FeedState();
+  // }
 
   /// Fetch feeds from API
   Future<void> fetchFeeds(int communityId, int spaceId) async {
-    // Don't fetch if already loading
-    if (state.isLoading) return;
-
     state = state.copyWith(isLoading: true, clearError: true);
 
     try {
@@ -56,7 +57,10 @@ class FeedViewModel extends StateNotifier<FeedState> {
       }
       final communityUrl = ApiEndpoints.communityFeed(communityId, spaceId);
 
-      final newFeeds = await _repository.getFeedList(token: token, communityUrl: communityUrl);
+      final newFeeds = await _repository.getFeedList(
+        token: token,
+        communityUrl: communityUrl,
+      );
 
       // Update state with new feeds
       state = state.copyWith(isLoading: false, feeds: newFeeds);
@@ -64,16 +68,13 @@ class FeedViewModel extends StateNotifier<FeedState> {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
+
+
 }
 
 /// Provider for FeedViewModel
-final feedViewModelProvider = StateNotifierProvider<FeedViewModel, FeedState>((ref) {
-
-  
-
-  
-  
-
-  return FeedViewModel(CommunityRepository(NetworkService())
-  );
+final feedViewModelProvider = StateNotifierProvider<FeedViewModel, FeedState>((
+  ref,
+) {
+  return FeedViewModel(CommunityRepository(NetworkService()));
 });

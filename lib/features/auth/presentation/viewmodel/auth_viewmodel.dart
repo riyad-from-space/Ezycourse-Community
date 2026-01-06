@@ -39,6 +39,7 @@ class AuthViewmodel extends StateNotifier<AuthState> {
       );
 
       final token = result.token;
+      print(token);
 
       if (token.isNotEmpty) {
         await _tokenStorageService.saveToken(token);

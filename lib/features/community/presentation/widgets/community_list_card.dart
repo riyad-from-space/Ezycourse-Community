@@ -1,5 +1,5 @@
 import 'package:ezycourse_community/features/community/domain/entities/community_list_entity.dart';
-import 'package:ezycourse_community/features/community/presentation/screens/community_screen.dart';
+import 'package:ezycourse_community/features/community/presentation/screens/community_feed_screen.dart';
 
 import 'package:flutter/material.dart';
 
@@ -32,7 +32,7 @@ class CommunityListCard extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => FeedScreen(communityId: community.id),
+                builder: (_) => FeedScreen(communityId: community.id,),
               ),
             );
           },

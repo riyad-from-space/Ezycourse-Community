@@ -5,8 +5,11 @@ class ApiEndpoints {
   static const String login = "$baseUrl/student/auth/login";
   static const String logout = "$baseUrl/student/auth/logout";
 
+  //channel
+  static String channelList(int communityId) => "$baseUrl/public/communities/$communityId/spaces";
+
   //community
-  static const String communityList= '/student/community/getEnrolledCommunityList';
-  static String communityFeed(int communityId,int spaceId) => '/public/feeds/$communityId?space_id=$spaceId';
-  static const String createPost = '/teacher/community/createFeed';
+  static const String communityList= '$baseUrl/student/community/getEnrolledCommunityList';
+  static String communityFeed(int communityId,int spaceId) => '$baseUrl/public/feeds/$communityId?space_id=$spaceId';
+  static const String createPost = '$baseUrl/teacher/community/createFeed';
 }

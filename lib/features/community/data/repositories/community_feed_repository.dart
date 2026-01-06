@@ -18,6 +18,7 @@ class CommunityRepository {
   }) async {
     
     try {
+      
       final response = await networkService.get(token: token, url: communityUrl);
 
       if (response.statusCode == 200) {

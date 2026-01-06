@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CommunityListScreen extends ConsumerStatefulWidget {
+
+  
   const CommunityListScreen({super.key});
   @override
   ConsumerState<CommunityListScreen> createState() =>
@@ -15,7 +17,6 @@ class _CommunityListScreenState extends ConsumerState<CommunityListScreen> {
   @override
   void initState() {
     super.initState();
-    print('🔵 CommunityListScreen initState called');
     _loadCommunityList();
   }
 

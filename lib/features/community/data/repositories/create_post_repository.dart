@@ -11,18 +11,20 @@ class CreatePostRepository {
     required String? token,
   }) async {
     try {
-
       final createPostUrl = ApiEndpoints.createPost;
       final body = {
         "feed_txt": postText,
-        "community_id": 2914,
-        "space_id": 5883,
+        "community_id": 4949,
+        "space_id": 9478,
         "uploadType": "text",
         "activity_type": "group",
-        "is_background": 0,
+        "is_background": 0,   
+        "files": [],
+        "timezone": "Asia/Dhaka",
+        "is_anonymous": 0,
       };
 
-      await networkService.post(body: body, token: token,url: createPostUrl);
+      await networkService.post(body: body, token: token, url: createPostUrl);
     } catch (e) {}
   }
 }
