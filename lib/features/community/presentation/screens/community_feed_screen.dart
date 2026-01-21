@@ -1,5 +1,6 @@
 import 'package:ezycourse_community/features/community/domain/entities/community_channel_entity.dart';
 import 'package:ezycourse_community/features/community/presentation/viewmodel/community_channel_viewmodel.dart';
+import 'package:ezycourse_community/features/community/presentation/widgets/channel_drawer.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/create_post_field.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/feed_list.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/bottom_navbar.dart';
@@ -42,7 +43,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     super.dispose();
   }
 
-  void _loadFeeds(int spaceId) {
+  void loadFeeds( int spaceId) {
     Future.microtask(() {
       ref
           .read(feedViewModelProvider.notifier)
@@ -60,10 +61,11 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
       channels = channelState.channels;
       _channelsLoaded = true;
       final spaceId = channels.first.channelId;
-      _loadFeeds(spaceId);
+      loadFeeds(spaceId );
     }
 
     return Scaffold(
+      drawer: ChannelDrawer(channels:channels, onChannelSelected: loadFeeds),
       appBar: AppBar(title: const Text('Community Feed')),
       body: (channelState.isLoading || feedState.isLoading)
           ? const Center(child: CircularProgressIndicator())
