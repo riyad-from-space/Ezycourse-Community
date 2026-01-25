@@ -14,7 +14,10 @@ class CommunityListRepository {
     required String token,
   }) async {
     final communityListUrl = ApiEndpoints.communityList;
-    final responseData = await networkService.get(token: token,url: communityListUrl);
+    final responseData = await networkService.get(
+      token: token,
+      url: communityListUrl,
+    );
 
     final Map<String, dynamic> body = json.decode(responseData.body);
 

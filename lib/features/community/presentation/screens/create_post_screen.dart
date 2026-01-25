@@ -1,10 +1,15 @@
-
 import 'package:ezycourse_community/features/community/presentation/viewmodel/create_post_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CreatePostScreen extends ConsumerStatefulWidget {
-  const CreatePostScreen({super.key});
+  final int communityId;
+  final int spaceId;
+  const CreatePostScreen({
+    super.key,
+    required this.communityId,
+    required this.spaceId,
+  });
 
   @override
   ConsumerState<CreatePostScreen> createState() => _CreatePostScreenState();
@@ -33,7 +38,11 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
     try {
       await ref
           .read(createPostViewmodelProvider.notifier)
-          .createPost(postText: postText);
+          .createPost(
+            postText: postText,
+            spaceId: widget.spaceId,
+            communityId: widget.communityId,
+          );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

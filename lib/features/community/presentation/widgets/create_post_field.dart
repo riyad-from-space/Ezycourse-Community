@@ -1,4 +1,3 @@
-import 'package:ezycourse_community/features/community/presentation/screens/create_post_screen.dart';
 import 'package:flutter/material.dart';
 
 class CreatePostField extends StatelessWidget {
@@ -14,14 +13,7 @@ class CreatePostField extends StatelessWidget {
           Icon(Icons.person, color: Colors.grey),
           const SizedBox(width: 8.0),
           Expanded(
-            child: InkWell(
-              onTap: (){
 
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>  CreatePostScreen(
-                
-                  )));
-
-              },
               child: Container(
                 decoration:BoxDecoration(
                   color: Colors.grey[200],
@@ -34,7 +26,7 @@ class CreatePostField extends StatelessWidget {
                 ),
             
               ),
-            ),
+            
           )
          
         ],

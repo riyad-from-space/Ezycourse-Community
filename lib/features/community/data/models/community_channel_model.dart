@@ -12,6 +12,7 @@ abstract class CommunityChannelModel with _$CommunityChannelModel {
   const CommunityChannelModel._();
   const factory CommunityChannelModel({
     @JsonKey(name: "id") required int channelId,
+    @JsonKey(name: "name") required  channelName,
 
   }) = _CommunityChannelModel;
   
@@ -21,6 +22,7 @@ abstract class CommunityChannelModel with _$CommunityChannelModel {
   CommunityChannelEntity toEntity() {
     return CommunityChannelEntity(
       channelId: channelId,
+      channelName: channelName,
     );
   }
 }

@@ -7,19 +7,18 @@ import 'package:ezycourse_community/features/community/domain/entities/feed_enti
 class CommunityRepository {
   final NetworkService networkService;
 
-  
   CommunityRepository(this.networkService);
 
   Future<List<FeedEntity>> getFeedList({
     required String token,
 
     required String communityUrl,
-   
   }) async {
-    
     try {
-      
-      final response = await networkService.get(token: token, url: communityUrl);
+      final response = await networkService.get(
+        token: token,
+        url: communityUrl,
+      );
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body) as List;

@@ -23,7 +23,7 @@ class ChannelDrawer extends StatelessWidget {
               itemBuilder: (context, index) {
                 final channel = channels[index];
                 return ListTile(
-                  title: Text("${channel.channelId}"),
+                  title: Text(channel.channelName),
 
                   onTap: () {
                     onChannelSelected(channel.channelId);

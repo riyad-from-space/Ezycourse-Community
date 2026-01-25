@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CommunityChannelModel {
 
-@JsonKey(name: "id") int get channelId;
+@JsonKey(name: "id") int get channelId;@JsonKey(name: "name") dynamic get channelName;
 /// Create a copy of CommunityChannelModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CommunityChannelModelCopyWith<CommunityChannelModel> get copyWith => _$Communit
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityChannelModel&&(identical(other.channelId, channelId) || other.channelId == channelId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityChannelModel&&(identical(other.channelId, channelId) || other.channelId == channelId)&&const DeepCollectionEquality().equals(other.channelName, channelName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,channelId);
+int get hashCode => Object.hash(runtimeType,channelId,const DeepCollectionEquality().hash(channelName));
 
 @override
 String toString() {
-  return 'CommunityChannelModel(channelId: $channelId)';
+  return 'CommunityChannelModel(channelId: $channelId, channelName: $channelName)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CommunityChannelModelCopyWith<$Res>  {
   factory $CommunityChannelModelCopyWith(CommunityChannelModel value, $Res Function(CommunityChannelModel) _then) = _$CommunityChannelModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: "id") int channelId
+@JsonKey(name: "id") int channelId,@JsonKey(name: "name") dynamic channelName
 });
 
 
@@ -65,10 +65,11 @@ class _$CommunityChannelModelCopyWithImpl<$Res>
 
 /// Create a copy of CommunityChannelModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? channelId = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? channelId = null,Object? channelName = freezed,}) {
   return _then(_self.copyWith(
 channelId: null == channelId ? _self.channelId : channelId // ignore: cast_nullable_to_non_nullable
-as int,
+as int,channelName: freezed == channelName ? _self.channelName : channelName // ignore: cast_nullable_to_non_nullable
+as dynamic,
   ));
 }
 
@@ -153,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int channelId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int channelId, @JsonKey(name: "name")  dynamic channelName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CommunityChannelModel() when $default != null:
-return $default(_that.channelId);case _:
+return $default(_that.channelId,_that.channelName);case _:
   return orElse();
 
 }
@@ -174,10 +175,10 @@ return $default(_that.channelId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int channelId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int channelId, @JsonKey(name: "name")  dynamic channelName)  $default,) {final _that = this;
 switch (_that) {
 case _CommunityChannelModel():
-return $default(_that.channelId);case _:
+return $default(_that.channelId,_that.channelName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +195,10 @@ return $default(_that.channelId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int channelId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int channelId, @JsonKey(name: "name")  dynamic channelName)?  $default,) {final _that = this;
 switch (_that) {
 case _CommunityChannelModel() when $default != null:
-return $default(_that.channelId);case _:
+return $default(_that.channelId,_that.channelName);case _:
   return null;
 
 }
@@ -209,10 +210,11 @@ return $default(_that.channelId);case _:
 @JsonSerializable()
 
 class _CommunityChannelModel extends CommunityChannelModel {
-  const _CommunityChannelModel({@JsonKey(name: "id") required this.channelId}): super._();
+  const _CommunityChannelModel({@JsonKey(name: "id") required this.channelId, @JsonKey(name: "name") required this.channelName}): super._();
   factory _CommunityChannelModel.fromJson(Map<String, dynamic> json) => _$CommunityChannelModelFromJson(json);
 
 @override@JsonKey(name: "id") final  int channelId;
+@override@JsonKey(name: "name") final  dynamic channelName;
 
 /// Create a copy of CommunityChannelModel
 /// with the given fields replaced by the non-null parameter values.
@@ -227,16 +229,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityChannelModel&&(identical(other.channelId, channelId) || other.channelId == channelId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityChannelModel&&(identical(other.channelId, channelId) || other.channelId == channelId)&&const DeepCollectionEquality().equals(other.channelName, channelName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,channelId);
+int get hashCode => Object.hash(runtimeType,channelId,const DeepCollectionEquality().hash(channelName));
 
 @override
 String toString() {
-  return 'CommunityChannelModel(channelId: $channelId)';
+  return 'CommunityChannelModel(channelId: $channelId, channelName: $channelName)';
 }
 
 
@@ -247,7 +249,7 @@ abstract mixin class _$CommunityChannelModelCopyWith<$Res> implements $Community
   factory _$CommunityChannelModelCopyWith(_CommunityChannelModel value, $Res Function(_CommunityChannelModel) _then) = __$CommunityChannelModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: "id") int channelId
+@JsonKey(name: "id") int channelId,@JsonKey(name: "name") dynamic channelName
 });
 
 
@@ -264,10 +266,11 @@ class __$CommunityChannelModelCopyWithImpl<$Res>
 
 /// Create a copy of CommunityChannelModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? channelId = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? channelId = null,Object? channelName = freezed,}) {
   return _then(_CommunityChannelModel(
 channelId: null == channelId ? _self.channelId : channelId // ignore: cast_nullable_to_non_nullable
-as int,
+as int,channelName: freezed == channelName ? _self.channelName : channelName // ignore: cast_nullable_to_non_nullable
+as dynamic,
   ));
 }
 

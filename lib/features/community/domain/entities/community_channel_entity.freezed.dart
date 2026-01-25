@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CommunityChannelEntity {
 
- int get channelId;
+ int get channelId; String get channelName;
 /// Create a copy of CommunityChannelEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $CommunityChannelEntityCopyWith<CommunityChannelEntity> get copyWith => _$Commun
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityChannelEntity&&(identical(other.channelId, channelId) || other.channelId == channelId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityChannelEntity&&(identical(other.channelId, channelId) || other.channelId == channelId)&&(identical(other.channelName, channelName) || other.channelName == channelName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,channelId);
+int get hashCode => Object.hash(runtimeType,channelId,channelName);
 
 @override
 String toString() {
-  return 'CommunityChannelEntity(channelId: $channelId)';
+  return 'CommunityChannelEntity(channelId: $channelId, channelName: $channelName)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $CommunityChannelEntityCopyWith<$Res>  {
   factory $CommunityChannelEntityCopyWith(CommunityChannelEntity value, $Res Function(CommunityChannelEntity) _then) = _$CommunityChannelEntityCopyWithImpl;
 @useResult
 $Res call({
- int channelId
+ int channelId, String channelName
 });
 
 
@@ -62,10 +62,11 @@ class _$CommunityChannelEntityCopyWithImpl<$Res>
 
 /// Create a copy of CommunityChannelEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? channelId = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? channelId = null,Object? channelName = null,}) {
   return _then(_self.copyWith(
 channelId: null == channelId ? _self.channelId : channelId // ignore: cast_nullable_to_non_nullable
-as int,
+as int,channelName: null == channelName ? _self.channelName : channelName // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -150,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int channelId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int channelId,  String channelName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CommunityChannelEntity() when $default != null:
-return $default(_that.channelId);case _:
+return $default(_that.channelId,_that.channelName);case _:
   return orElse();
 
 }
@@ -171,10 +172,10 @@ return $default(_that.channelId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int channelId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int channelId,  String channelName)  $default,) {final _that = this;
 switch (_that) {
 case _CommunityChannelEntity():
-return $default(_that.channelId);case _:
+return $default(_that.channelId,_that.channelName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -191,10 +192,10 @@ return $default(_that.channelId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int channelId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int channelId,  String channelName)?  $default,) {final _that = this;
 switch (_that) {
 case _CommunityChannelEntity() when $default != null:
-return $default(_that.channelId);case _:
+return $default(_that.channelId,_that.channelName);case _:
   return null;
 
 }
@@ -206,10 +207,11 @@ return $default(_that.channelId);case _:
 
 
 class _CommunityChannelEntity implements CommunityChannelEntity {
-  const _CommunityChannelEntity({required this.channelId});
+  const _CommunityChannelEntity({required this.channelId, required this.channelName});
   
 
 @override final  int channelId;
+@override final  String channelName;
 
 /// Create a copy of CommunityChannelEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -221,16 +223,16 @@ _$CommunityChannelEntityCopyWith<_CommunityChannelEntity> get copyWith => __$Com
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityChannelEntity&&(identical(other.channelId, channelId) || other.channelId == channelId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityChannelEntity&&(identical(other.channelId, channelId) || other.channelId == channelId)&&(identical(other.channelName, channelName) || other.channelName == channelName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,channelId);
+int get hashCode => Object.hash(runtimeType,channelId,channelName);
 
 @override
 String toString() {
-  return 'CommunityChannelEntity(channelId: $channelId)';
+  return 'CommunityChannelEntity(channelId: $channelId, channelName: $channelName)';
 }
 
 
@@ -241,7 +243,7 @@ abstract mixin class _$CommunityChannelEntityCopyWith<$Res> implements $Communit
   factory _$CommunityChannelEntityCopyWith(_CommunityChannelEntity value, $Res Function(_CommunityChannelEntity) _then) = __$CommunityChannelEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int channelId
+ int channelId, String channelName
 });
 
 
@@ -258,10 +260,11 @@ class __$CommunityChannelEntityCopyWithImpl<$Res>
 
 /// Create a copy of CommunityChannelEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? channelId = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? channelId = null,Object? channelName = null,}) {
   return _then(_CommunityChannelEntity(
 channelId: null == channelId ? _self.channelId : channelId // ignore: cast_nullable_to_non_nullable
-as int,
+as int,channelName: null == channelName ? _self.channelName : channelName // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

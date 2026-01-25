@@ -9,16 +9,18 @@ class CreatePostRepository {
   Future<void> createPost({
     required String postText,
     required String? token,
+    required int spaceId,
+    required int communityId,
   }) async {
     try {
       final createPostUrl = ApiEndpoints.createPost;
       final body = {
         "feed_txt": postText,
-        "community_id": 4949,
-        "space_id": 9478,
+        "community_id": communityId,
+        "space_id": spaceId,
         "uploadType": "text",
         "activity_type": "group",
-        "is_background": 0,   
+        "is_background": 0,
         "files": [],
         "timezone": "Asia/Dhaka",
         "is_anonymous": 0,

@@ -39,13 +39,10 @@ class FeedViewModel extends StateNotifier<FeedState> {
 
   FeedViewModel(this._repository) : super(const FeedState());
 
+  void resetFeed() {
+    state = const FeedState();
+  }
 
-  // void resetFeed() {
-
-  //   state = const FeedState();
-  // }
-
-  /// Fetch feeds from API
   Future<void> fetchFeeds(int communityId, int spaceId) async {
     state = state.copyWith(isLoading: true, clearError: true);
 
@@ -55,6 +52,8 @@ class FeedViewModel extends StateNotifier<FeedState> {
       if (token == null || token.isEmpty) {
         throw Exception('No authentication token found');
       }
+
+      print(communityId);
       final communityUrl = ApiEndpoints.communityFeed(communityId, spaceId);
 
       final newFeeds = await _repository.getFeedList(
@@ -68,12 +67,10 @@ class FeedViewModel extends StateNotifier<FeedState> {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
-
-
 }
 
-/// Provider for FeedViewModel
-final feedViewModelProvider = StateNotifierProvider<FeedViewModel, FeedState>((
+/// Provider for FeedViewModel - AutoDispose to clear state when screen is disposed
+final feedViewModelProvider = StateNotifierProvider.autoDispose<FeedViewModel, FeedState>((
   ref,
 ) {
   return FeedViewModel(CommunityRepository(NetworkService()));

@@ -30,15 +30,15 @@ class CommunityChannelState {
   }
 }
 
-class CommunityChannelViewmodel extends StateNotifier {
+class CommunityChannelViewmodel extends StateNotifier<CommunityChannelState> {
   final TokenStorageService tokenStorageService = TokenStorageService();
   final CommunityChannelRepository communityChannelRepository;
   CommunityChannelViewmodel(this.communityChannelRepository)
-    : super(CommunityChannelState());
+    : super(const CommunityChannelState());
 
-    // void resetChannel(){
-    //   state = state.copyWith(channels:[],isLoading: false, errorMessage: null);
-    // }
+  void resetChannel() {
+    state = const CommunityChannelState();
+  }
 
   Future<void> fetchCommunityChannels({required int communityId}) async {
     if (state.isLoading) return;
@@ -60,8 +60,7 @@ class CommunityChannelViewmodel extends StateNotifier {
 
 }
 
-final communityChannelViewmodelProvider = StateNotifierProvider((ref){
-
+/// Provider - AutoDispose to clear state when screen is disposed
+final communityChannelViewmodelProvider = StateNotifierProvider.autoDispose<CommunityChannelViewmodel, CommunityChannelState>((ref){
   return CommunityChannelViewmodel(CommunityChannelRepository(NetworkService()));
-
 });

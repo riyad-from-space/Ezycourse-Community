@@ -8,8 +8,11 @@ part of 'community_channel_model.dart';
 
 _CommunityChannelModel _$CommunityChannelModelFromJson(
   Map<String, dynamic> json,
-) => _CommunityChannelModel(channelId: (json['id'] as num).toInt());
+) => _CommunityChannelModel(
+  channelId: (json['id'] as num).toInt(),
+  channelName: json['name'],
+);
 
 Map<String, dynamic> _$CommunityChannelModelToJson(
   _CommunityChannelModel instance,
-) => <String, dynamic>{'id': instance.channelId};
+) => <String, dynamic>{'id': instance.channelId, 'name': instance.channelName};

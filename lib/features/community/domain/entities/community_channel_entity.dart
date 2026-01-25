@@ -8,6 +8,7 @@ part 'community_channel_entity.freezed.dart';
 abstract class CommunityChannelEntity with _$CommunityChannelEntity {
   const factory CommunityChannelEntity({
     required int channelId,
+    required String channelName,
 
   }) = _CommunityChannelEntity;
 
