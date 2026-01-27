@@ -9,10 +9,7 @@ class CommunityListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-
     if (communities.isEmpty) {
-     
       return const Center(child: Text('No communities to display'));
     }
     return GridView.builder(
@@ -32,7 +29,7 @@ class CommunityListCard extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => FeedScreen(communityId: community.id,),
+                builder: (_) => FeedScreen(communityId: community.id),
               ),
             );
           },
@@ -46,7 +43,7 @@ class CommunityListCard extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 1,
-          
+
                   child: Image.network(
                     community.coverImage,
                     width: double.infinity,
@@ -95,7 +92,11 @@ class CommunityListCard extends StatelessWidget {
                         SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.people, size: 14, color: Colors.grey[600]),
+                            Icon(
+                              Icons.people,
+                              size: 14,
+                              color: Colors.grey[600],
+                            ),
                             SizedBox(width: 4),
                             Text(
                               '${community.totalMembers} members',
@@ -105,9 +106,8 @@ class CommunityListCard extends StatelessWidget {
                               ),
                             ),
                             Spacer(),
-                            Icon(Icons.book,
-                                size: 14, color: Colors.grey[600]),
-          
+                            Icon(Icons.book, size: 14, color: Colors.grey[600]),
+
                             SizedBox(width: 4),
                             Text(
                               '${community.totalFeeds}',
@@ -116,7 +116,6 @@ class CommunityListCard extends StatelessWidget {
                                 color: Colors.grey[600],
                               ),
                             ),
-                            
                           ],
                         ),
                       ],

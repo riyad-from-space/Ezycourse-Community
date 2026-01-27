@@ -54,6 +54,7 @@ class FeedViewModel extends StateNotifier<FeedState> {
       }
 
       print(communityId);
+      print(spaceId);
       final communityUrl = ApiEndpoints.communityFeed(communityId, spaceId);
 
       final newFeeds = await _repository.getFeedList(

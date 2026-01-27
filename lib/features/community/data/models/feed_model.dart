@@ -23,6 +23,7 @@ abstract class FeedModel with _$FeedModel {
     @JsonKey(name: 'pic') required final String userPic,
     @JsonKey(name: 'created_at') required final DateTime createdAt,
 
+
     //ENGAGEMENT FIELDS
     @JsonKey(name:'like_count') required final int likeCount,
     @JsonKey(name:'comment_count') required final int commentCount,
