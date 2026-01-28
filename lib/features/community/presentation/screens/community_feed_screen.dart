@@ -35,7 +35,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     });
   }
 
-
   void loadFeeds(int spaceId) {
     Future.microtask(() {
       ref
@@ -60,7 +59,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     return Scaffold(
       drawer: ChannelDrawer(channels: channels, onChannelSelected: loadFeeds),
       appBar: AppBar(title: const Text('Community Feed')),
-      body: (channelState.isLoading || feedState.isLoading)
+      body: (feedState.isLoading)
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
@@ -70,14 +69,18 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                     MaterialPageRoute(
                       builder: (context) => CreatePostScreen(
                         communityId: widget.communityId,
-                        spaceId: channels[_currentIndex].channelId
+                        spaceId: channels[_currentIndex].channelId,
                       ),
                     ),
                   ),
                   child: CreatePostField(),
                 ),
 
-                Expanded(child: FeedList(feeds: feedState.feeds)),
+                Expanded(
+                  child: feedState.feeds.isEmpty
+                      ? Center(child: Text('No feeds available'))
+                      : FeedList(feeds: feedState.feeds),
+                ),
               ],
             ),
       bottomNavigationBar: BottomNavBar(

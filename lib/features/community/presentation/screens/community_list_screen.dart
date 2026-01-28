@@ -13,15 +13,13 @@ class CommunityListScreen extends ConsumerStatefulWidget {
 
 class _CommunityListScreenState extends ConsumerState<CommunityListScreen> {
   final ScrollController _scrollController = ScrollController();
-  late bool hasMoreData ;
+
   @override
   void initState() {
     super.initState();
 
     Future.microtask(() {
-      ref
-          .read(communityListViewModelProvider.notifier)
-          .fetchCommunityList();
+      ref.read(communityListViewModelProvider.notifier).fetchCommunityList();
     });
 
     _scrollController.addListener(_onScroll);
@@ -34,11 +32,10 @@ class _CommunityListScreenState extends ConsumerState<CommunityListScreen> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-          hasMoreData=true;
-      ref.read(communityListViewModelProvider.notifier)
-          .fetchCommunityList();
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 200 &&
+        ref.watch(communityListViewModelProvider).hasMoreData) {
+      ref.read(communityListViewModelProvider.notifier).fetchCommunityList();
     }
   }
 
@@ -53,16 +50,6 @@ class _CommunityListScreenState extends ConsumerState<CommunityListScreen> {
           style: TextStyle(fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              ref
-                  .read(communityListViewModelProvider.notifier)
-                  .fetchCommunityList();
-            },
-          ),
-        ],
       ),
       body: _buildBody(communityListState),
     );
@@ -102,9 +89,9 @@ class _CommunityListScreenState extends ConsumerState<CommunityListScreen> {
 
     return RefreshIndicator(
       onRefresh: () async {
-        // await ref
-        //     .read(communityListViewModelProvider.notifier)
-        //     .refreshCommunityList();
+        await ref
+            .read(communityListViewModelProvider.notifier)
+            .refreshCommunityList();
       },
       child: ListView(
         controller: _scrollController,
@@ -113,24 +100,15 @@ class _CommunityListScreenState extends ConsumerState<CommunityListScreen> {
           // Community grid
           CommunityListCard(communities: state.communityList),
 
-          // Loading indicator for pagination
-          if (state.isLoadingMore)
-            Container(
-              padding: const EdgeInsets.all(16),
-              alignment: Alignment.center,
-              child: const CircularProgressIndicator(),
-            ),
-
-          // No more data indicator
-          if (!state.hasMoreData && state.communityList.isNotEmpty)
-            Container(
-              padding: const EdgeInsets.all(16),
-              alignment: Alignment.center,
-              child: Text(
-                'No more communities to load',
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-            ),
+          Container(
+            padding: const EdgeInsets.all(16),
+            alignment: Alignment.center,
+            child: state.isLoading && state.communityList.isNotEmpty
+                ? CircularProgressIndicator()
+                : !state.hasMoreData
+                ? Text("No more communities")
+                : SizedBox.shrink(),
+          ),
         ],
       ),
     );

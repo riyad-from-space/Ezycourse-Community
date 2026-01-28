@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MetaModel {
 
-@JsonKey(name: 'total') int get total;
+@JsonKey(name: 'total') int get total;@JsonKey(name: 'first_page') int get firstPage;@JsonKey(name: 'last_page') int get lastPage;@JsonKey(name: 'current_page') int get currentPage;
 /// Create a copy of MetaModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $MetaModelCopyWith<MetaModel> get copyWith => _$MetaModelCopyWithImpl<MetaModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MetaModel&&(identical(other.total, total) || other.total == total));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MetaModel&&(identical(other.total, total) || other.total == total)&&(identical(other.firstPage, firstPage) || other.firstPage == firstPage)&&(identical(other.lastPage, lastPage) || other.lastPage == lastPage)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total);
+int get hashCode => Object.hash(runtimeType,total,firstPage,lastPage,currentPage);
 
 @override
 String toString() {
-  return 'MetaModel(total: $total)';
+  return 'MetaModel(total: $total, firstPage: $firstPage, lastPage: $lastPage, currentPage: $currentPage)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $MetaModelCopyWith<$Res>  {
   factory $MetaModelCopyWith(MetaModel value, $Res Function(MetaModel) _then) = _$MetaModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'total') int total
+@JsonKey(name: 'total') int total,@JsonKey(name: 'first_page') int firstPage,@JsonKey(name: 'last_page') int lastPage,@JsonKey(name: 'current_page') int currentPage
 });
 
 
@@ -65,9 +65,12 @@ class _$MetaModelCopyWithImpl<$Res>
 
 /// Create a copy of MetaModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? total = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? firstPage = null,Object? lastPage = null,Object? currentPage = null,}) {
   return _then(_self.copyWith(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,firstPage: null == firstPage ? _self.firstPage : firstPage // ignore: cast_nullable_to_non_nullable
+as int,lastPage: null == lastPage ? _self.lastPage : lastPage // ignore: cast_nullable_to_non_nullable
+as int,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -153,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'total')  int total)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'total')  int total, @JsonKey(name: 'first_page')  int firstPage, @JsonKey(name: 'last_page')  int lastPage, @JsonKey(name: 'current_page')  int currentPage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MetaModel() when $default != null:
-return $default(_that.total);case _:
+return $default(_that.total,_that.firstPage,_that.lastPage,_that.currentPage);case _:
   return orElse();
 
 }
@@ -174,10 +177,10 @@ return $default(_that.total);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'total')  int total)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'total')  int total, @JsonKey(name: 'first_page')  int firstPage, @JsonKey(name: 'last_page')  int lastPage, @JsonKey(name: 'current_page')  int currentPage)  $default,) {final _that = this;
 switch (_that) {
 case _MetaModel():
-return $default(_that.total);case _:
+return $default(_that.total,_that.firstPage,_that.lastPage,_that.currentPage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +197,10 @@ return $default(_that.total);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'total')  int total)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'total')  int total, @JsonKey(name: 'first_page')  int firstPage, @JsonKey(name: 'last_page')  int lastPage, @JsonKey(name: 'current_page')  int currentPage)?  $default,) {final _that = this;
 switch (_that) {
 case _MetaModel() when $default != null:
-return $default(_that.total);case _:
+return $default(_that.total,_that.firstPage,_that.lastPage,_that.currentPage);case _:
   return null;
 
 }
@@ -209,10 +212,13 @@ return $default(_that.total);case _:
 @JsonSerializable()
 
 class _MetaModel implements MetaModel {
-  const _MetaModel({@JsonKey(name: 'total') required this.total});
+  const _MetaModel({@JsonKey(name: 'total') required this.total, @JsonKey(name: 'first_page') required this.firstPage, @JsonKey(name: 'last_page') required this.lastPage, @JsonKey(name: 'current_page') required this.currentPage});
   factory _MetaModel.fromJson(Map<String, dynamic> json) => _$MetaModelFromJson(json);
 
 @override@JsonKey(name: 'total') final  int total;
+@override@JsonKey(name: 'first_page') final  int firstPage;
+@override@JsonKey(name: 'last_page') final  int lastPage;
+@override@JsonKey(name: 'current_page') final  int currentPage;
 
 /// Create a copy of MetaModel
 /// with the given fields replaced by the non-null parameter values.
@@ -227,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MetaModel&&(identical(other.total, total) || other.total == total));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MetaModel&&(identical(other.total, total) || other.total == total)&&(identical(other.firstPage, firstPage) || other.firstPage == firstPage)&&(identical(other.lastPage, lastPage) || other.lastPage == lastPage)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total);
+int get hashCode => Object.hash(runtimeType,total,firstPage,lastPage,currentPage);
 
 @override
 String toString() {
-  return 'MetaModel(total: $total)';
+  return 'MetaModel(total: $total, firstPage: $firstPage, lastPage: $lastPage, currentPage: $currentPage)';
 }
 
 
@@ -247,7 +253,7 @@ abstract mixin class _$MetaModelCopyWith<$Res> implements $MetaModelCopyWith<$Re
   factory _$MetaModelCopyWith(_MetaModel value, $Res Function(_MetaModel) _then) = __$MetaModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'total') int total
+@JsonKey(name: 'total') int total,@JsonKey(name: 'first_page') int firstPage,@JsonKey(name: 'last_page') int lastPage,@JsonKey(name: 'current_page') int currentPage
 });
 
 
@@ -264,9 +270,12 @@ class __$MetaModelCopyWithImpl<$Res>
 
 /// Create a copy of MetaModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? total = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? total = null,Object? firstPage = null,Object? lastPage = null,Object? currentPage = null,}) {
   return _then(_MetaModel(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,firstPage: null == firstPage ? _self.firstPage : firstPage // ignore: cast_nullable_to_non_nullable
+as int,lastPage: null == lastPage ? _self.lastPage : lastPage // ignore: cast_nullable_to_non_nullable
+as int,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }

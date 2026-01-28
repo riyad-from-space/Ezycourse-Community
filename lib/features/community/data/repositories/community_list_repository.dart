@@ -2,16 +2,14 @@ import 'dart:convert';
 
 import 'package:ezycourse_community/core/config/api_endpoints.dart';
 import 'package:ezycourse_community/core/services/network_service.dart';
-import 'package:ezycourse_community/features/community/data/models/community_list_model.dart';
-import 'package:ezycourse_community/features/community/data/models/community_response_model.dart';
-import 'package:ezycourse_community/features/community/domain/entities/community_list_entity.dart';
+import 'package:ezycourse_community/features/community/data/models/community_list_response_model.dart';
 
 class CommunityListRepository {
   final NetworkService networkService;
 
   CommunityListRepository(this.networkService);
 
-  Future<CommunityResponseModel> getCommunityList({
+  Future<CommunityListResponseModel> getCommunityList({
     required String token,
     required int page,
     required int limit,
@@ -27,7 +25,7 @@ class CommunityListRepository {
       if (response.statusCode == 200) {
         final Map<String, dynamic> body = json.decode(response.body);
 
-        return CommunityResponseModel.fromJson(body);
+        return CommunityListResponseModel.fromJson(body);
       } else {
         throw Exception('Failed to load communities: ${response.statusCode}');
       }

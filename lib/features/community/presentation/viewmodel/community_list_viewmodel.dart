@@ -8,10 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// State for feed list
 class CommunityListState {
   final bool isLoading;
-  final bool isLoadingMore;
   final String? errorMessage;
   final List<CommunityListEntity> communityList;
-  final MetaModel? meta;
   final bool hasMoreData;
   final int currentPage;
 
@@ -19,10 +17,8 @@ class CommunityListState {
     this.isLoading = false,
     this.errorMessage,
     this.communityList = const [],
-    this.meta,
-    this.currentPage = 1,
-    this.isLoadingMore = false,
     this.hasMoreData = false,
+    this.currentPage = 1,
   });
 
   CommunityListState copyWith({
@@ -32,17 +28,15 @@ class CommunityListState {
     MetaModel? meta,
     bool clearError = false,
     int? currentPage,
-    bool? isLoadingMore,
+
     bool? hasMoreData,
   }) {
     return CommunityListState(
       isLoading: isLoading ?? this.isLoading,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
       communityList: communityList ?? this.communityList,
-      meta: meta ?? this.meta,
-      currentPage: currentPage ?? this.currentPage,
-      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       hasMoreData: hasMoreData ?? this.hasMoreData,
+      currentPage: currentPage ?? this.currentPage,
     );
   }
 }
@@ -80,21 +74,27 @@ class CommunityListViewModel extends StateNotifier<CommunityListState> {
           .map((e) => e.toEntity())
           .toList();
 
+      final meta = newCommunityList.meta;
+
+      print('Meta: $meta');
+
       // Update state with new feeds
       state = state.copyWith(
+        hasMoreData: meta.lastPage == state.currentPage ? false : true,
+        currentPage: meta.currentPage + 1,
         isLoading: false,
         communityList: [...state.communityList, ...communities],
-
-        currentPage: state.currentPage + 1,
       );
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
 
-  // Future<void> refreshCommunityList() async {
-  //   await fetchCommunityList(has);
-  // }
+  Future<void> refreshCommunityList() async {
+    state = const CommunityListState(currentPage: 1, hasMoreData: true);
+
+    await fetchCommunityList();
+  }
 }
 
 /// Provider for FeedViewModel

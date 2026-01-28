@@ -1,4 +1,6 @@
+import 'package:ezycourse_community/features/community/presentation/viewmodel/community_feed_viewmodel.dart';
 import 'package:ezycourse_community/features/community/presentation/viewmodel/create_post_viewmodel.dart';
+import 'package:ezycourse_community/features/community/presentation/widgets/create_post_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,6 +46,12 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
             communityId: widget.communityId,
           );
 
+          if(mounted) {
+            await ref.read(feedViewModelProvider.notifier).fetchFeeds(widget.communityId, widget.spaceId);
+          }
+
+          
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -68,11 +76,16 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   @override
   Widget build(BuildContext context) {
     final createPostState = ref.watch(createPostViewmodelProvider);
-    final isLoading = createPostState.isLoading;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('CREATE POST'),
+        centerTitle: true,
+        title: Text('Create Post',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            )),
         actions: [
           IconButton(
             onPressed: () async {
@@ -85,24 +98,31 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       ),
 
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12),
         child: Column(
-          children: [
-            TextField(
-              controller: _textController,
 
-              maxLines: null,
-              minLines: 8,
-              style: const TextStyle(fontSize: 12, height: 1.3),
-              decoration: const InputDecoration(
-                hintText: "What's on your mind?",
-                hintStyle: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w400,
+          children: [
+            const CreatePostUserInfo(),
+
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _textController,
+              
+                maxLines: null,
+                minLines: 8,
+                style: const TextStyle(fontSize: 12, height: 1.3),
+                decoration: const InputDecoration(
+                  hintText: "What's on your mind?",
+                  hintStyle: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
                 ),
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.zero,
               ),
             ),
           ],
