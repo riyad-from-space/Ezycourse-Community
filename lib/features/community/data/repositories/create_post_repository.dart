@@ -27,6 +27,8 @@ class CreatePostRepository {
       };
 
       await networkService.post(body: body, token: token, url: createPostUrl);
-    } catch (e) {}
+    } catch (e) {
+      rethrow;
+    }
   }
 }
