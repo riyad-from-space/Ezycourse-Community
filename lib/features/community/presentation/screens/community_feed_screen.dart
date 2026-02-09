@@ -1,11 +1,11 @@
 import 'package:ezycourse_community/features/community/domain/entities/community_channel_entity.dart';
 import 'package:ezycourse_community/features/community/presentation/screens/create_post_screen.dart';
 import 'package:ezycourse_community/features/community/presentation/viewmodel/community_channel_viewmodel.dart';
+import 'package:ezycourse_community/features/community/presentation/viewmodel/community_feed_viewmodel.dart';
+import 'package:ezycourse_community/features/community/presentation/widgets/bottom_navbar.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/channel_drawer.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/create_post_field.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/feed_list.dart';
-import 'package:ezycourse_community/features/community/presentation/widgets/bottom_navbar.dart';
-import 'package:ezycourse_community/features/community/presentation/viewmodel/community_feed_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,11 +36,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
   }
 
   void loadFeeds(int spaceId) {
-    Future.microtask(() {
-      ref
-          .read(feedViewModelProvider.notifier)
-          .fetchFeeds(widget.communityId, spaceId);
-    });
+    ref
+        .read(feedViewModelProvider.notifier)
+        .fetchFeeds(widget.communityId, spaceId);
   }
 
   @override
@@ -52,14 +50,15 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
         !_channelsLoaded) {
       channels = channelState.channels;
       _channelsLoaded = true;
-      final spaceId = channels.first.channelId;
-      loadFeeds(spaceId);
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => loadFeeds(channels.first.channelId),
+      );
     }
 
     return Scaffold(
       drawer: ChannelDrawer(channels: channels, onChannelSelected: loadFeeds),
       appBar: AppBar(title: const Text('Community Feed')),
-      body: (feedState.isLoading)
+      body: (feedState.isLoading || !_channelsLoaded || !feedState.hasFetched)
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [

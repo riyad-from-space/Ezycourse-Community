@@ -1,6 +1,5 @@
 import 'package:ezycourse_community/core/config/api_endpoints.dart';
 import 'package:ezycourse_community/core/services/network_service.dart';
-
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/community/data/repositories/community_feed_repository.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
@@ -11,23 +10,27 @@ class FeedState {
   final bool isLoading;
   final String? errorMessage;
   final List<FeedEntity> feeds;
+  final bool hasFetched;
 
   const FeedState({
     this.isLoading = false,
     this.errorMessage,
     this.feeds = const [],
+    this.hasFetched = false,
   });
 
   FeedState copyWith({
     bool? isLoading,
     String? errorMessage,
     List<FeedEntity>? feeds,
+    bool? hasFetched,
     bool clearError = false,
   }) {
     return FeedState(
       isLoading: isLoading ?? this.isLoading,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
       feeds: feeds ?? this.feeds,
+      hasFetched: hasFetched ?? this.hasFetched,
     );
   }
 }
@@ -63,16 +66,23 @@ class FeedViewModel extends StateNotifier<FeedState> {
       );
 
       // Update state with new feeds
-      state = state.copyWith(isLoading: false, feeds: newFeeds);
+      state = state.copyWith(
+        isLoading: false,
+        feeds: newFeeds,
+        hasFetched: true,
+      );
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: e.toString(),
+        hasFetched: true,
+      );
     }
   }
 }
 
 /// Provider for FeedViewModel - AutoDispose to clear state when screen is disposed
-final feedViewModelProvider = StateNotifierProvider.autoDispose<FeedViewModel, FeedState>((
-  ref,
-) {
-  return FeedViewModel(CommunityRepository(NetworkService()));
-});
+final feedViewModelProvider =
+    StateNotifierProvider.autoDispose<FeedViewModel, FeedState>((ref) {
+      return FeedViewModel(CommunityRepository(NetworkService()));
+    });
