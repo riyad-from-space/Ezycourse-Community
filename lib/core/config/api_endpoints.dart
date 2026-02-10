@@ -21,4 +21,7 @@ class ApiEndpoints {
       '$baseUrl/student/comment/getComment/$communityFeedId';
   static String createFeedComment =
       '$baseUrl/student/comment/createComment';
+  //react
+  static String createPostReact =
+      '$baseUrl/teacher/community/createLike';
 }
