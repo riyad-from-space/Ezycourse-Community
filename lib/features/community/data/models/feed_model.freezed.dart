@@ -16,7 +16,8 @@ T _$identity<T>(T value) => value;
 mixin _$FeedModel {
 
 @JsonKey(name: 'id') int get id;@JsonKey(name: 'school_id') int get schoolId;@JsonKey(name: 'community_id') int get communityId;@JsonKey(name: 'space_id') int get spaceId;@JsonKey(name: 'feed_txt') String get feedText;@JsonKey(name: 'name') String get userName;@JsonKey(name: 'pic') String get userPic;@JsonKey(name: 'created_at') DateTime get createdAt;//ENGAGEMENT FIELDS
-@JsonKey(name: 'like_count') int get likeCount;@JsonKey(name: 'comment_count') int get commentCount;@JsonKey(name: 'share_count') int get shareCount;//Files 
+@JsonKey(name: 'like_count') int get likeCount;@JsonKey(name: 'comment_count') int get commentCount;@JsonKey(name: 'share_count') int get shareCount;//User's like/reaction
+@JsonKey(name: 'like') FeedLikeModel? get like;//Files 
 @JsonKey(name: 'files') List<FeedFileModel> get files;
 /// Create a copy of FeedModel
 /// with the given fields replaced by the non-null parameter values.
@@ -30,16 +31,16 @@ $FeedModelCopyWith<FeedModel> get copyWith => _$FeedModelCopyWithImpl<FeedModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FeedModel&&(identical(other.id, id) || other.id == id)&&(identical(other.schoolId, schoolId) || other.schoolId == schoolId)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.spaceId, spaceId) || other.spaceId == spaceId)&&(identical(other.feedText, feedText) || other.feedText == feedText)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.userPic, userPic) || other.userPic == userPic)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likeCount, likeCount) || other.likeCount == likeCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.shareCount, shareCount) || other.shareCount == shareCount)&&const DeepCollectionEquality().equals(other.files, files));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FeedModel&&(identical(other.id, id) || other.id == id)&&(identical(other.schoolId, schoolId) || other.schoolId == schoolId)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.spaceId, spaceId) || other.spaceId == spaceId)&&(identical(other.feedText, feedText) || other.feedText == feedText)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.userPic, userPic) || other.userPic == userPic)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likeCount, likeCount) || other.likeCount == likeCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.shareCount, shareCount) || other.shareCount == shareCount)&&(identical(other.like, like) || other.like == like)&&const DeepCollectionEquality().equals(other.files, files));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,schoolId,communityId,spaceId,feedText,userName,userPic,createdAt,likeCount,commentCount,shareCount,const DeepCollectionEquality().hash(files));
+int get hashCode => Object.hash(runtimeType,id,schoolId,communityId,spaceId,feedText,userName,userPic,createdAt,likeCount,commentCount,shareCount,like,const DeepCollectionEquality().hash(files));
 
 @override
 String toString() {
-  return 'FeedModel(id: $id, schoolId: $schoolId, communityId: $communityId, spaceId: $spaceId, feedText: $feedText, userName: $userName, userPic: $userPic, createdAt: $createdAt, likeCount: $likeCount, commentCount: $commentCount, shareCount: $shareCount, files: $files)';
+  return 'FeedModel(id: $id, schoolId: $schoolId, communityId: $communityId, spaceId: $spaceId, feedText: $feedText, userName: $userName, userPic: $userPic, createdAt: $createdAt, likeCount: $likeCount, commentCount: $commentCount, shareCount: $shareCount, like: $like, files: $files)';
 }
 
 
@@ -50,11 +51,11 @@ abstract mixin class $FeedModelCopyWith<$Res>  {
   factory $FeedModelCopyWith(FeedModel value, $Res Function(FeedModel) _then) = _$FeedModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'id') int id,@JsonKey(name: 'school_id') int schoolId,@JsonKey(name: 'community_id') int communityId,@JsonKey(name: 'space_id') int spaceId,@JsonKey(name: 'feed_txt') String feedText,@JsonKey(name: 'name') String userName,@JsonKey(name: 'pic') String userPic,@JsonKey(name: 'created_at') DateTime createdAt,@JsonKey(name: 'like_count') int likeCount,@JsonKey(name: 'comment_count') int commentCount,@JsonKey(name: 'share_count') int shareCount,@JsonKey(name: 'files') List<FeedFileModel> files
+@JsonKey(name: 'id') int id,@JsonKey(name: 'school_id') int schoolId,@JsonKey(name: 'community_id') int communityId,@JsonKey(name: 'space_id') int spaceId,@JsonKey(name: 'feed_txt') String feedText,@JsonKey(name: 'name') String userName,@JsonKey(name: 'pic') String userPic,@JsonKey(name: 'created_at') DateTime createdAt,@JsonKey(name: 'like_count') int likeCount,@JsonKey(name: 'comment_count') int commentCount,@JsonKey(name: 'share_count') int shareCount,@JsonKey(name: 'like') FeedLikeModel? like,@JsonKey(name: 'files') List<FeedFileModel> files
 });
 
 
-
+$FeedLikeModelCopyWith<$Res>? get like;
 
 }
 /// @nodoc
@@ -67,7 +68,7 @@ class _$FeedModelCopyWithImpl<$Res>
 
 /// Create a copy of FeedModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? schoolId = null,Object? communityId = null,Object? spaceId = null,Object? feedText = null,Object? userName = null,Object? userPic = null,Object? createdAt = null,Object? likeCount = null,Object? commentCount = null,Object? shareCount = null,Object? files = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? schoolId = null,Object? communityId = null,Object? spaceId = null,Object? feedText = null,Object? userName = null,Object? userPic = null,Object? createdAt = null,Object? likeCount = null,Object? commentCount = null,Object? shareCount = null,Object? like = freezed,Object? files = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,schoolId: null == schoolId ? _self.schoolId : schoolId // ignore: cast_nullable_to_non_nullable
@@ -80,11 +81,24 @@ as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: 
 as DateTime,likeCount: null == likeCount ? _self.likeCount : likeCount // ignore: cast_nullable_to_non_nullable
 as int,commentCount: null == commentCount ? _self.commentCount : commentCount // ignore: cast_nullable_to_non_nullable
 as int,shareCount: null == shareCount ? _self.shareCount : shareCount // ignore: cast_nullable_to_non_nullable
-as int,files: null == files ? _self.files : files // ignore: cast_nullable_to_non_nullable
+as int,like: freezed == like ? _self.like : like // ignore: cast_nullable_to_non_nullable
+as FeedLikeModel?,files: null == files ? _self.files : files // ignore: cast_nullable_to_non_nullable
 as List<FeedFileModel>,
   ));
 }
+/// Create a copy of FeedModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FeedLikeModelCopyWith<$Res>? get like {
+    if (_self.like == null) {
+    return null;
+  }
 
+  return $FeedLikeModelCopyWith<$Res>(_self.like!, (value) {
+    return _then(_self.copyWith(like: value));
+  });
+}
 }
 
 
@@ -166,10 +180,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'school_id')  int schoolId, @JsonKey(name: 'community_id')  int communityId, @JsonKey(name: 'space_id')  int spaceId, @JsonKey(name: 'feed_txt')  String feedText, @JsonKey(name: 'name')  String userName, @JsonKey(name: 'pic')  String userPic, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'like_count')  int likeCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'share_count')  int shareCount, @JsonKey(name: 'files')  List<FeedFileModel> files)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'school_id')  int schoolId, @JsonKey(name: 'community_id')  int communityId, @JsonKey(name: 'space_id')  int spaceId, @JsonKey(name: 'feed_txt')  String feedText, @JsonKey(name: 'name')  String userName, @JsonKey(name: 'pic')  String userPic, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'like_count')  int likeCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'share_count')  int shareCount, @JsonKey(name: 'like')  FeedLikeModel? like, @JsonKey(name: 'files')  List<FeedFileModel> files)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FeedModel() when $default != null:
-return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount,_that.files);case _:
+return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount,_that.like,_that.files);case _:
   return orElse();
 
 }
@@ -187,10 +201,10 @@ return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.fe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'school_id')  int schoolId, @JsonKey(name: 'community_id')  int communityId, @JsonKey(name: 'space_id')  int spaceId, @JsonKey(name: 'feed_txt')  String feedText, @JsonKey(name: 'name')  String userName, @JsonKey(name: 'pic')  String userPic, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'like_count')  int likeCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'share_count')  int shareCount, @JsonKey(name: 'files')  List<FeedFileModel> files)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'school_id')  int schoolId, @JsonKey(name: 'community_id')  int communityId, @JsonKey(name: 'space_id')  int spaceId, @JsonKey(name: 'feed_txt')  String feedText, @JsonKey(name: 'name')  String userName, @JsonKey(name: 'pic')  String userPic, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'like_count')  int likeCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'share_count')  int shareCount, @JsonKey(name: 'like')  FeedLikeModel? like, @JsonKey(name: 'files')  List<FeedFileModel> files)  $default,) {final _that = this;
 switch (_that) {
 case _FeedModel():
-return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount,_that.files);case _:
+return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount,_that.like,_that.files);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -207,10 +221,10 @@ return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.fe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'school_id')  int schoolId, @JsonKey(name: 'community_id')  int communityId, @JsonKey(name: 'space_id')  int spaceId, @JsonKey(name: 'feed_txt')  String feedText, @JsonKey(name: 'name')  String userName, @JsonKey(name: 'pic')  String userPic, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'like_count')  int likeCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'share_count')  int shareCount, @JsonKey(name: 'files')  List<FeedFileModel> files)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'school_id')  int schoolId, @JsonKey(name: 'community_id')  int communityId, @JsonKey(name: 'space_id')  int spaceId, @JsonKey(name: 'feed_txt')  String feedText, @JsonKey(name: 'name')  String userName, @JsonKey(name: 'pic')  String userPic, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'like_count')  int likeCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'share_count')  int shareCount, @JsonKey(name: 'like')  FeedLikeModel? like, @JsonKey(name: 'files')  List<FeedFileModel> files)?  $default,) {final _that = this;
 switch (_that) {
 case _FeedModel() when $default != null:
-return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount,_that.files);case _:
+return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.feedText,_that.userName,_that.userPic,_that.createdAt,_that.likeCount,_that.commentCount,_that.shareCount,_that.like,_that.files);case _:
   return null;
 
 }
@@ -222,7 +236,7 @@ return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.fe
 @JsonSerializable()
 
 class _FeedModel extends FeedModel {
-  const _FeedModel({@JsonKey(name: 'id') required this.id, @JsonKey(name: 'school_id') required this.schoolId, @JsonKey(name: 'community_id') required this.communityId, @JsonKey(name: 'space_id') required this.spaceId, @JsonKey(name: 'feed_txt') required this.feedText, @JsonKey(name: 'name') required this.userName, @JsonKey(name: 'pic') required this.userPic, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'like_count') required this.likeCount, @JsonKey(name: 'comment_count') required this.commentCount, @JsonKey(name: 'share_count') required this.shareCount, @JsonKey(name: 'files') required final  List<FeedFileModel> files}): _files = files,super._();
+  const _FeedModel({@JsonKey(name: 'id') required this.id, @JsonKey(name: 'school_id') required this.schoolId, @JsonKey(name: 'community_id') required this.communityId, @JsonKey(name: 'space_id') required this.spaceId, @JsonKey(name: 'feed_txt') required this.feedText, @JsonKey(name: 'name') required this.userName, @JsonKey(name: 'pic') required this.userPic, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'like_count') required this.likeCount, @JsonKey(name: 'comment_count') required this.commentCount, @JsonKey(name: 'share_count') required this.shareCount, @JsonKey(name: 'like') this.like, @JsonKey(name: 'files') required final  List<FeedFileModel> files}): _files = files,super._();
   factory _FeedModel.fromJson(Map<String, dynamic> json) => _$FeedModelFromJson(json);
 
 @override@JsonKey(name: 'id') final  int id;
@@ -237,6 +251,8 @@ class _FeedModel extends FeedModel {
 @override@JsonKey(name: 'like_count') final  int likeCount;
 @override@JsonKey(name: 'comment_count') final  int commentCount;
 @override@JsonKey(name: 'share_count') final  int shareCount;
+//User's like/reaction
+@override@JsonKey(name: 'like') final  FeedLikeModel? like;
 //Files 
  final  List<FeedFileModel> _files;
 //Files 
@@ -260,16 +276,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FeedModel&&(identical(other.id, id) || other.id == id)&&(identical(other.schoolId, schoolId) || other.schoolId == schoolId)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.spaceId, spaceId) || other.spaceId == spaceId)&&(identical(other.feedText, feedText) || other.feedText == feedText)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.userPic, userPic) || other.userPic == userPic)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likeCount, likeCount) || other.likeCount == likeCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.shareCount, shareCount) || other.shareCount == shareCount)&&const DeepCollectionEquality().equals(other._files, _files));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FeedModel&&(identical(other.id, id) || other.id == id)&&(identical(other.schoolId, schoolId) || other.schoolId == schoolId)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.spaceId, spaceId) || other.spaceId == spaceId)&&(identical(other.feedText, feedText) || other.feedText == feedText)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.userPic, userPic) || other.userPic == userPic)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likeCount, likeCount) || other.likeCount == likeCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.shareCount, shareCount) || other.shareCount == shareCount)&&(identical(other.like, like) || other.like == like)&&const DeepCollectionEquality().equals(other._files, _files));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,schoolId,communityId,spaceId,feedText,userName,userPic,createdAt,likeCount,commentCount,shareCount,const DeepCollectionEquality().hash(_files));
+int get hashCode => Object.hash(runtimeType,id,schoolId,communityId,spaceId,feedText,userName,userPic,createdAt,likeCount,commentCount,shareCount,like,const DeepCollectionEquality().hash(_files));
 
 @override
 String toString() {
-  return 'FeedModel(id: $id, schoolId: $schoolId, communityId: $communityId, spaceId: $spaceId, feedText: $feedText, userName: $userName, userPic: $userPic, createdAt: $createdAt, likeCount: $likeCount, commentCount: $commentCount, shareCount: $shareCount, files: $files)';
+  return 'FeedModel(id: $id, schoolId: $schoolId, communityId: $communityId, spaceId: $spaceId, feedText: $feedText, userName: $userName, userPic: $userPic, createdAt: $createdAt, likeCount: $likeCount, commentCount: $commentCount, shareCount: $shareCount, like: $like, files: $files)';
 }
 
 
@@ -280,11 +296,11 @@ abstract mixin class _$FeedModelCopyWith<$Res> implements $FeedModelCopyWith<$Re
   factory _$FeedModelCopyWith(_FeedModel value, $Res Function(_FeedModel) _then) = __$FeedModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'id') int id,@JsonKey(name: 'school_id') int schoolId,@JsonKey(name: 'community_id') int communityId,@JsonKey(name: 'space_id') int spaceId,@JsonKey(name: 'feed_txt') String feedText,@JsonKey(name: 'name') String userName,@JsonKey(name: 'pic') String userPic,@JsonKey(name: 'created_at') DateTime createdAt,@JsonKey(name: 'like_count') int likeCount,@JsonKey(name: 'comment_count') int commentCount,@JsonKey(name: 'share_count') int shareCount,@JsonKey(name: 'files') List<FeedFileModel> files
+@JsonKey(name: 'id') int id,@JsonKey(name: 'school_id') int schoolId,@JsonKey(name: 'community_id') int communityId,@JsonKey(name: 'space_id') int spaceId,@JsonKey(name: 'feed_txt') String feedText,@JsonKey(name: 'name') String userName,@JsonKey(name: 'pic') String userPic,@JsonKey(name: 'created_at') DateTime createdAt,@JsonKey(name: 'like_count') int likeCount,@JsonKey(name: 'comment_count') int commentCount,@JsonKey(name: 'share_count') int shareCount,@JsonKey(name: 'like') FeedLikeModel? like,@JsonKey(name: 'files') List<FeedFileModel> files
 });
 
 
-
+@override $FeedLikeModelCopyWith<$Res>? get like;
 
 }
 /// @nodoc
@@ -297,7 +313,7 @@ class __$FeedModelCopyWithImpl<$Res>
 
 /// Create a copy of FeedModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? schoolId = null,Object? communityId = null,Object? spaceId = null,Object? feedText = null,Object? userName = null,Object? userPic = null,Object? createdAt = null,Object? likeCount = null,Object? commentCount = null,Object? shareCount = null,Object? files = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? schoolId = null,Object? communityId = null,Object? spaceId = null,Object? feedText = null,Object? userName = null,Object? userPic = null,Object? createdAt = null,Object? likeCount = null,Object? commentCount = null,Object? shareCount = null,Object? like = freezed,Object? files = null,}) {
   return _then(_FeedModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,schoolId: null == schoolId ? _self.schoolId : schoolId // ignore: cast_nullable_to_non_nullable
@@ -310,12 +326,25 @@ as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: 
 as DateTime,likeCount: null == likeCount ? _self.likeCount : likeCount // ignore: cast_nullable_to_non_nullable
 as int,commentCount: null == commentCount ? _self.commentCount : commentCount // ignore: cast_nullable_to_non_nullable
 as int,shareCount: null == shareCount ? _self.shareCount : shareCount // ignore: cast_nullable_to_non_nullable
-as int,files: null == files ? _self._files : files // ignore: cast_nullable_to_non_nullable
+as int,like: freezed == like ? _self.like : like // ignore: cast_nullable_to_non_nullable
+as FeedLikeModel?,files: null == files ? _self._files : files // ignore: cast_nullable_to_non_nullable
 as List<FeedFileModel>,
   ));
 }
 
+/// Create a copy of FeedModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FeedLikeModelCopyWith<$Res>? get like {
+    if (_self.like == null) {
+    return null;
+  }
 
+  return $FeedLikeModelCopyWith<$Res>(_self.like!, (value) {
+    return _then(_self.copyWith(like: value));
+  });
+}
 }
 
 // dart format on

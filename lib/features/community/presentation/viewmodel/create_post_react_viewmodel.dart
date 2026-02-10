@@ -27,7 +27,7 @@ class CreatePostReactViewmodel extends StateNotifier<CreatePostReactState> {
   CreatePostReactViewmodel(this.createPostReactRepository)
     : super(const CreatePostReactState());
   Future<void> createPostReact({
-    required String feedId,
+    required int feedId,
     required String reactType,
   }) async {
     if (state.isLoading) return;

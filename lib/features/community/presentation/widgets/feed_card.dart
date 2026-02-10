@@ -54,6 +54,7 @@ class _FeedCardState extends State<FeedCard> {
               onLike: widget.onLike,
               onComment: widget.onComment,
               onShare: widget.onShare,
+              userReaction: widget.feed.like?.reactionType,
             ),
           ],
         ),

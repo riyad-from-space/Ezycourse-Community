@@ -1,19 +1,27 @@
 import 'package:ezycourse_community/features/community/presentation/widgets/comment_bottom_sheet.dart';
+import 'package:ezycourse_community/features/community/presentation/viewmodel/create_post_react_viewmodel.dart';
+import 'package:ezycourse_community/features/community/presentation/widgets/reaction_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/feed_card.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FeedList extends StatelessWidget {
+class FeedList extends ConsumerStatefulWidget {
   final List<FeedEntity> feeds;
   final VoidCallback? onRefresh;
 
   const FeedList({super.key, required this.feeds, this.onRefresh});
 
   @override
+  ConsumerState<FeedList> createState() => _FeedListState();
+}
+
+class _FeedListState extends ConsumerState<FeedList> {
+  @override
   Widget build(BuildContext context) {
-    if (onRefresh != null) {
+    if (widget.onRefresh != null) {
       return RefreshIndicator(
-        onRefresh: () async => onRefresh?.call(),
+        onRefresh: () async => widget.onRefresh?.call(),
         child: _buildList(),
       );
     }
@@ -24,12 +32,12 @@ class FeedList extends StatelessWidget {
   Widget _buildList() {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      itemCount: feeds.length,
+      itemCount: widget.feeds.length,
       itemBuilder: (context, index) {
-        final feed = feeds[index];
+        final feed = widget.feeds[index];
         return FeedCard(
           feed: feed,
-          onLike: () => _handleLike(feed),
+          onLike: () => _showReactionPicker(feed),
           onComment: () => _handleComment(context, feed),
           onShare: () => _handleShare(feed),
           onMenuTap: () => _handleMenu(feed),
@@ -38,12 +46,54 @@ class FeedList extends StatelessWidget {
     );
   }
 
-  void _handleLike(FeedEntity feed) {
-    debugPrint('Like tapped for feed ${feed.id}');
+  void _showReactionPicker(FeedEntity feed) {
+    ReactionPicker.show(
+      context,
+      onReactionSelected: (reactionType, emoji) {
+        _handleReaction(feed, reactionType, emoji);
+      },
+    );
+  }
+
+  void _handleReaction(
+    FeedEntity feed,
+    String reactionType,
+    String emoji,
+  ) async {
+    try {
+      // Call API to add reaction
+      await ref
+          .read(CreatePostReactViewmodelProvider.notifier)
+          .createPostReact(feedId: feed.id, reactType: reactionType);
+
+      // Show success message
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Reacted with $emoji'),
+            duration: const Duration(seconds: 1),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+
+      // Refresh the feed to get accurate data from server
+      widget.onRefresh?.call();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to add reaction'),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   void _handleComment(BuildContext context, FeedEntity feed) {
-    CommentBottomSheet.show(context,  feed.id);
+    CommentBottomSheet.show(context, feed.id);
     debugPrint('Comment tapped for feed ${feed.id}');
   }
 

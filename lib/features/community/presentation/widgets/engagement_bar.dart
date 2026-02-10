@@ -7,16 +7,22 @@ class EngagementBar extends StatelessWidget {
   final VoidCallback? onLike;
   final VoidCallback? onComment;
   final VoidCallback? onShare;
+  final String? userReaction;
+
   const EngagementBar({
     super.key,
     required this.feed,
     this.onLike,
     this.onComment,
     this.onShare,
+    this.userReaction,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Determine icon and color based on user's reaction
+    final hasReacted = userReaction != null;
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       decoration: BoxDecoration(
@@ -32,12 +38,26 @@ class EngagementBar extends StatelessWidget {
             onTap: onLike,
             child: Row(
               children: [
-                Icon(Icons.thumb_up_alt, size: 20, color: Colors.blue),
+                userReaction != null
+                    ? Text(
+                        _getReactionEmoji(userReaction!),
+                        style: const TextStyle(fontSize: 18),
+                      )
+                    : Icon(
+                        Icons.thumb_up_alt_outlined,
+                        size: 20,
+                        color: Colors.grey[600],
+                      ),
 
                 const SizedBox(width: 6),
                 Text(
                   '${feed.likeCount}',
-                  style: TextStyle(color: Colors.grey[600]),
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontWeight: hasReacted
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                  ),
                 ),
               ],
             ),
@@ -71,5 +91,24 @@ class EngagementBar extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _getReactionEmoji(String reactionType) {
+    switch (reactionType.toUpperCase()) {
+      case 'LIKE':
+        return '👍';
+      case 'LOVE':
+        return '❤️';
+      case 'HAHA':
+        return '😂';
+      case 'WOW':
+        return '😮';
+      case 'SAD':
+        return '😢';
+      case 'ANGRY':
+        return '😡';
+      default:
+        return '👍';
+    }
   }
 }

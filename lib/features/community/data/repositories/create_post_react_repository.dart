@@ -6,7 +6,7 @@ class CreatePostReactRepository {
   CreatePostReactRepository(this.networkService);
 
   Future<void> createPostReact({
-    required String feedId,
+    required int feedId,
     required String reactType,
     required String? token
   }) async {
