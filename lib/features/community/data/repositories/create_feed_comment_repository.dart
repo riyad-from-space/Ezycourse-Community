@@ -1,4 +1,4 @@
-import 'package:ezycourse_community/core/config/api_endpoints.dart';
+import 'package:ezycourse_community/core/constants/api.dart';
 import 'package:ezycourse_community/core/services/network_service.dart';
 
 class CreateFeedCommentRepository {

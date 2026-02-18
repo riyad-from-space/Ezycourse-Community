@@ -1,4 +1,4 @@
-import 'package:ezycourse_community/core/config/api_endpoints.dart';
+import 'package:ezycourse_community/core/constants/api.dart';
 import 'package:ezycourse_community/core/services/network_service.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/community/data/repositories/feed_comment_repositoty.dart';

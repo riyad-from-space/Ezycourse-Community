@@ -9,7 +9,7 @@ part of 'community_list_response_model.dart';
 _CommunityListResponseModel _$CommunityListResponseModelFromJson(
   Map<String, dynamic> json,
 ) => _CommunityListResponseModel(
-  meta: MetaModel.fromJson(json['meta'] as Map<String, dynamic>),
+  meta: PaginationMetaModel.fromJson(json['meta'] as Map<String, dynamic>),
   data: (json['data'] as List<dynamic>)
       .map((e) => CommunityListModel.fromJson(e as Map<String, dynamic>))
       .toList(),

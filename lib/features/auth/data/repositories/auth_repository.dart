@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ezycourse_community/core/config/api_endpoints.dart';
+import 'package:ezycourse_community/core/constants/api.dart';
 import 'package:ezycourse_community/core/services/network_service.dart';
 import 'package:ezycourse_community/features/auth/data/models/auth_login_model.dart';
 

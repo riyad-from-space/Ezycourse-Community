@@ -1,30 +1,26 @@
 import 'dart:convert';
 
-import 'package:ezycourse_community/core/config/api_endpoints.dart';
 import 'package:ezycourse_community/core/services/network_service.dart';
+import 'package:ezycourse_community/features/community/data/datasources/community_remote_datasource.dart';
 import 'package:ezycourse_community/features/community/data/models/community_list_response_model.dart';
 
-class CommunityListRepository {
+class CommunityRemoteDatasourceImpl implements CommunitRemoteDatasource {
   final NetworkService networkService;
+  CommunityRemoteDatasourceImpl(this.networkService);
 
-  CommunityListRepository(this.networkService);
-
-  Future<CommunityListResponseModel> getCommunityList({
-    required String token,
-    required int page,
-    required int limit,
+  @override
+  Future<CommunityListResponseModel> getEnrolledCommunities({
+    required final String token,
+    required final String url,
   }) async {
     try {
-      final communityListUrl = ApiEndpoints.communityList(page, limit);
-
       final response = await networkService.get(
+        url: url,
         token: token,
-        url: communityListUrl,
       );
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> body = json.decode(response.body);
-
+        final Map<String, dynamic> body = jsonDecode(response.body);
         return CommunityListResponseModel.fromJson(body);
       } else {
         throw Exception('Failed to load communities: ${response.statusCode}');

@@ -12,7 +12,7 @@ part 'community_list_response_model.g.dart';
 @freezed
 abstract class CommunityListResponseModel with _$CommunityListResponseModel {
   const factory CommunityListResponseModel({
-    @JsonKey(name: 'meta') required MetaModel meta,
+    @JsonKey(name: 'meta') required PaginationMetaModel meta,
     @JsonKey(name: 'data') required List<CommunityListModel> data,
   }) = _CommunityListResponseModel;
 

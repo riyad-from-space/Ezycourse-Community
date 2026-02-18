@@ -13,22 +13,22 @@ part of 'pagination_meta_model.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$MetaModel {
+mixin _$PaginationMetaModel {
 
-@JsonKey(name: 'total') int get total;@JsonKey(name: 'first_page') int get firstPage;@JsonKey(name: 'last_page') int get lastPage;@JsonKey(name: 'current_page') int get currentPage;
-/// Create a copy of MetaModel
+ int get total;@JsonKey(name: 'first_page') int get firstPage;@JsonKey(name: 'last_page') int get lastPage;@JsonKey(name: 'current_page') int get currentPage;
+/// Create a copy of PaginationMetaModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$MetaModelCopyWith<MetaModel> get copyWith => _$MetaModelCopyWithImpl<MetaModel>(this as MetaModel, _$identity);
+$PaginationMetaModelCopyWith<PaginationMetaModel> get copyWith => _$PaginationMetaModelCopyWithImpl<PaginationMetaModel>(this as PaginationMetaModel, _$identity);
 
-  /// Serializes this MetaModel to a JSON map.
+  /// Serializes this PaginationMetaModel to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MetaModel&&(identical(other.total, total) || other.total == total)&&(identical(other.firstPage, firstPage) || other.firstPage == firstPage)&&(identical(other.lastPage, lastPage) || other.lastPage == lastPage)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginationMetaModel&&(identical(other.total, total) || other.total == total)&&(identical(other.firstPage, firstPage) || other.firstPage == firstPage)&&(identical(other.lastPage, lastPage) || other.lastPage == lastPage)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -37,18 +37,18 @@ int get hashCode => Object.hash(runtimeType,total,firstPage,lastPage,currentPage
 
 @override
 String toString() {
-  return 'MetaModel(total: $total, firstPage: $firstPage, lastPage: $lastPage, currentPage: $currentPage)';
+  return 'PaginationMetaModel(total: $total, firstPage: $firstPage, lastPage: $lastPage, currentPage: $currentPage)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $MetaModelCopyWith<$Res>  {
-  factory $MetaModelCopyWith(MetaModel value, $Res Function(MetaModel) _then) = _$MetaModelCopyWithImpl;
+abstract mixin class $PaginationMetaModelCopyWith<$Res>  {
+  factory $PaginationMetaModelCopyWith(PaginationMetaModel value, $Res Function(PaginationMetaModel) _then) = _$PaginationMetaModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'total') int total,@JsonKey(name: 'first_page') int firstPage,@JsonKey(name: 'last_page') int lastPage,@JsonKey(name: 'current_page') int currentPage
+ int total,@JsonKey(name: 'first_page') int firstPage,@JsonKey(name: 'last_page') int lastPage,@JsonKey(name: 'current_page') int currentPage
 });
 
 
@@ -56,14 +56,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$MetaModelCopyWithImpl<$Res>
-    implements $MetaModelCopyWith<$Res> {
-  _$MetaModelCopyWithImpl(this._self, this._then);
+class _$PaginationMetaModelCopyWithImpl<$Res>
+    implements $PaginationMetaModelCopyWith<$Res> {
+  _$PaginationMetaModelCopyWithImpl(this._self, this._then);
 
-  final MetaModel _self;
-  final $Res Function(MetaModel) _then;
+  final PaginationMetaModel _self;
+  final $Res Function(PaginationMetaModel) _then;
 
-/// Create a copy of MetaModel
+/// Create a copy of PaginationMetaModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? firstPage = null,Object? lastPage = null,Object? currentPage = null,}) {
   return _then(_self.copyWith(
@@ -78,8 +78,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [MetaModel].
-extension MetaModelPatterns on MetaModel {
+/// Adds pattern-matching-related methods to [PaginationMetaModel].
+extension PaginationMetaModelPatterns on PaginationMetaModel {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -92,10 +92,10 @@ extension MetaModelPatterns on MetaModel {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _MetaModel value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PaginationMetaModel value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _MetaModel() when $default != null:
+case _PaginationMetaModel() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -114,10 +114,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _MetaModel value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PaginationMetaModel value)  $default,){
 final _that = this;
 switch (_that) {
-case _MetaModel():
+case _PaginationMetaModel():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -135,10 +135,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _MetaModel value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PaginationMetaModel value)?  $default,){
 final _that = this;
 switch (_that) {
-case _MetaModel() when $default != null:
+case _PaginationMetaModel() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -156,9 +156,9 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'total')  int total, @JsonKey(name: 'first_page')  int firstPage, @JsonKey(name: 'last_page')  int lastPage, @JsonKey(name: 'current_page')  int currentPage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int total, @JsonKey(name: 'first_page')  int firstPage, @JsonKey(name: 'last_page')  int lastPage, @JsonKey(name: 'current_page')  int currentPage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _MetaModel() when $default != null:
+case _PaginationMetaModel() when $default != null:
 return $default(_that.total,_that.firstPage,_that.lastPage,_that.currentPage);case _:
   return orElse();
 
@@ -177,9 +177,9 @@ return $default(_that.total,_that.firstPage,_that.lastPage,_that.currentPage);ca
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'total')  int total, @JsonKey(name: 'first_page')  int firstPage, @JsonKey(name: 'last_page')  int lastPage, @JsonKey(name: 'current_page')  int currentPage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int total, @JsonKey(name: 'first_page')  int firstPage, @JsonKey(name: 'last_page')  int lastPage, @JsonKey(name: 'current_page')  int currentPage)  $default,) {final _that = this;
 switch (_that) {
-case _MetaModel():
+case _PaginationMetaModel():
 return $default(_that.total,_that.firstPage,_that.lastPage,_that.currentPage);case _:
   throw StateError('Unexpected subclass');
 
@@ -197,9 +197,9 @@ return $default(_that.total,_that.firstPage,_that.lastPage,_that.currentPage);ca
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'total')  int total, @JsonKey(name: 'first_page')  int firstPage, @JsonKey(name: 'last_page')  int lastPage, @JsonKey(name: 'current_page')  int currentPage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int total, @JsonKey(name: 'first_page')  int firstPage, @JsonKey(name: 'last_page')  int lastPage, @JsonKey(name: 'current_page')  int currentPage)?  $default,) {final _that = this;
 switch (_that) {
-case _MetaModel() when $default != null:
+case _PaginationMetaModel() when $default != null:
 return $default(_that.total,_that.firstPage,_that.lastPage,_that.currentPage);case _:
   return null;
 
@@ -211,29 +211,29 @@ return $default(_that.total,_that.firstPage,_that.lastPage,_that.currentPage);ca
 /// @nodoc
 @JsonSerializable()
 
-class _MetaModel implements MetaModel {
-  const _MetaModel({@JsonKey(name: 'total') required this.total, @JsonKey(name: 'first_page') required this.firstPage, @JsonKey(name: 'last_page') required this.lastPage, @JsonKey(name: 'current_page') required this.currentPage});
-  factory _MetaModel.fromJson(Map<String, dynamic> json) => _$MetaModelFromJson(json);
+class _PaginationMetaModel extends PaginationMetaModel {
+  const _PaginationMetaModel({required this.total, @JsonKey(name: 'first_page') required this.firstPage, @JsonKey(name: 'last_page') required this.lastPage, @JsonKey(name: 'current_page') required this.currentPage}): super._();
+  factory _PaginationMetaModel.fromJson(Map<String, dynamic> json) => _$PaginationMetaModelFromJson(json);
 
-@override@JsonKey(name: 'total') final  int total;
+@override final  int total;
 @override@JsonKey(name: 'first_page') final  int firstPage;
 @override@JsonKey(name: 'last_page') final  int lastPage;
 @override@JsonKey(name: 'current_page') final  int currentPage;
 
-/// Create a copy of MetaModel
+/// Create a copy of PaginationMetaModel
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$MetaModelCopyWith<_MetaModel> get copyWith => __$MetaModelCopyWithImpl<_MetaModel>(this, _$identity);
+_$PaginationMetaModelCopyWith<_PaginationMetaModel> get copyWith => __$PaginationMetaModelCopyWithImpl<_PaginationMetaModel>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$MetaModelToJson(this, );
+  return _$PaginationMetaModelToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MetaModel&&(identical(other.total, total) || other.total == total)&&(identical(other.firstPage, firstPage) || other.firstPage == firstPage)&&(identical(other.lastPage, lastPage) || other.lastPage == lastPage)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaginationMetaModel&&(identical(other.total, total) || other.total == total)&&(identical(other.firstPage, firstPage) || other.firstPage == firstPage)&&(identical(other.lastPage, lastPage) || other.lastPage == lastPage)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -242,18 +242,18 @@ int get hashCode => Object.hash(runtimeType,total,firstPage,lastPage,currentPage
 
 @override
 String toString() {
-  return 'MetaModel(total: $total, firstPage: $firstPage, lastPage: $lastPage, currentPage: $currentPage)';
+  return 'PaginationMetaModel(total: $total, firstPage: $firstPage, lastPage: $lastPage, currentPage: $currentPage)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$MetaModelCopyWith<$Res> implements $MetaModelCopyWith<$Res> {
-  factory _$MetaModelCopyWith(_MetaModel value, $Res Function(_MetaModel) _then) = __$MetaModelCopyWithImpl;
+abstract mixin class _$PaginationMetaModelCopyWith<$Res> implements $PaginationMetaModelCopyWith<$Res> {
+  factory _$PaginationMetaModelCopyWith(_PaginationMetaModel value, $Res Function(_PaginationMetaModel) _then) = __$PaginationMetaModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'total') int total,@JsonKey(name: 'first_page') int firstPage,@JsonKey(name: 'last_page') int lastPage,@JsonKey(name: 'current_page') int currentPage
+ int total,@JsonKey(name: 'first_page') int firstPage,@JsonKey(name: 'last_page') int lastPage,@JsonKey(name: 'current_page') int currentPage
 });
 
 
@@ -261,17 +261,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$MetaModelCopyWithImpl<$Res>
-    implements _$MetaModelCopyWith<$Res> {
-  __$MetaModelCopyWithImpl(this._self, this._then);
+class __$PaginationMetaModelCopyWithImpl<$Res>
+    implements _$PaginationMetaModelCopyWith<$Res> {
+  __$PaginationMetaModelCopyWithImpl(this._self, this._then);
 
-  final _MetaModel _self;
-  final $Res Function(_MetaModel) _then;
+  final _PaginationMetaModel _self;
+  final $Res Function(_PaginationMetaModel) _then;
 
-/// Create a copy of MetaModel
+/// Create a copy of PaginationMetaModel
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? total = null,Object? firstPage = null,Object? lastPage = null,Object? currentPage = null,}) {
-  return _then(_MetaModel(
+  return _then(_PaginationMetaModel(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,firstPage: null == firstPage ? _self.firstPage : firstPage // ignore: cast_nullable_to_non_nullable
 as int,lastPage: null == lastPage ? _self.lastPage : lastPage // ignore: cast_nullable_to_non_nullable

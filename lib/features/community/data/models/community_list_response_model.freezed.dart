@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CommunityListResponseModel {
 
-@JsonKey(name: 'meta') MetaModel get meta;@JsonKey(name: 'data') List<CommunityListModel> get data;
+@JsonKey(name: 'meta') PaginationMetaModel get meta;@JsonKey(name: 'data') List<CommunityListModel> get data;
 /// Create a copy of CommunityListResponseModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,11 +48,11 @@ abstract mixin class $CommunityListResponseModelCopyWith<$Res>  {
   factory $CommunityListResponseModelCopyWith(CommunityListResponseModel value, $Res Function(CommunityListResponseModel) _then) = _$CommunityListResponseModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'meta') MetaModel meta,@JsonKey(name: 'data') List<CommunityListModel> data
+@JsonKey(name: 'meta') PaginationMetaModel meta,@JsonKey(name: 'data') List<CommunityListModel> data
 });
 
 
-$MetaModelCopyWith<$Res> get meta;
+$PaginationMetaModelCopyWith<$Res> get meta;
 
 }
 /// @nodoc
@@ -68,7 +68,7 @@ class _$CommunityListResponseModelCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? meta = null,Object? data = null,}) {
   return _then(_self.copyWith(
 meta: null == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
-as MetaModel,data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as PaginationMetaModel,data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as List<CommunityListModel>,
   ));
 }
@@ -76,9 +76,9 @@ as List<CommunityListModel>,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$MetaModelCopyWith<$Res> get meta {
+$PaginationMetaModelCopyWith<$Res> get meta {
   
-  return $MetaModelCopyWith<$Res>(_self.meta, (value) {
+  return $PaginationMetaModelCopyWith<$Res>(_self.meta, (value) {
     return _then(_self.copyWith(meta: value));
   });
 }
@@ -163,7 +163,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'meta')  MetaModel meta, @JsonKey(name: 'data')  List<CommunityListModel> data)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'meta')  PaginationMetaModel meta, @JsonKey(name: 'data')  List<CommunityListModel> data)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CommunityListResponseModel() when $default != null:
 return $default(_that.meta,_that.data);case _:
@@ -184,7 +184,7 @@ return $default(_that.meta,_that.data);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'meta')  MetaModel meta, @JsonKey(name: 'data')  List<CommunityListModel> data)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'meta')  PaginationMetaModel meta, @JsonKey(name: 'data')  List<CommunityListModel> data)  $default,) {final _that = this;
 switch (_that) {
 case _CommunityListResponseModel():
 return $default(_that.meta,_that.data);case _:
@@ -204,7 +204,7 @@ return $default(_that.meta,_that.data);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'meta')  MetaModel meta, @JsonKey(name: 'data')  List<CommunityListModel> data)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'meta')  PaginationMetaModel meta, @JsonKey(name: 'data')  List<CommunityListModel> data)?  $default,) {final _that = this;
 switch (_that) {
 case _CommunityListResponseModel() when $default != null:
 return $default(_that.meta,_that.data);case _:
@@ -222,7 +222,7 @@ class _CommunityListResponseModel implements CommunityListResponseModel {
   const _CommunityListResponseModel({@JsonKey(name: 'meta') required this.meta, @JsonKey(name: 'data') required final  List<CommunityListModel> data}): _data = data;
   factory _CommunityListResponseModel.fromJson(Map<String, dynamic> json) => _$CommunityListResponseModelFromJson(json);
 
-@override@JsonKey(name: 'meta') final  MetaModel meta;
+@override@JsonKey(name: 'meta') final  PaginationMetaModel meta;
  final  List<CommunityListModel> _data;
 @override@JsonKey(name: 'data') List<CommunityListModel> get data {
   if (_data is EqualUnmodifiableListView) return _data;
@@ -264,11 +264,11 @@ abstract mixin class _$CommunityListResponseModelCopyWith<$Res> implements $Comm
   factory _$CommunityListResponseModelCopyWith(_CommunityListResponseModel value, $Res Function(_CommunityListResponseModel) _then) = __$CommunityListResponseModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'meta') MetaModel meta,@JsonKey(name: 'data') List<CommunityListModel> data
+@JsonKey(name: 'meta') PaginationMetaModel meta,@JsonKey(name: 'data') List<CommunityListModel> data
 });
 
 
-@override $MetaModelCopyWith<$Res> get meta;
+@override $PaginationMetaModelCopyWith<$Res> get meta;
 
 }
 /// @nodoc
@@ -284,7 +284,7 @@ class __$CommunityListResponseModelCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? meta = null,Object? data = null,}) {
   return _then(_CommunityListResponseModel(
 meta: null == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
-as MetaModel,data: null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as PaginationMetaModel,data: null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
 as List<CommunityListModel>,
   ));
 }
@@ -293,9 +293,9 @@ as List<CommunityListModel>,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$MetaModelCopyWith<$Res> get meta {
+$PaginationMetaModelCopyWith<$Res> get meta {
   
-  return $MetaModelCopyWith<$Res>(_self.meta, (value) {
+  return $PaginationMetaModelCopyWith<$Res>(_self.meta, (value) {
     return _then(_self.copyWith(meta: value));
   });
 }

@@ -35,7 +35,7 @@ class EngagementBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: onLike,
+            onLongPress: onLike,
             child: Row(
               children: [
                 userReaction != null
