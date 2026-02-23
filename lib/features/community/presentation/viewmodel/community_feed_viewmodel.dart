@@ -1,5 +1,5 @@
+import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/core/constants/api.dart';
-import 'package:ezycourse_community/core/services/network_service.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/community/data/repositories/community_feed_repository.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
@@ -38,9 +38,10 @@ class FeedState {
 /// ViewModel for managing feed list state
 class FeedViewModel extends StateNotifier<FeedState> {
   final CommunityRepository _repository;
-  final TokenStorageService _tokenStorageService = TokenStorageService();
+  final TokenStorageService _tokenStorageService;
 
-  FeedViewModel(this._repository) : super(const FeedState());
+  FeedViewModel(this._repository, this._tokenStorageService)
+      : super(const FeedState());
 
   void resetFeed() {
     state = const FeedState();
@@ -84,5 +85,8 @@ class FeedViewModel extends StateNotifier<FeedState> {
 /// Provider for FeedViewModel - AutoDispose to clear state when screen is disposed
 final feedViewModelProvider =
     StateNotifierProvider.autoDispose<FeedViewModel, FeedState>((ref) {
-      return FeedViewModel(CommunityRepository(NetworkService()));
+      return FeedViewModel(
+        serviceLocator<CommunityRepository>(),
+        serviceLocator<TokenStorageService>(),
+      );
     });

@@ -1,5 +1,5 @@
+import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/core/constants/api.dart';
-import 'package:ezycourse_community/core/services/network_service.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/community/data/repositories/community_channel_repository.dart';
 import 'package:ezycourse_community/features/community/domain/entities/community_channel_entity.dart';
@@ -31,9 +31,9 @@ class CommunityChannelState {
 }
 
 class CommunityChannelViewmodel extends StateNotifier<CommunityChannelState> {
-  final TokenStorageService tokenStorageService = TokenStorageService();
+  final TokenStorageService _tokenStorageService;
   final CommunityChannelRepository communityChannelRepository;
-  CommunityChannelViewmodel(this.communityChannelRepository)
+  CommunityChannelViewmodel(this.communityChannelRepository, this._tokenStorageService)
     : super(const CommunityChannelState());
 
   void resetChannel() {
@@ -45,7 +45,7 @@ class CommunityChannelViewmodel extends StateNotifier<CommunityChannelState> {
     state = state.copyWith(isLoading: true, clearError: true);
 
     try {
-      final token = await tokenStorageService.getToken();
+      final token = await _tokenStorageService.getToken();
       final communityChannelUrl = ApiEndpoints.channelList(communityId);
       final channels = await communityChannelRepository.fetchCommunityChannels(
         url: communityChannelUrl,
@@ -62,5 +62,8 @@ class CommunityChannelViewmodel extends StateNotifier<CommunityChannelState> {
 
 /// Provider - AutoDispose to clear state when screen is disposed
 final communityChannelViewmodelProvider = StateNotifierProvider.autoDispose<CommunityChannelViewmodel, CommunityChannelState>((ref){
-  return CommunityChannelViewmodel(CommunityChannelRepository(NetworkService()));
+  return CommunityChannelViewmodel(
+    serviceLocator<CommunityChannelRepository>(),
+    serviceLocator<TokenStorageService>(),
+  );
 });

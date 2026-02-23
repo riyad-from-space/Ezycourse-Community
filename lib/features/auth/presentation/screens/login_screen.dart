@@ -1,11 +1,10 @@
+import 'package:ezycourse_community/app/di/injection.dart';
+import 'package:ezycourse_community/app/router/route_path.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/auth/presentation/viewmodel/auth_viewmodel.dart';
-import 'package:ezycourse_community/features/community/presentation/screens/community_list_screen.dart';
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -18,9 +17,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final _storageService = TokenStorageService();
+  final _storageService = serviceLocator<TokenStorageService>();
   bool rememberMe = false;
-  bool _isLoading = true;
   bool obscurePassword = true;
 
   @override
@@ -39,7 +37,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           passwordController.text = credentials['password'] ?? '';
           rememberMe = true;
         }
-        _isLoading = false;
       });
     }
     print('Loaded credentials: $credentials');
@@ -82,6 +79,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (mounted) {
         final authState = ref.read(authViewModelProvider);
 
+        if (authState.errorMessage != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(authState.errorMessage!),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+          return;
+        }
+
         if (authState.isAuthenticated && authState.token != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -90,16 +98,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               duration: Duration(seconds: 2),
             ),
           );
-          
+
           await _storageService.saveCredentials(
             emailController.text.trim(),
             passwordController.text,
             rememberMe,
           );
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => CommunityListScreen()),
-            (route) => false,
-          );
+          context.pushReplacementNamed(RoutePathName.community);
         }
       }
     }

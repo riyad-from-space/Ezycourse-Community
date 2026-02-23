@@ -1,7 +1,9 @@
+import 'package:ezycourse_community/app/router/route_path.dart';
 import 'package:ezycourse_community/features/community/domain/entities/community_list_entity.dart';
 import 'package:ezycourse_community/features/community/presentation/screens/community_feed_screen.dart';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CommunityListCard extends StatelessWidget {
   final List<CommunityListEntity> communities;
@@ -27,10 +29,9 @@ class CommunityListCard extends StatelessWidget {
         final community = communities[index];
         return InkWell(
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => FeedScreen(communityId: community.id),
-              ),
+            context.pushNamed(
+              RoutePathName.feedScreen,
+              pathParameters: {'communityId': community.id.toString()},
             );
           },
           child: Card(

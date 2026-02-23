@@ -1,4 +1,4 @@
-import 'package:ezycourse_community/core/services/network_service.dart';
+import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/community/data/repositories/create_post_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,8 +24,9 @@ class CreatePostState {
 
 class CreatePostViewmodel extends StateNotifier<CreatePostState> {
   final CreatePostRepository createPostRepository;
-  final TokenStorageService tokenStorageService = TokenStorageService();
-  CreatePostViewmodel(this.createPostRepository) : super(CreatePostState());
+  final TokenStorageService _tokenStorageService;
+  CreatePostViewmodel(this.createPostRepository, this._tokenStorageService)
+      : super(const CreatePostState());
 
   Future<void> createPost({
     required String postText,
@@ -33,7 +34,7 @@ class CreatePostViewmodel extends StateNotifier<CreatePostState> {
     required int communityId,
   }) async {
     if (state.isLoading) return;
-    final token = await tokenStorageService.getToken();
+    final token = await _tokenStorageService.getToken();
     await createPostRepository.createPost(
       postText: postText,
       token: token,
@@ -47,5 +48,8 @@ class CreatePostViewmodel extends StateNotifier<CreatePostState> {
 
 final createPostViewmodelProvider =
     StateNotifierProvider<CreatePostViewmodel, CreatePostState>((ref) {
-      return CreatePostViewmodel(CreatePostRepository(NetworkService()));
+      return CreatePostViewmodel(
+        serviceLocator<CreatePostRepository>(),
+        serviceLocator<TokenStorageService>(),
+      );
     });

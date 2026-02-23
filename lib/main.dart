@@ -1,32 +1,35 @@
+import 'package:ezycourse_community/app/di/injection.dart';
+import 'package:ezycourse_community/app/router/app_router.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
-import 'package:ezycourse_community/features/auth/presentation/screens/login_screen.dart';
-import 'package:ezycourse_community/features/community/presentation/screens/community_list_screen.dart';
-import 'package:ezycourse_community/features/community/presentation/screens/community_feed_screen.dart';
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final tokenStorageService = TokenStorageService();
+
+  // 1. Register all dependencies (NetworkService, Repositories, UseCases, etc.)
+  await configureDependencies();
+
+  // 2. Check token and init router
+  final tokenStorageService = serviceLocator<TokenStorageService>();
   final hasToken = await tokenStorageService.hasToken();
-  runApp(ProviderScope(child: MyApp(isLoggedIn: hasToken)));
+  AppRouter.init(isLoggedIn: hasToken);
+
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  final bool isLoggedIn;
-  const MyApp({super.key, required this.isLoggedIn});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: isLoggedIn ? CommunityListScreen() : LoginScreen(),
+      routerConfig: AppRouter.router,
     );
   }
 }

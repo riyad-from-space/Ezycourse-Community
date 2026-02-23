@@ -1,5 +1,5 @@
+import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/core/constants/api.dart';
-import 'package:ezycourse_community/core/services/network_service.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/community/data/repositories/feed_comment_repositoty.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_comment_entity.dart';
@@ -30,14 +30,15 @@ class FeedCommentState {
 }
 
 class FeedCommentViewmodel extends StateNotifier<FeedCommentState> {
-  final TokenStorageService tokenStorageService = TokenStorageService();
+  final TokenStorageService _tokenStorageService;
   final FeedCommentRepository feedCommentRepository;
-  FeedCommentViewmodel(this.feedCommentRepository) : super(FeedCommentState());
+  FeedCommentViewmodel(this.feedCommentRepository, this._tokenStorageService)
+      : super(FeedCommentState());
 
   Future<void> fetchFeedComments({required int feedId}) async {
     try {
       if (state.isLoading) return;
-      final token = await tokenStorageService.getToken();
+      final token = await _tokenStorageService.getToken();
       if (token == null) {
         state = state.copyWith(errorMessage: "User not authenticated");
         return;
@@ -57,7 +58,8 @@ class FeedCommentViewmodel extends StateNotifier<FeedCommentState> {
 }
 
 final feedCommentViewmodelProvider = StateNotifierProvider((ref) {
-return FeedCommentViewmodel(
-    FeedCommentRepository(NetworkService())
+  return FeedCommentViewmodel(
+    serviceLocator<FeedCommentRepository>(),
+    serviceLocator<TokenStorageService>(),
   );
 });

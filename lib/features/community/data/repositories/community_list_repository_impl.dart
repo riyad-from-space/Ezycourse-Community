@@ -5,7 +5,7 @@ import 'package:ezycourse_community/features/community/domain/entities/community
 import 'package:ezycourse_community/features/community/domain/repositories/community_list_repository.dart';
 
 class CommunityListRepositoryImpl implements CommunityListRepository {
-  final CommunitRemoteDatasource remoteDatasource;
+  final CommunityRemoteDatasource remoteDatasource;
   CommunityListRepositoryImpl(this.remoteDatasource);
 
   @override
@@ -14,17 +14,13 @@ class CommunityListRepositoryImpl implements CommunityListRepository {
     required int page,
     required int limit,
   }) async {
-    try {
-      final url = ApiEndpoints.communityList(page, limit);
-      final CommunityListResponseModel response = await remoteDatasource.getEnrolledCommunities(
-        token: token,
-        url: url,
-      );
+    final url = ApiEndpoints.communityList(page, limit);
+    final CommunityListResponseModel response =
+        await remoteDatasource.getEnrolledCommunities(
+      token: token,
+      url: url,
+    );
 
-      // Convert all communities from the response data
-      return response.data.map((e) => e.toEntity()).toList();
-    } catch (e) {
-      rethrow;
-    }
+    return response.data.map((e) => e.toEntity()).toList();
   }
 }

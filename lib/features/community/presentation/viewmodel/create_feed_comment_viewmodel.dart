@@ -1,4 +1,4 @@
-import 'package:ezycourse_community/core/services/network_service.dart';
+import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/community/data/repositories/create_feed_comment_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,8 +23,9 @@ class CreateFeedCommentState {
 
 class CreateFeedCommentViewmodel extends StateNotifier<CreateFeedCommentState> {
   final CreateFeedCommentRepository createFeedCommentRepository;
-  final TokenStorageService tokenStorageService = TokenStorageService();
-  CreateFeedCommentViewmodel(this.createFeedCommentRepository) : super(CreateFeedCommentState());
+  final TokenStorageService _tokenStorageService;
+  CreateFeedCommentViewmodel(this.createFeedCommentRepository, this._tokenStorageService)
+      : super(const CreateFeedCommentState());
 
   Future<void> createFeedComment({
     required String commentText,
@@ -34,7 +35,7 @@ class CreateFeedCommentViewmodel extends StateNotifier<CreateFeedCommentState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
-      final token = await tokenStorageService.getToken();
+      final token = await _tokenStorageService.getToken();
       await createFeedCommentRepository.createFeedComment(
         commentText: commentText,
         token: token,
@@ -51,5 +52,8 @@ class CreateFeedCommentViewmodel extends StateNotifier<CreateFeedCommentState> {
 
 final createFeedCommentViewmodelProvider =
     StateNotifierProvider<CreateFeedCommentViewmodel, CreateFeedCommentState>((ref) {
-      return CreateFeedCommentViewmodel(CreateFeedCommentRepository(NetworkService()));
+      return CreateFeedCommentViewmodel(
+        serviceLocator<CreateFeedCommentRepository>(),
+        serviceLocator<TokenStorageService>(),
+      );
     });

@@ -1,7 +1,5 @@
-import 'package:ezycourse_community/core/services/network_service.dart';
+import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
-import 'package:ezycourse_community/features/community/data/datasources/community_remote_datasource_impl.dart';
-import 'package:ezycourse_community/features/community/data/repositories/community_list_repository_impl.dart';
 import 'package:ezycourse_community/features/community/domain/entities/community_list_entity.dart';
 import 'package:ezycourse_community/features/community/domain/usecases/community_list_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,11 +41,12 @@ class CommunityListState {
 /// ViewModel for managing feed list state
 class CommunityListViewModel extends StateNotifier<CommunityListState> {
   final GetEnrolledCommunityUseCase _useCase;
-  final TokenStorageService _tokenStorageService = TokenStorageService();
+  final TokenStorageService _tokenStorageService;
 
   static const int _pageSize = 10;
 
-  CommunityListViewModel(this._useCase) : super(const CommunityListState());
+  CommunityListViewModel(this._useCase, this._tokenStorageService)
+      : super(const CommunityListState());
 
   /// Fetch community list from API
   Future<void> fetchCommunityList() async {
@@ -97,10 +96,7 @@ final communityListViewModelProvider =
       CommunityListState
     >((ref) {
       return CommunityListViewModel(
-        GetEnrolledCommunityUseCase(
-          CommunityListRepositoryImpl(
-            CommunityRemoteDatasourceImpl(NetworkService()),
-          ),
-        ),
+        serviceLocator<GetEnrolledCommunityUseCase>(),
+        serviceLocator<TokenStorageService>(),
       );
     });

@@ -1,16 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:ezycourse_community/core/errors/app_exception.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-class NetworkException implements Exception {
-  final String message;
-  final int? statusCode;
-  NetworkException(this.message, [this.statusCode]);
-
-  @override
-  String toString() => message;
-}
 
 class NetworkService {
   NetworkService();
@@ -34,22 +27,22 @@ class NetworkService {
             headers: defaultHeaders,
             body: jsonEncode(body ?? {}),
           )
-          .timeout(
-            const Duration(seconds: 30),
-            onTimeout: () => throw NetworkException("Request timeout"),
-          );
+          .timeout(const Duration(seconds: 30));
 
       return response;
     } on SocketException {
-      throw NetworkException("No internet connection");
+      throw const AppException('No internet connection');
+    } on TimeoutException {
+      throw const AppException('Request timeout. Please try again');
     } on HttpException {
-      throw NetworkException("Server error");
+      throw const AppException('Server error');
     } catch (e) {
-      throw NetworkException("Unexpected error: ${e.toString()}");
+      if (e is AppException) rethrow;
+      throw AppException('Unexpected error: ${e.toString()}');
     }
   }
 
-  Future<dynamic> get({
+  Future<http.Response> get({
     String? token,
     Map<String, String>? headers,
     required String url,
@@ -63,14 +56,18 @@ class NetworkService {
       };
       final response = await http
           .get(uriUrl, headers: defaultHeaders)
-          .timeout(
-            const Duration(seconds: 30),
-            onTimeout: () => throw NetworkException("Request timeout"),
-          );
+          .timeout(const Duration(seconds: 30));
 
       return response;
+    } on SocketException {
+      throw const AppException('No internet connection');
+    } on TimeoutException {
+      throw const AppException('Request timeout. Please try again');
+    } on HttpException {
+      throw const AppException('Server error');
     } catch (e) {
-      throw NetworkException("Unexpected error: ${e.toString()}");
+      if (e is AppException) rethrow;
+      throw AppException('Unexpected error: ${e.toString()}');
     }
   }
 }
