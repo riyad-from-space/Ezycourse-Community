@@ -39,7 +39,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         }
       });
     }
-    print('Loaded credentials: $credentials');
   }
 
   @override

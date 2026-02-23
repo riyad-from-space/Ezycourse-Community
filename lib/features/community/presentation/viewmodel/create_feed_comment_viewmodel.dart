@@ -1,6 +1,6 @@
 import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
-import 'package:ezycourse_community/features/community/data/repositories/create_feed_comment_repository.dart';
+import 'package:ezycourse_community/features/community/domain/usecases/create_feed_comment_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CreateFeedCommentState {
@@ -21,10 +21,12 @@ class CreateFeedCommentState {
   }
 }
 
-class CreateFeedCommentViewmodel extends StateNotifier<CreateFeedCommentState> {
-  final CreateFeedCommentRepository createFeedCommentRepository;
+class CreateFeedCommentViewmodel
+    extends StateNotifier<CreateFeedCommentState> {
+  final CreateFeedCommentUseCase _useCase;
   final TokenStorageService _tokenStorageService;
-  CreateFeedCommentViewmodel(this.createFeedCommentRepository, this._tokenStorageService)
+
+  CreateFeedCommentViewmodel(this._useCase, this._tokenStorageService)
       : super(const CreateFeedCommentState());
 
   Future<void> createFeedComment({
@@ -36,24 +38,25 @@ class CreateFeedCommentViewmodel extends StateNotifier<CreateFeedCommentState> {
 
     try {
       final token = await _tokenStorageService.getToken();
-      await createFeedCommentRepository.createFeedComment(
-        commentText: commentText,
-        token: token,
-        feedId: feedId,
+      await _useCase.call(
+        CreateFeedCommentUseCaseParams(
+          commentText: commentText,
+          token: token,
+          feedId: feedId,
+        ),
       );
-      print('Comment created for feed ID: $feedId');
       state = state.copyWith(isLoading: false);
     } catch (e) {
-      print('Error creating comment: $e');
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
 }
 
 final createFeedCommentViewmodelProvider =
-    StateNotifierProvider<CreateFeedCommentViewmodel, CreateFeedCommentState>((ref) {
-      return CreateFeedCommentViewmodel(
-        serviceLocator<CreateFeedCommentRepository>(),
-        serviceLocator<TokenStorageService>(),
-      );
-    });
+    StateNotifierProvider<CreateFeedCommentViewmodel, CreateFeedCommentState>(
+        (ref) {
+  return CreateFeedCommentViewmodel(
+    serviceLocator<CreateFeedCommentUseCase>(),
+    serviceLocator<TokenStorageService>(),
+  );
+});

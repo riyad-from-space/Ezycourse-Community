@@ -1,8 +1,7 @@
 import 'package:ezycourse_community/app/di/injection.dart';
-import 'package:ezycourse_community/core/constants/api.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
-import 'package:ezycourse_community/features/community/data/repositories/community_channel_repository.dart';
 import 'package:ezycourse_community/features/community/domain/entities/community_channel_entity.dart';
+import 'package:ezycourse_community/features/community/domain/usecases/get_community_channels_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CommunityChannelState {
@@ -32,8 +31,9 @@ class CommunityChannelState {
 
 class CommunityChannelViewmodel extends StateNotifier<CommunityChannelState> {
   final TokenStorageService _tokenStorageService;
-  final CommunityChannelRepository communityChannelRepository;
-  CommunityChannelViewmodel(this.communityChannelRepository, this._tokenStorageService)
+  final GetCommunityChannelsUseCase _useCase;
+
+  CommunityChannelViewmodel(this._useCase, this._tokenStorageService)
     : super(const CommunityChannelState());
 
   void resetChannel() {
@@ -46,10 +46,16 @@ class CommunityChannelViewmodel extends StateNotifier<CommunityChannelState> {
 
     try {
       final token = await _tokenStorageService.getToken();
-      final communityChannelUrl = ApiEndpoints.channelList(communityId);
-      final channels = await communityChannelRepository.fetchCommunityChannels(
-        url: communityChannelUrl,
-        token: token!,
+
+      if (token == null || token.isEmpty) {
+        throw Exception('No authentication token found');
+      }
+
+      final channels = await _useCase.call(
+        GetCommunityChannelsUseCaseParams(
+          token: token,
+          communityId: communityId,
+        ),
       );
 
       state = state.copyWith(isLoading: false, channels: channels);
@@ -57,13 +63,13 @@ class CommunityChannelViewmodel extends StateNotifier<CommunityChannelState> {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
-
 }
 
 /// Provider - AutoDispose to clear state when screen is disposed
-final communityChannelViewmodelProvider = StateNotifierProvider.autoDispose<CommunityChannelViewmodel, CommunityChannelState>((ref){
+final communityChannelViewmodelProvider = StateNotifierProvider.autoDispose<
+    CommunityChannelViewmodel, CommunityChannelState>((ref) {
   return CommunityChannelViewmodel(
-    serviceLocator<CommunityChannelRepository>(),
+    serviceLocator<GetCommunityChannelsUseCase>(),
     serviceLocator<TokenStorageService>(),
   );
 });

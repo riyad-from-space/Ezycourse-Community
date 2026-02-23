@@ -1,6 +1,6 @@
 import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
-import 'package:ezycourse_community/features/auth/data/repositories/auth_repository.dart';
+import 'package:ezycourse_community/features/auth/domain/usecases/login_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthState {
@@ -33,19 +33,18 @@ class AuthState {
 }
 
 class AuthViewmodel extends StateNotifier<AuthState> {
-  final AuthRepository _authRepository;
+  final LoginUseCase _loginUseCase;
   final TokenStorageService _tokenStorageService;
 
-  AuthViewmodel(this._authRepository, this._tokenStorageService)
+  AuthViewmodel(this._loginUseCase, this._tokenStorageService)
       : super(const AuthState());
 
   Future<void> login({required String email, required String password}) async {
     state = state.copyWith(isLoading: true, clearError: true);
 
     try {
-      final result = await _authRepository.login(
-        email: email,
-        password: password,
+      final result = await _loginUseCase.call(
+        LoginUseCaseParams(email: email, password: password),
       );
 
       final token = result.token;
@@ -81,7 +80,7 @@ final authViewModelProvider = StateNotifierProvider<AuthViewmodel, AuthState>((
   ref,
 ) {
   return AuthViewmodel(
-    serviceLocator<AuthRepository>(),
+    serviceLocator<LoginUseCase>(),
     serviceLocator<TokenStorageService>(),
   );
 });

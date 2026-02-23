@@ -1,6 +1,6 @@
 import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
-import 'package:ezycourse_community/features/community/data/repositories/create_post_react_repository.dart';
+import 'package:ezycourse_community/features/community/domain/usecases/create_post_react_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CreatePostReactState {
@@ -8,10 +8,10 @@ class CreatePostReactState {
   final String? errorMessage;
 
   const CreatePostReactState({this.isLoading = false, this.errorMessage});
+
   CreatePostReactState copyWith({
     bool? isLoading,
     String? errorMessage,
-
     bool clearError = false,
   }) {
     return CreatePostReactState(
@@ -22,35 +22,41 @@ class CreatePostReactState {
 }
 
 class CreatePostReactViewmodel extends StateNotifier<CreatePostReactState> {
-  final CreatePostReactRepository createPostReactRepository;
+  final CreatePostReactUseCase _useCase;
   final TokenStorageService _tokenStorageService;
-  CreatePostReactViewmodel(this.createPostReactRepository, this._tokenStorageService)
+
+  CreatePostReactViewmodel(this._useCase, this._tokenStorageService)
     : super(const CreatePostReactState());
+
   Future<void> createPostReact({
     required int feedId,
     required String reactType,
   }) async {
     if (state.isLoading) return;
+    state = state.copyWith(isLoading: true, clearError: true);
 
-    final token = await _tokenStorageService.getToken();
-    await createPostReactRepository.createPostReact(
-      feedId: feedId,
-      reactType: reactType,
-      token: token,
-    );
-
-    print("Feed ID: $feedId, React Type: $reactType");
-
-    state = state.copyWith(isLoading: false);
+    try {
+      final token = await _tokenStorageService.getToken();
+      await _useCase.call(
+        CreatePostReactUseCaseParams(
+          feedId: feedId,
+          reactType: reactType,
+          token: token,
+        ),
+      );
+      state = state.copyWith(isLoading: false);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+    }
   }
 }
 
-final CreatePostReactViewmodelProvider =
+final createPostReactViewmodelProvider =
     StateNotifierProvider<CreatePostReactViewmodel, CreatePostReactState>((
       ref,
     ) {
       return CreatePostReactViewmodel(
-        serviceLocator<CreatePostReactRepository>(),
+        serviceLocator<CreatePostReactUseCase>(),
         serviceLocator<TokenStorageService>(),
       );
     });

@@ -16,7 +16,7 @@ class ChannelDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          DrawerHeader(child: Text("Commynity Channel")),
+          DrawerHeader(child: Text("Community Channel")),
           Expanded(
             child: ListView.builder(
               itemCount: channels.length,

@@ -1,11 +1,10 @@
 import 'package:ezycourse_community/features/community/domain/entities/community_list_entity.dart';
-import 'package:ezycourse_community/features/community/domain/repositories/community_list_repository.dart';
-
+import 'package:ezycourse_community/features/community/domain/repositories/community_repository.dart';
 
 class GetEnrolledCommunityUseCase {
   const GetEnrolledCommunityUseCase(this.repository);
 
-  final CommunityListRepository repository;
+  final CommunityRepository repository;
 
   Future<List<CommunityListEntity>> call(
     final GetEnrolledCommunityUseCaseParam params,
@@ -26,8 +25,6 @@ class GetEnrolledCommunityUseCaseParam {
   });
 
   final String token;
-
   final int page;
-
   final int limit;
 }

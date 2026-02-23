@@ -1,7 +1,5 @@
 import 'package:ezycourse_community/app/router/route_path.dart';
 import 'package:ezycourse_community/features/community/domain/entities/community_list_entity.dart';
-import 'package:ezycourse_community/features/community/presentation/screens/community_feed_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

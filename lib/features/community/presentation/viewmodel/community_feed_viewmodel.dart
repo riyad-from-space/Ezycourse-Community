@@ -1,8 +1,7 @@
 import 'package:ezycourse_community/app/di/injection.dart';
-import 'package:ezycourse_community/core/constants/api.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
-import 'package:ezycourse_community/features/community/data/repositories/community_feed_repository.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
+import 'package:ezycourse_community/features/community/domain/usecases/get_community_feeds_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for feed list
@@ -37,10 +36,10 @@ class FeedState {
 
 /// ViewModel for managing feed list state
 class FeedViewModel extends StateNotifier<FeedState> {
-  final CommunityRepository _repository;
+  final GetCommunityFeedsUseCase _useCase;
   final TokenStorageService _tokenStorageService;
 
-  FeedViewModel(this._repository, this._tokenStorageService)
+  FeedViewModel(this._useCase, this._tokenStorageService)
       : super(const FeedState());
 
   void resetFeed() {
@@ -57,16 +56,14 @@ class FeedViewModel extends StateNotifier<FeedState> {
         throw Exception('No authentication token found');
       }
 
-      print(communityId);
-      print(spaceId);
-      final communityUrl = ApiEndpoints.communityFeed(communityId, spaceId);
-
-      final newFeeds = await _repository.getFeedList(
-        token: token,
-        communityUrl: communityUrl,
+      final newFeeds = await _useCase.call(
+        GetCommunityFeedsUseCaseParams(
+          token: token,
+          communityId: communityId,
+          spaceId: spaceId,
+        ),
       );
 
-      // Update state with new feeds
       state = state.copyWith(
         isLoading: false,
         feeds: newFeeds,
@@ -86,7 +83,7 @@ class FeedViewModel extends StateNotifier<FeedState> {
 final feedViewModelProvider =
     StateNotifierProvider.autoDispose<FeedViewModel, FeedState>((ref) {
       return FeedViewModel(
-        serviceLocator<CommunityRepository>(),
+        serviceLocator<GetCommunityFeedsUseCase>(),
         serviceLocator<TokenStorageService>(),
       );
     });

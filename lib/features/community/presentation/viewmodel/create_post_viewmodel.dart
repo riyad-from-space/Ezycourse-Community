@@ -1,31 +1,38 @@
 import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
-import 'package:ezycourse_community/features/community/data/repositories/create_post_repository.dart';
+import 'package:ezycourse_community/features/community/domain/usecases/create_post_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CreatePostState {
   final bool isLoading;
+  final bool isSuccess;
   final String? errorMessage;
 
-  const CreatePostState({this.isLoading = false, this.errorMessage});
+  const CreatePostState({
+    this.isLoading = false,
+    this.isSuccess = false,
+    this.errorMessage,
+  });
 
   CreatePostState copyWith({
     bool? isLoading,
+    bool? isSuccess,
     String? errorMessage,
-
     bool clearError = false,
   }) {
     return CreatePostState(
       isLoading: isLoading ?? this.isLoading,
+      isSuccess: isSuccess ?? this.isSuccess,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
     );
   }
 }
 
 class CreatePostViewmodel extends StateNotifier<CreatePostState> {
-  final CreatePostRepository createPostRepository;
+  final CreatePostUseCase _useCase;
   final TokenStorageService _tokenStorageService;
-  CreatePostViewmodel(this.createPostRepository, this._tokenStorageService)
+
+  CreatePostViewmodel(this._useCase, this._tokenStorageService)
       : super(const CreatePostState());
 
   Future<void> createPost({
@@ -34,22 +41,29 @@ class CreatePostViewmodel extends StateNotifier<CreatePostState> {
     required int communityId,
   }) async {
     if (state.isLoading) return;
-    final token = await _tokenStorageService.getToken();
-    await createPostRepository.createPost(
-      postText: postText,
-      token: token,
-      spaceId: spaceId,
-      communityId: communityId,
-    );
-    print('Space ID: $spaceId, Community ID: $communityId');
-    state = state.copyWith(isLoading: false);
+    state = state.copyWith(isLoading: true, clearError: true);
+
+    try {
+      final token = await _tokenStorageService.getToken();
+      await _useCase.call(
+        CreatePostUseCaseParams(
+          postText: postText,
+          token: token,
+          spaceId: spaceId,
+          communityId: communityId,
+        ),
+      );
+      state = state.copyWith(isLoading: false, isSuccess: true);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+    }
   }
 }
 
 final createPostViewmodelProvider =
     StateNotifierProvider<CreatePostViewmodel, CreatePostState>((ref) {
       return CreatePostViewmodel(
-        serviceLocator<CreatePostRepository>(),
+        serviceLocator<CreatePostUseCase>(),
         serviceLocator<TokenStorageService>(),
       );
     });

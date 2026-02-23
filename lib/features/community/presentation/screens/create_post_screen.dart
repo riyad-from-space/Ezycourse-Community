@@ -75,7 +75,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final createPostState = ref.watch(createPostViewmodelProvider);
+    ref.watch(createPostViewmodelProvider);
 
     return Scaffold(
       appBar: AppBar(

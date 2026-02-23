@@ -63,7 +63,7 @@ class _FeedListState extends ConsumerState<FeedList> {
     try {
       // Call API to add reaction
       await ref
-          .read(CreatePostReactViewmodelProvider.notifier)
+          .read(createPostReactViewmodelProvider.notifier)
           .createPostReact(feedId: feed.id, reactType: reactionType);
 
       // Show success message
