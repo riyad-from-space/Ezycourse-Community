@@ -72,7 +72,7 @@ class _FeedCardState extends State<FeedCard> {
               _isExpanded = !_isExpanded;
             });
           },
-          child: Text(
+          child:widget.feed.feedText.isNotEmpty ? Text(
             widget.feed.feedText,
             style: const TextStyle(
               fontSize: 15,
@@ -80,7 +80,7 @@ class _FeedCardState extends State<FeedCard> {
             ),
             maxLines: _isExpanded ? null : 2,
             overflow: _isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-          ),
+          ) : const SizedBox.shrink(),
         ),
         const SizedBox(height: 8),
 

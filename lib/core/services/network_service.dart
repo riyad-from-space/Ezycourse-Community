@@ -8,6 +8,41 @@ import 'dart:convert';
 class NetworkService {
   NetworkService();
 
+  /// Sends a multipart POST request with files and text fields.
+  /// Used for uploading images/videos alongside form data.
+  Future<http.StreamedResponse> multipartPost({
+    required String url,
+    String? token,
+    required Map<String, String> fields,
+    required List<http.MultipartFile> files,
+  }) async {
+    try {
+      final request = http.MultipartRequest('POST', Uri.parse(url));
+
+      if (token != null) {
+        request.headers['Authorization'] = 'Bearer $token';
+      }
+
+      request.fields.addAll(fields);
+      request.files.addAll(files);
+
+      final response = await request.send().timeout(
+            const Duration(seconds: 120),
+          );
+
+      return response;
+    } on SocketException {
+      throw const AppException('No internet connection');
+    } on TimeoutException {
+      throw const AppException('Upload timeout. Please try again');
+    } on HttpException {
+      throw const AppException('Server error');
+    } catch (e) {
+      if (e is AppException) rethrow;
+      throw AppException('Unexpected error: ${e.toString()}');
+    }
+  }
+
   Future<http.Response> post({
     Map<String, String>? headers,
     Map<String, dynamic>? body,

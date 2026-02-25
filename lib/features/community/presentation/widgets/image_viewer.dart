@@ -1,4 +1,5 @@
 import 'package:ezycourse_community/features/community/domain/entities/feed_file_entity.dart';
+import 'package:ezycourse_community/features/community/presentation/widgets/feed_file_handler.dart';
 import 'package:flutter/material.dart';
 
 class ImageViewerScreen extends StatefulWidget {
@@ -57,28 +58,9 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
             child: InteractiveViewer(
               minScale: 0.5,
               maxScale: 4.0,
-              child: Image.network(
+              child: buildFeedImage(
                 widget.images[index].fileLoc,
                 fit: BoxFit.contain,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
-                      color: Colors.white,
-                    ),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) => const Center(
-                  child: Icon(
-                    Icons.broken_image,
-                    color: Colors.white,
-                    size: 64,
-                  ),
-                ),
               ),
             ),
           );

@@ -1,8 +1,9 @@
+import 'package:ezycourse_community/app/router/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ezycourse_community/features/auth/presentation/viewmodel/auth_viewmodel.dart';
-import 'package:ezycourse_community/features/auth/presentation/screens/login_screen.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/logout_dialog.dart';
+import 'package:go_router/go_router.dart';
 
 class BottomNavBar extends ConsumerWidget {
   final int currentIndex;
@@ -33,11 +34,9 @@ class BottomNavBar extends ConsumerWidget {
   ) async {
     if (index == 0) {
       onIndexChanged(0);
-      // ref.read(feedViewModelProvider.notifier).fetchFeeds();
+
       return;
     }
-
-    final navigator = Navigator.of(context);
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -50,10 +49,7 @@ class BottomNavBar extends ConsumerWidget {
       try {
         await ref.read(authViewModelProvider.notifier).logout();
 
-        navigator.pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => const LoginScreen()),
-          (route) => false,
-        );
+        context.pushReplacementNamed(RoutePathName.signIn);
       } catch (e) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

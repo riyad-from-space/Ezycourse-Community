@@ -4,6 +4,7 @@ import 'package:ezycourse_community/features/community/domain/entities/community
 import 'package:ezycourse_community/features/community/domain/entities/community_list_entity.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_comment_entity.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
+import 'package:ezycourse_community/features/community/domain/entities/gallery_item_entity.dart';
 import 'package:ezycourse_community/features/community/domain/repositories/community_repository.dart';
 
 class CommunityRepositoryImpl implements CommunityRepository {
@@ -57,19 +58,30 @@ class CommunityRepositoryImpl implements CommunityRepository {
     required String? token,
     required int spaceId,
     required int communityId,
+    List<Map<String, dynamic>>? files,
   }) async {
+    // Determine uploadType (matching reference implementation)
+    String uploadType;
+    if (files == null || files.isEmpty) {
+      uploadType = 'text';
+    } else {
+      final type = (files.first['type'] as String?) ?? 'files';
+      uploadType = type == 'image' ? 'photos' : type;
+    }
+
     final url = ApiEndpoints.createPost;
     final body = {
       "feed_txt": postText,
       "community_id": communityId,
       "space_id": spaceId,
-      "uploadType": "text",
+      "uploadType": uploadType,
       "activity_type": "group",
       "is_background": 0,
-      "files": [],
+      "files": files ?? [],
       "timezone": "Asia/Dhaka",
       "is_anonymous": 0,
     };
+
     await remoteDatasource.createPost(token: token, url: url, body: body);
   }
 
@@ -120,5 +132,34 @@ class CommunityRepositoryImpl implements CommunityRepository {
       url: url,
     );
     return models.map((m) => m.toEntity()).toList();
+  }
+
+  @override
+  Future<List<GalleryItemEntity>> getGalleryItems({
+    required String token,
+    required String fileType,
+  }) async {
+    final url = ApiEndpoints.galleryItems(fileType);
+    final models = await remoteDatasource.getGalleryItems(
+      token: token,
+      url: url,
+    );
+    return models.map((e) => e.toEntity()).toList();
+  }
+
+  @override
+  Future<void> uploadGalleryFile({
+    required String token,
+    required String filePath,
+    required String fileType,
+  }) async {
+    final url = fileType == 'video'
+        ? ApiEndpoints.uploadVideo
+        : ApiEndpoints.uploadImage;
+    await remoteDatasource.uploadGalleryFile(
+      token: token,
+      url: url,
+      filePath: filePath,
+    );
   }
 }

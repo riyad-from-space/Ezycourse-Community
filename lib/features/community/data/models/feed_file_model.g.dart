@@ -8,10 +8,10 @@ part of 'feed_file_model.dart';
 
 _FeedFileModel _$FeedFileModelFromJson(Map<String, dynamic> json) =>
     _FeedFileModel(
-      fileLoc: json['fileLoc'] as String,
-      fileName: json['originalName'] as String,
-      fileExt: json['extname'] as String,
-      fileType: json['type'] as String,
+      fileLoc: json['fileLoc'] as String? ?? '',
+      fileName: json['originalName'] as String? ?? '',
+      fileExt: json['extname'] as String? ?? '',
+      fileType: json['type'] as String? ?? '',
     );
 
 Map<String, dynamic> _$FeedFileModelToJson(_FeedFileModel instance) =>

@@ -2,6 +2,7 @@ import 'package:ezycourse_community/features/community/domain/entities/community
 import 'package:ezycourse_community/features/community/domain/entities/community_list_entity.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_comment_entity.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
+import 'package:ezycourse_community/features/community/domain/entities/gallery_item_entity.dart';
 
 abstract interface class CommunityRepository {
   Future<List<CommunityListEntity>> getEnrolledCommunities({
@@ -26,6 +27,7 @@ abstract interface class CommunityRepository {
     required final String? token,
     required final int spaceId,
     required final int communityId,
+    final List<Map<String, dynamic>>? files,
   });
 
   Future<void> createFeedComment({
@@ -43,5 +45,16 @@ abstract interface class CommunityRepository {
   Future<List<FeedCommentEntity>> getFeedComments({
     required final String token,
     required final int feedId,
+  });
+
+  Future<List<GalleryItemEntity>> getGalleryItems({
+    required final String token,
+    required final String fileType,
+  });
+
+  Future<void> uploadGalleryFile({
+    required final String token,
+    required final String filePath,
+    required final String fileType,
   });
 }

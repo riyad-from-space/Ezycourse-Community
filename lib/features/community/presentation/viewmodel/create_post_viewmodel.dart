@@ -39,6 +39,7 @@ class CreatePostViewmodel extends StateNotifier<CreatePostState> {
     required String postText,
     required int spaceId,
     required int communityId,
+    List<Map<String, dynamic>>? files,
   }) async {
     if (state.isLoading) return;
     state = state.copyWith(isLoading: true, clearError: true);
@@ -51,11 +52,13 @@ class CreatePostViewmodel extends StateNotifier<CreatePostState> {
           token: token,
           spaceId: spaceId,
           communityId: communityId,
+          files: files,
         ),
       );
       state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      rethrow;
     }
   }
 }

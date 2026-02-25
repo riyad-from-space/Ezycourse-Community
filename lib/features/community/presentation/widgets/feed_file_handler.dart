@@ -1,6 +1,53 @@
+import 'dart:io';
+
 import 'package:ezycourse_community/features/community/domain/entities/feed_file_entity.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/image_viewer.dart';
 import 'package:flutter/material.dart';
+
+Widget buildFeedImage(String fileLoc, {BoxFit fit = BoxFit.cover, double? width}) {
+  final isNetwork = fileLoc.startsWith('http');
+
+  if (isNetwork) {
+    return Image.network(
+      fileLoc,
+      width: width,
+      fit: fit,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Container(
+          height: 300,
+          color: Colors.grey[300],
+          child: Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
+              strokeWidth: 2,
+            ),
+          ),
+        );
+      },
+      errorBuilder: (context, error, stackTrace) => Container(
+        height: 300,
+        color: Colors.grey[300],
+        child: const Center(child: Icon(Icons.broken_image, color: Colors.red)),
+      ),
+    );
+  }
+
+  // Local file path
+  return Image.file(
+    File(fileLoc),
+    width: width,
+    fit: fit,
+    errorBuilder: (context, error, stackTrace) => Container(
+      height: 300,
+      color: Colors.grey[300],
+      child: const Center(child: Icon(Icons.broken_image, color: Colors.red)),
+    ),
+  );
+}
 
 class FeedFileHandler extends StatelessWidget {
   final List<FeedFileEntity> files;
@@ -20,33 +67,9 @@ class FeedFileHandler extends StatelessWidget {
           onTap: () => _openImageViewer(context, images, 0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.network(
+            child: buildFeedImage(
               images[0].fileLoc,
               width: double.infinity,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Container(
-                  height: 300,
-                  color: Colors.grey[300],
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
-                      strokeWidth: 2,
-                    ),
-                  ),
-                );
-              },
-              errorBuilder: (context, error, stackTrace) => Container(
-                height: 300,
-                color: Colors.grey[300],
-                child: const Center(
-                  child: Icon(Icons.broken_image, color: Colors.red),
-                ),
-              ),
             ),
           ),
         ),
@@ -65,7 +88,7 @@ class FeedFileHandler extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: displayCount,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 4,
             childAspectRatio: 1,
@@ -73,37 +96,13 @@ class FeedFileHandler extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final isLastItem = index == 3 && remainingCount > 0;
-            
+
             return GestureDetector(
               onTap: () => _openImageViewer(context, images, index),
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(
-                    images[index].fileLoc,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Container(
-                        color: Colors.grey[300],
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                : null,
-                            strokeWidth: 2,
-                          ),
-                        ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      color: Colors.grey[300],
-                      child: const Center(
-                        child: Icon(Icons.broken_image, color: Colors.red),
-                      ),
-                    ),
-                  ),
+                  buildFeedImage(images[index].fileLoc),
                   if (isLastItem)
                     Container(
                       color: Colors.black.withOpacity(0.6),
@@ -127,7 +126,8 @@ class FeedFileHandler extends StatelessWidget {
     );
   }
 
-  void _openImageViewer(BuildContext context, List<FeedFileEntity> images, int initialIndex) {
+  void _openImageViewer(
+      BuildContext context, List<FeedFileEntity> images, int initialIndex) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -139,4 +139,3 @@ class FeedFileHandler extends StatelessWidget {
     );
   }
 }
-

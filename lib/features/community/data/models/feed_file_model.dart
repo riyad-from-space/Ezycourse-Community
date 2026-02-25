@@ -13,10 +13,10 @@ abstract class FeedFileModel with _$FeedFileModel {
   const FeedFileModel._();
   
   const factory FeedFileModel({
-    @JsonKey(name: 'fileLoc') required String fileLoc,
-    @JsonKey(name: 'originalName') required String fileName,
-    @JsonKey(name: 'extname') required String fileExt,
-    @JsonKey(name: 'type') required String fileType,
+    @JsonKey(name: 'fileLoc') @Default('') String fileLoc,
+    @JsonKey(name: 'originalName') @Default('') String fileName,
+    @JsonKey(name: 'extname') @Default('') String fileExt,
+    @JsonKey(name: 'type') @Default('') String fileType,
   }) = _FeedFileModel;
 
   factory FeedFileModel.fromJson(Map<String, Object?> json) => _$FeedFileModelFromJson(json);

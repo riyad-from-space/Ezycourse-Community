@@ -212,7 +212,7 @@ return $default(_that.fileLoc,_that.fileName,_that.fileExt,_that.fileType);case 
 @JsonSerializable()
 
 class _FeedFileModel extends FeedFileModel {
-  const _FeedFileModel({@JsonKey(name: 'fileLoc') required this.fileLoc, @JsonKey(name: 'originalName') required this.fileName, @JsonKey(name: 'extname') required this.fileExt, @JsonKey(name: 'type') required this.fileType}): super._();
+  const _FeedFileModel({@JsonKey(name: 'fileLoc') this.fileLoc = '', @JsonKey(name: 'originalName') this.fileName = '', @JsonKey(name: 'extname') this.fileExt = '', @JsonKey(name: 'type') this.fileType = ''}): super._();
   factory _FeedFileModel.fromJson(Map<String, dynamic> json) => _$FeedFileModelFromJson(json);
 
 @override@JsonKey(name: 'fileLoc') final  String fileLoc;

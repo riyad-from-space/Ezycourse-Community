@@ -2,6 +2,7 @@ import 'package:ezycourse_community/features/community/data/models/community_cha
 import 'package:ezycourse_community/features/community/data/models/community_list_response_model.dart';
 import 'package:ezycourse_community/features/community/data/models/feed_comment_model.dart';
 import 'package:ezycourse_community/features/community/data/models/feed_model.dart';
+import 'package:ezycourse_community/features/community/data/models/gallery_item_model.dart';
 
 abstract interface class CommunityRemoteDatasource {
   Future<CommunityListResponseModel> getEnrolledCommunities({
@@ -40,5 +41,16 @@ abstract interface class CommunityRemoteDatasource {
   Future<List<FeedCommentModel>> getFeedComments({
     required final String token,
     required final String url,
+  });
+
+  Future<List<GalleryItemModel>> getGalleryItems({
+    required final String token,
+    required final String url,
+  });
+
+  Future<void> uploadGalleryFile({
+    required final String token,
+    required final String url,
+    required final String filePath,
   });
 }

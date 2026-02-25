@@ -33,8 +33,8 @@ abstract class FeedModel with _$FeedModel {
     //User's like/reaction
     @JsonKey(name:'like') final FeedLikeModel? like,
 
-    //Files 
-    @JsonKey(name:'files') required final List<FeedFileModel> files,
+    //Files
+    @JsonKey(name:'files') @Default([]) final List<FeedFileModel> files,
   }) = _FeedModel;
 
 

@@ -17,7 +17,7 @@ mixin _$FeedModel {
 
 @JsonKey(name: 'id') int get id;@JsonKey(name: 'school_id') int get schoolId;@JsonKey(name: 'community_id') int get communityId;@JsonKey(name: 'space_id') int get spaceId;@JsonKey(name: 'feed_txt') String get feedText;@JsonKey(name: 'name') String get userName;@JsonKey(name: 'pic') String get userPic;@JsonKey(name: 'created_at') DateTime get createdAt;//ENGAGEMENT FIELDS
 @JsonKey(name: 'like_count') int get likeCount;@JsonKey(name: 'comment_count') int get commentCount;@JsonKey(name: 'share_count') int get shareCount;//User's like/reaction
-@JsonKey(name: 'like') FeedLikeModel? get like;//Files 
+@JsonKey(name: 'like') FeedLikeModel? get like;//Files
 @JsonKey(name: 'files') List<FeedFileModel> get files;
 /// Create a copy of FeedModel
 /// with the given fields replaced by the non-null parameter values.
@@ -236,7 +236,7 @@ return $default(_that.id,_that.schoolId,_that.communityId,_that.spaceId,_that.fe
 @JsonSerializable()
 
 class _FeedModel extends FeedModel {
-  const _FeedModel({@JsonKey(name: 'id') required this.id, @JsonKey(name: 'school_id') required this.schoolId, @JsonKey(name: 'community_id') required this.communityId, @JsonKey(name: 'space_id') required this.spaceId, @JsonKey(name: 'feed_txt') required this.feedText, @JsonKey(name: 'name') required this.userName, @JsonKey(name: 'pic') required this.userPic, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'like_count') required this.likeCount, @JsonKey(name: 'comment_count') required this.commentCount, @JsonKey(name: 'share_count') required this.shareCount, @JsonKey(name: 'like') this.like, @JsonKey(name: 'files') required final  List<FeedFileModel> files}): _files = files,super._();
+  const _FeedModel({@JsonKey(name: 'id') required this.id, @JsonKey(name: 'school_id') required this.schoolId, @JsonKey(name: 'community_id') required this.communityId, @JsonKey(name: 'space_id') required this.spaceId, @JsonKey(name: 'feed_txt') required this.feedText, @JsonKey(name: 'name') required this.userName, @JsonKey(name: 'pic') required this.userPic, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'like_count') required this.likeCount, @JsonKey(name: 'comment_count') required this.commentCount, @JsonKey(name: 'share_count') required this.shareCount, @JsonKey(name: 'like') this.like, @JsonKey(name: 'files') final  List<FeedFileModel> files = const []}): _files = files,super._();
   factory _FeedModel.fromJson(Map<String, dynamic> json) => _$FeedModelFromJson(json);
 
 @override@JsonKey(name: 'id') final  int id;
@@ -253,9 +253,9 @@ class _FeedModel extends FeedModel {
 @override@JsonKey(name: 'share_count') final  int shareCount;
 //User's like/reaction
 @override@JsonKey(name: 'like') final  FeedLikeModel? like;
-//Files 
+//Files
  final  List<FeedFileModel> _files;
-//Files 
+//Files
 @override@JsonKey(name: 'files') List<FeedFileModel> get files {
   if (_files is EqualUnmodifiableListView) return _files;
   // ignore: implicit_dynamic_type

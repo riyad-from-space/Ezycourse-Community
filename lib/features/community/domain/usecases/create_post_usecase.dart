@@ -11,6 +11,7 @@ class CreatePostUseCase {
       token: params.token,
       spaceId: params.spaceId,
       communityId: params.communityId,
+      files: params.files,
     );
   }
 }
@@ -21,10 +22,12 @@ class CreatePostUseCaseParams {
     required this.token,
     required this.spaceId,
     required this.communityId,
+    this.files,
   });
 
   final String postText;
   final String? token;
   final int spaceId;
   final int communityId;
+  final List<Map<String, dynamic>>? files;
 }

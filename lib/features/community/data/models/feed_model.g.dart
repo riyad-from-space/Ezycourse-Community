@@ -21,9 +21,11 @@ _FeedModel _$FeedModelFromJson(Map<String, dynamic> json) => _FeedModel(
   like: json['like'] == null
       ? null
       : FeedLikeModel.fromJson(json['like'] as Map<String, dynamic>),
-  files: (json['files'] as List<dynamic>)
-      .map((e) => FeedFileModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  files:
+      (json['files'] as List<dynamic>?)
+          ?.map((e) => FeedFileModel.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
 );
 
 Map<String, dynamic> _$FeedModelToJson(_FeedModel instance) =>
