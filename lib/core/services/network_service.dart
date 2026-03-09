@@ -8,8 +8,6 @@ import 'dart:convert';
 class NetworkService {
   NetworkService();
 
-  /// Sends a multipart POST request with files and text fields.
-  /// Used for uploading images/videos alongside form data.
   Future<http.StreamedResponse> multipartPost({
     required String url,
     String? token,
@@ -27,8 +25,8 @@ class NetworkService {
       request.files.addAll(files);
 
       final response = await request.send().timeout(
-            const Duration(seconds: 120),
-          );
+        const Duration(seconds: 120),
+      );
 
       return response;
     } on SocketException {

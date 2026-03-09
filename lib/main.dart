@@ -1,16 +1,15 @@
 import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/app/router/app_router.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
+import 'package:ezycourse_community/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 1. Register all dependencies (NetworkService, Repositories, UseCases, etc.)
   await configureDependencies();
 
-  // 2. Check token and init router
   final tokenStorageService = serviceLocator<TokenStorageService>();
   final hasToken = await tokenStorageService.hasToken();
   AppRouter.init(isLoggedIn: hasToken);
@@ -24,11 +23,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'EzyCourse Community',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: AppTheme.lightTheme,
       routerConfig: AppRouter.router,
     );
   }
