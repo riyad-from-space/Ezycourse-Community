@@ -1,11 +1,16 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
+import 'package:ezycourse_community/core/theme/app_text_styles.dart';
 import 'package:ezycourse_community/features/community/presentation/viewmodel/community_list_viewmodel.dart';
+import 'package:ezycourse_community/features/community/presentation/widgets/community_empty_state.dart';
+import 'package:ezycourse_community/features/community/presentation/widgets/community_error_state.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/community_list_card.dart';
-
+import 'package:ezycourse_community/features/community/presentation/widgets/community_list_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CommunityListScreen extends ConsumerStatefulWidget {
   const CommunityListScreen({super.key});
+
   @override
   ConsumerState<CommunityListScreen> createState() =>
       _CommunityListScreenState();
@@ -17,11 +22,9 @@ class _CommunityListScreenState extends ConsumerState<CommunityListScreen> {
   @override
   void initState() {
     super.initState();
-
     Future.microtask(() {
       ref.read(communityListViewModelProvider.notifier).fetchCommunityList();
     });
-
     _scrollController.addListener(_onScroll);
   }
 
@@ -41,75 +44,87 @@ class _CommunityListScreenState extends ConsumerState<CommunityListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final communityListState = ref.watch(communityListViewModelProvider);
+    final state = ref.watch(communityListViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Communities',
-          style: TextStyle(fontWeight: FontWeight.w500),
+      backgroundColor: AppColors.surface,
+      body: RefreshIndicator(
+        color: AppColors.primary,
+        onRefresh: () async {
+          await ref
+              .read(communityListViewModelProvider.notifier)
+              .refreshCommunityList();
+        },
+        child: CustomScrollView(
+          controller: _scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: [
+            // AppBar
+            SliverAppBar(
+              pinned: true,
+              backgroundColor: AppColors.surface,
+              surfaceTintColor: Colors.transparent,
+              elevation: 0,
+              scrolledUnderElevation: 0.5,
+              title: Text('Communities', style: AppTextStyles.screenTitle),
+              centerTitle: false,
+
+            ),
+
+            // Content
+            if (state.isLoading && state.communityList.isEmpty)
+              const CommunityListShimmer()
+            else if (state.errorMessage != null && state.communityList.isEmpty)
+              CommunityErrorState(
+                message: state.errorMessage!,
+                onRetry: () {
+                  ref
+                      .read(communityListViewModelProvider.notifier)
+                      .refreshCommunityList();
+                },
+              )
+            else if (state.communityList.isEmpty)
+              const CommunityEmptyState()
+            else ...[
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                sliver: SliverToBoxAdapter(
+                  child: CommunityListCard(communities: state.communityList),
+                ),
+              ),
+              _buildLoadingFooter(state),
+            ],
+          ],
         ),
-        centerTitle: true,
       ),
-      body: _buildBody(communityListState),
     );
   }
 
-  Widget _buildBody(CommunityListState state) {
-    if (state.isLoading && state.communityList.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (state.errorMessage != null && state.communityList.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline, size: 60, color: Colors.red[300]),
-            const SizedBox(height: 16),
-            Text('Error: ${state.errorMessage}', textAlign: TextAlign.center),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: () {
-                ref
-                    .read(communityListViewModelProvider.notifier)
-                    .fetchCommunityList();
-              },
-              icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
-            ),
-          ],
-        ),
-      );
-    }
-
-    if (state.communityList.isEmpty) {
-      return Center(child: const Text('No communities yet'));
-    }
-
-    return RefreshIndicator(
-      onRefresh: () async {
-        await ref
-            .read(communityListViewModelProvider.notifier)
-            .refreshCommunityList();
-      },
-      child: ListView(
-        controller: _scrollController,
-        padding: const EdgeInsets.all(8),
-        children: [
-          // Community grid
-          CommunityListCard(communities: state.communityList),
-
-          Container(
-            padding: const EdgeInsets.all(16),
-            alignment: Alignment.center,
-            child: state.isLoading && state.communityList.isNotEmpty
-                ? CircularProgressIndicator()
-                : !state.hasMoreData
-                ? Text("No more communities")
-                : SizedBox.shrink(),
-          ),
-        ],
+  Widget _buildLoadingFooter(CommunityListState state) {
+    return SliverToBoxAdapter(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 24),
+        alignment: Alignment.center,
+        child: state.isLoading && state.communityList.isNotEmpty
+            ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: AppColors.primary,
+                ),
+              )
+            : !state.hasMoreData && state.communityList.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      "You're all caught up!",
+                      style: AppTextStyles.cardSubtitle.copyWith(
+                        color: AppColors.textGreyLight,
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
       ),
     );
   }

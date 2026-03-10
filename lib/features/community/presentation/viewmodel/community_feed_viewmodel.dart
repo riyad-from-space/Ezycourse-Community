@@ -1,6 +1,7 @@
 import 'package:ezycourse_community/app/di/injection.dart';
 import 'package:ezycourse_community/core/services/token_storage_service.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
+import 'package:ezycourse_community/features/community/domain/entities/feed_like_entity.dart';
 import 'package:ezycourse_community/features/community/domain/usecases/get_community_feeds_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
