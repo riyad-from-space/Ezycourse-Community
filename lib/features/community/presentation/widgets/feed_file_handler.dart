@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_file_entity.dart';
+import 'package:ezycourse_community/features/community/presentation/widgets/feed_video_player.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/image_viewer.dart';
 import 'package:flutter/material.dart';
 
-Widget buildFeedImage(String fileLoc, {BoxFit fit = BoxFit.cover, double? width}) {
+Widget buildFeedImage(String fileLoc,
+    {BoxFit fit = BoxFit.cover, double? width}) {
   final isNetwork = fileLoc.startsWith('http');
 
   if (isNetwork) {
@@ -16,7 +19,7 @@ Widget buildFeedImage(String fileLoc, {BoxFit fit = BoxFit.cover, double? width}
         if (loadingProgress == null) return child;
         return Container(
           height: 300,
-          color: Colors.grey[300],
+          color: AppColors.shimmerBase,
           child: Center(
             child: CircularProgressIndicator(
               value: loadingProgress.expectedTotalBytes != null
@@ -24,14 +27,16 @@ Widget buildFeedImage(String fileLoc, {BoxFit fit = BoxFit.cover, double? width}
                       loadingProgress.expectedTotalBytes!
                   : null,
               strokeWidth: 2,
+              color: AppColors.primary,
             ),
           ),
         );
       },
       errorBuilder: (context, error, stackTrace) => Container(
         height: 300,
-        color: Colors.grey[300],
-        child: const Center(child: Icon(Icons.broken_image, color: Colors.red)),
+        color: AppColors.shimmerBase,
+        child: const Center(
+            child: Icon(Icons.broken_image, color: AppColors.error)),
       ),
     );
   }
@@ -43,8 +48,9 @@ Widget buildFeedImage(String fileLoc, {BoxFit fit = BoxFit.cover, double? width}
     fit: fit,
     errorBuilder: (context, error, stackTrace) => Container(
       height: 300,
-      color: Colors.grey[300],
-      child: const Center(child: Icon(Icons.broken_image, color: Colors.red)),
+      color: AppColors.shimmerBase,
+      child: const Center(
+          child: Icon(Icons.broken_image, color: AppColors.error)),
     ),
   );
 }
@@ -55,10 +61,36 @@ class FeedFileHandler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final images = files.where((file) => file.fileType == 'image').toList();
+    final images = files.where((f) => f.fileType == 'image').toList();
+    final videos = files.where((f) => f.fileType == 'video').toList();
 
-    if (images.isEmpty) return const SizedBox.shrink();
+    return Column(
+      children: [
+        // Videos
+        if (videos.isNotEmpty) _buildVideoSection(videos),
 
+        // Images
+        if (images.isNotEmpty) ...[
+          if (videos.isNotEmpty) const SizedBox(height: 8),
+          _buildImageSection(context, images),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildVideoSection(List<FeedFileEntity> videos) {
+    return Column(
+      children: videos.map((video) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: FeedVideoPlayer(videoUrl: video.fileLoc),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildImageSection(
+      BuildContext context, List<FeedFileEntity> images) {
     // Single image takes full width
     if (images.length == 1) {
       return Padding(
@@ -105,12 +137,12 @@ class FeedFileHandler extends StatelessWidget {
                   buildFeedImage(images[index].fileLoc),
                   if (isLastItem)
                     Container(
-                      color: Colors.black.withOpacity(0.6),
+                      color: Colors.black.withValues(alpha: 0.6),
                       child: Center(
                         child: Text(
                           '+$remainingCount',
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: AppColors.textWhite,
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),

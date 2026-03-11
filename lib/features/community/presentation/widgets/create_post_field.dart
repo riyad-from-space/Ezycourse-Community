@@ -1,34 +1,42 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CreatePostField extends StatelessWidget {
-
   const CreatePostField({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
-          Icon(Icons.person, color: Colors.grey),
-          const SizedBox(width: 8.0),
+          CircleAvatar(
+            radius: 18,
+            backgroundColor: AppColors.primary.withValues(alpha: 0.1),
+            child: const Icon(
+              Icons.person_rounded,
+              color: AppColors.primary,
+              size: 20,
+            ),
+          ),
+          const SizedBox(width: 10),
           Expanded(
-
-              child: Container(
-                decoration:BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(8.0),
-                  
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Text('What\'s on your mind?', style: TextStyle(color: Colors.grey[600]),),
-                ),
-            
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: AppColors.cardBorder),
               ),
-            
-          )
-         
+              child: Text(
+                "What's on your mind?",
+                style: TextStyle(
+                  color: AppColors.textGreyLight,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

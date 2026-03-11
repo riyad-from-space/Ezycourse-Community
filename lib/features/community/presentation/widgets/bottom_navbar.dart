@@ -1,4 +1,5 @@
 import 'package:ezycourse_community/app/router/route_path.dart';
+import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ezycourse_community/features/auth/presentation/viewmodel/auth_viewmodel.dart';
@@ -17,27 +18,36 @@ class BottomNavBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return BottomNavigationBar(
-      currentIndex: currentIndex,
-      onTap: (index) => _handleNavigation(index, context, ref),
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.logout), label: 'Logout'),
-      ],
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(top: BorderSide(color: AppColors.cardBorder)),
+      ),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            children: [
+              _NavItem(
+                icon: Icons.home_rounded,
+                label: 'Home',
+                isActive: currentIndex == 0,
+                onTap: () => onIndexChanged(0),
+              ),
+              _NavItem(
+                icon: Icons.logout_rounded,
+                label: 'Logout',
+                isActive: false,
+                onTap: () => _handleLogout(context, ref),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  Future<void> _handleNavigation(
-    int index,
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
-    if (index == 0) {
-      onIndexChanged(0);
-
-      return;
-    }
-
+  Future<void> _handleLogout(BuildContext context, WidgetRef ref) async {
     final confirmed = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
@@ -48,18 +58,65 @@ class BottomNavBar extends ConsumerWidget {
     if (confirmed == true) {
       try {
         await ref.read(authViewModelProvider.notifier).logout();
-
-        context.pushReplacementNamed(RoutePathName.signIn);
+        if (context.mounted) {
+          context.pushReplacementNamed(RoutePathName.signIn);
+        }
       } catch (e) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Logout failed: $e'),
-              backgroundColor: Colors.red,
+              backgroundColor: AppColors.error,
             ),
           );
         }
       }
     }
+  }
+}
+
+class _NavItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final bool isActive;
+  final VoidCallback onTap;
+
+  const _NavItem({
+    required this.icon,
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 24,
+                color: isActive ? AppColors.primary : AppColors.textGrey,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+                  color: isActive ? AppColors.primary : AppColors.textGrey,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

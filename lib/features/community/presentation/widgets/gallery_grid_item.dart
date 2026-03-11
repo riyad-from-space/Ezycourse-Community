@@ -1,3 +1,4 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:ezycourse_community/features/community/domain/entities/gallery_item_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class GalleryGridItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? Colors.blue : Colors.grey[300]!,
+            color: isSelected ? AppColors.primary : AppColors.cardBorder,
             width: isSelected ? 3 : 1,
           ),
         ),
@@ -34,19 +35,21 @@ class GalleryGridItem extends StatelessWidget {
               if (item.fileType == 'video')
                 const Center(
                   child: Icon(Icons.play_circle_fill,
-                      color: Colors.white70, size: 36),
+                      color: AppColors.textWhite70, size: 36),
                 ),
               if (item.fileType != 'image')
                 _buildTypeBadge(),
               if (isSelected) ...[
-                Container(color: Colors.blue.withValues(alpha: 0.3)),
+                Container(
+                  color: AppColors.primary.withValues(alpha: 0.3),
+                ),
                 const Positioned(
                   top: 4,
                   right: 4,
                   child: CircleAvatar(
                     radius: 12,
-                    backgroundColor: Colors.blue,
-                    child: Icon(Icons.check, color: Colors.white, size: 16),
+                    backgroundColor: AppColors.primary,
+                    child: Icon(Icons.check, color: AppColors.textWhite, size: 16),
                   ),
                 ),
               ],
@@ -68,21 +71,24 @@ class GalleryGridItem extends StatelessWidget {
         loadingBuilder: (_, child, progress) {
           if (progress == null) return child;
           return const Center(
-              child: CircularProgressIndicator(strokeWidth: 2));
+              child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.primary,
+          ));
         },
         errorBuilder: (_, __, ___) => Container(
-          color: Colors.grey[200],
-          child: const Icon(Icons.broken_image, color: Colors.grey),
+          color: AppColors.shimmerBase,
+          child: const Icon(Icons.broken_image, color: AppColors.textGrey),
         ),
       );
     }
 
     return Container(
-      color: Colors.grey[900],
+      color: AppColors.textDark,
       child: Center(
         child: Icon(
           item.fileType == 'audio' ? Icons.audiotrack : Icons.insert_drive_file,
-          color: Colors.white,
+          color: AppColors.textWhite,
           size: 36,
         ),
       ),
@@ -96,13 +102,13 @@ class GalleryGridItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         decoration: BoxDecoration(
-          color: Colors.black54,
+          color: Colors.black.withValues(alpha: 0.54),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Text(
           item.fileType.toUpperCase(),
           style: const TextStyle(
-            color: Colors.white,
+            color: AppColors.textWhite,
             fontSize: 10,
             fontWeight: FontWeight.bold,
           ),

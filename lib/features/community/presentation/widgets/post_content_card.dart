@@ -1,3 +1,4 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class PostContentCard extends StatelessWidget {
@@ -14,11 +15,11 @@ class PostContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -32,13 +33,13 @@ class PostContentCard extends StatelessWidget {
         style: const TextStyle(
           fontSize: 14,
           height: 1.5,
-          color: Colors.black87,
+          color: AppColors.textDark,
         ),
         decoration: InputDecoration(
           hintText: "What's on your mind?",
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             fontSize: 14,
-            color: Colors.grey[500],
+            color: AppColors.textGreyLight,
             fontWeight: FontWeight.w400,
           ),
           contentPadding: const EdgeInsets.all(16),

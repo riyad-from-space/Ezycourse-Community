@@ -1,3 +1,5 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
+import 'package:ezycourse_community/core/theme/app_text_styles.dart';
 import 'package:ezycourse_community/features/community/presentation/viewmodel/gallery_picker_viewmodel.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/gallery_grid_item.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/media_picker_widget.dart';
@@ -78,21 +80,17 @@ class _GalleryPickerScreenState extends ConsumerState<GalleryPickerScreen> {
     final isImage = widget.fileType == 'image';
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppColors.surface,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.cardBackground,
         centerTitle: true,
         title: Text(
           isImage ? 'Photo Gallery' : 'Video Gallery',
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.black87,
-          ),
+          style: AppTextStyles.cardTitle.copyWith(fontSize: 18),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back, color: AppColors.textDark),
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
@@ -102,8 +100,10 @@ class _GalleryPickerScreenState extends ConsumerState<GalleryPickerScreen> {
               child: ElevatedButton(
                 onPressed: state.selectedItemIds.isEmpty ? null : _onDone,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  disabledBackgroundColor: Colors.grey[300],
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.textWhite,
+                  disabledBackgroundColor: AppColors.shimmerBase,
+                  disabledForegroundColor: AppColors.textGrey,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                   shape: RoundedRectangleBorder(
@@ -114,11 +114,6 @@ class _GalleryPickerScreenState extends ConsumerState<GalleryPickerScreen> {
                   state.selectedItemIds.isEmpty
                       ? 'Done'
                       : 'Done (${state.selectedItemIds.length})',
-                  style: TextStyle(
-                    color: state.selectedItemIds.isEmpty
-                        ? Colors.grey
-                        : Colors.white,
-                  ),
                 ),
               ),
             ),
@@ -130,19 +125,20 @@ class _GalleryPickerScreenState extends ConsumerState<GalleryPickerScreen> {
           _buildBody(state),
           if (state.isUploading)
             Container(
-              color: Colors.black26,
-              child: const Center(
+              color: Colors.black.withValues(alpha: 0.26),
+              child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CircularProgressIndicator(color: Colors.white),
-                    SizedBox(height: 16),
+                    const CircularProgressIndicator(
+                      color: AppColors.textWhite,
+                    ),
+                    const SizedBox(height: 16),
                     Text(
                       'Uploading...',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
+                      style: AppTextStyles.subheading.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
@@ -152,10 +148,11 @@ class _GalleryPickerScreenState extends ConsumerState<GalleryPickerScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: state.isUploading ? null : _uploadFromPhone,
-        backgroundColor: state.isUploading ? Colors.grey : Colors.blue,
+        backgroundColor:
+            state.isUploading ? AppColors.textGrey : AppColors.primary,
         child: Icon(
           isImage ? Icons.add_photo_alternate : Icons.video_call,
-          color: Colors.white,
+          color: AppColors.textWhite,
         ),
       ),
     );
@@ -163,7 +160,9 @@ class _GalleryPickerScreenState extends ConsumerState<GalleryPickerScreen> {
 
   Widget _buildBody(GalleryPickerState state) {
     if (state.isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(
+        child: CircularProgressIndicator(color: AppColors.primary),
+      );
     }
 
     if (state.errorMessage != null && state.items.isEmpty) {
@@ -171,13 +170,25 @@ class _GalleryPickerScreenState extends ConsumerState<GalleryPickerScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 60, color: Colors.red[300]),
+            Icon(
+              Icons.error_outline,
+              size: 60,
+              color: AppColors.error.withValues(alpha: 0.6),
+            ),
             const SizedBox(height: 16),
-            Text(state.errorMessage!, textAlign: TextAlign.center),
+            Text(
+              state.errorMessage!,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.screenSubtitle,
+            ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () =>
                   ref.read(_provider.notifier).fetchGalleryItems(),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.textWhite,
+              ),
               icon: const Icon(Icons.refresh),
               label: const Text('Retry'),
             ),
@@ -187,7 +198,9 @@ class _GalleryPickerScreenState extends ConsumerState<GalleryPickerScreen> {
     }
 
     if (state.items.isEmpty) {
-      return const Center(child: Text('No items found'));
+      return Center(
+        child: Text('No items found', style: AppTextStyles.screenSubtitle),
+      );
     }
 
     return GridView.builder(

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 enum MediaType { image, video, audio }
@@ -111,7 +112,7 @@ class _MediaThumbnail extends StatelessWidget {
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[300]!),
+        border: Border.all(color: AppColors.cardBorder),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
@@ -133,12 +134,12 @@ class _MediaThumbnail extends StatelessWidget {
                   width: 24,
                   height: 24,
                   decoration: const BoxDecoration(
-                    color: Colors.red,
+                    color: AppColors.error,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     Icons.close,
-                    color: Colors.white,
+                    color: AppColors.textWhite,
                     size: 16,
                   ),
                 ),
@@ -157,8 +158,8 @@ class _MediaThumbnail extends StatelessWidget {
           media.remoteUrl!,
           fit: BoxFit.cover,
           errorBuilder: (_, __, ___) => Container(
-            color: Colors.grey[200],
-            child: const Icon(Icons.broken_image, color: Colors.grey),
+            color: AppColors.shimmerBase,
+            child: const Icon(Icons.broken_image, color: AppColors.textGrey),
           ),
         );
       } else {
@@ -167,13 +168,13 @@ class _MediaThumbnail extends StatelessWidget {
     }
 
     return Container(
-      color: Colors.black87,
+      color: AppColors.textDark,
       child: Center(
         child: Icon(
           media.type == MediaType.video
               ? Icons.play_circle_fill
               : Icons.audiotrack,
-          color: Colors.white,
+          color: AppColors.textWhite,
           size: 40,
         ),
       ),
@@ -187,13 +188,13 @@ class _MediaThumbnail extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         decoration: BoxDecoration(
-          color: Colors.black54,
+          color: Colors.black.withValues(alpha: 0.54),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Text(
           label,
           style: const TextStyle(
-            color: Colors.white,
+            color: AppColors.textWhite,
             fontSize: 10,
             fontWeight: FontWeight.bold,
           ),

@@ -47,6 +47,30 @@ class FeedViewModel extends StateNotifier<FeedState> {
     state = const FeedState();
   }
 
+  /// Optimistically update a feed's reaction locally for instant UI feedback
+  void updateReaction(int feedId, String reactionType) {
+    final updatedFeeds = state.feeds.map((feed) {
+      if (feed.id == feedId) {
+        final hadReaction = feed.like?.reactionType != null;
+        final isSameReaction = feed.like?.reactionType == reactionType;
+
+        return feed.copyWith(
+          like: isSameReaction
+              ? null
+              : FeedLikeEntity(reactionType: reactionType),
+          likeCount: isSameReaction
+              ? feed.likeCount - 1
+              : hadReaction
+                  ? feed.likeCount
+                  : feed.likeCount + 1,
+        );
+      }
+      return feed;
+    }).toList();
+
+    state = state.copyWith(feeds: updatedFeeds);
+  }
+
   Future<void> fetchFeeds(int communityId, int spaceId) async {
     state = state.copyWith(isLoading: true, clearError: true);
 

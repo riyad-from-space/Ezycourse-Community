@@ -41,12 +41,16 @@ class AppRouter {
         GoRoute(
           name: RoutePathName.feedScreen,
           path: RoutePath.feedScreen,
-          builder: (final BuildContext context, final GoRouterState state) =>
-              FeedScreen(
-                  communityId:
-                      state.pathParameters['communityId'] != null
-                          ? int.parse(state.pathParameters['communityId']!)
-                          : 0),
+          builder: (final BuildContext context, final GoRouterState state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            return FeedScreen(
+              communityId: state.pathParameters['communityId'] != null
+                  ? int.parse(state.pathParameters['communityId']!)
+                  : 0,
+              communityName: extra['communityName'] as String? ?? '',
+              coverImage: extra['coverImage'] as String? ?? '',
+            );
+          },
         ),
       ],
     );

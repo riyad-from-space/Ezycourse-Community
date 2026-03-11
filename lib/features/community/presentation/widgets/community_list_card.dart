@@ -94,6 +94,10 @@ class _CommunityCardState extends State<_CommunityCard>
             context.pushNamed(
               RoutePathName.feedScreen,
               pathParameters: {'communityId': community.id.toString()},
+              extra: {
+                'communityName': community.title,
+                'coverImage': community.coverImage,
+              },
             );
           },
           child: Container(

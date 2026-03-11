@@ -1,5 +1,5 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
 
 class EngagementBar extends StatelessWidget {
@@ -20,73 +20,38 @@ class EngagementBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine icon and color based on user's reaction
     final hasReacted = userReaction != null;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: Colors.grey[200]!),
-          bottom: BorderSide(color: Colors.grey[200]!),
+          top: BorderSide(color: AppColors.cardBorder),
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          GestureDetector(
-            onLongPress: onLike,
-            child: Row(
-              children: [
-                userReaction != null
-                    ? Text(
-                        _getReactionEmoji(userReaction!),
-                        style: const TextStyle(fontSize: 18),
-                      )
-                    : Icon(
-                        Icons.thumb_up_alt_outlined,
-                        size: 20,
-                        color: Colors.grey[600],
-                      ),
-
-                const SizedBox(width: 6),
-                Text(
-                  '${feed.likeCount}',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontWeight: hasReacted
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
+          // Like
+          _ActionButton(
+            onTap: onLike,
+            icon: hasReacted ? null : Icons.thumb_up_alt_outlined,
+            emoji: hasReacted ? _getReactionEmoji(userReaction!) : null,
+            label: '${feed.likeCount}',
+            isActive: hasReacted,
           ),
-          InkWell(
+          const SizedBox(width: 4),
+          // Comment
+          _ActionButton(
             onTap: onComment,
-            child: Row(
-              children: [
-                Icon(Icons.comment_outlined, size: 20, color: Colors.grey[600]),
-                const SizedBox(width: 6),
-                Text(
-                  '${feed.commentCount}',
-                  style: TextStyle(color: Colors.grey[600]),
-                ),
-              ],
-            ),
+            icon: Icons.chat_bubble_outline_rounded,
+            label: '${feed.commentCount}',
           ),
-          InkWell(
+          const SizedBox(width: 4),
+          // Share
+          _ActionButton(
             onTap: onShare,
-            child: Row(
-              children: [
-                Icon(Icons.share_outlined, size: 20, color: Colors.grey[600]),
-                const SizedBox(width: 6),
-                Text(
-                  '${feed.shareCount}',
-                  style: TextStyle(color: Colors.grey[600]),
-                ),
-              ],
-            ),
+            icon: Icons.share_outlined,
+            label: '${feed.shareCount}',
           ),
         ],
       ),
@@ -110,5 +75,56 @@ class EngagementBar extends StatelessWidget {
       default:
         return '👍';
     }
+  }
+}
+
+class _ActionButton extends StatelessWidget {
+  final VoidCallback? onTap;
+  final IconData? icon;
+  final String? emoji;
+  final String label;
+  final bool isActive;
+
+  const _ActionButton({
+    this.onTap,
+    this.icon,
+    this.emoji,
+    required this.label,
+    this.isActive = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(10),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (emoji != null)
+                Text(emoji!, style: const TextStyle(fontSize: 16))
+              else if (icon != null)
+                Icon(
+                  icon,
+                  size: 18,
+                  color: AppColors.textGrey,
+                ),
+              const SizedBox(width: 5),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+                  color: isActive ? AppColors.primary : AppColors.textGrey,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

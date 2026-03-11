@@ -1,3 +1,4 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:ezycourse_community/features/community/presentation/viewmodel/feed_comment_viewmodel.dart';
 import 'package:ezycourse_community/features/community/presentation/viewmodel/create_feed_comment_viewmodel.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/comment_card.dart';
@@ -15,6 +16,7 @@ class CommentBottomSheet extends ConsumerStatefulWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Padding(
           padding: EdgeInsets.only(
@@ -58,28 +60,17 @@ class _CommentBottomSheetState extends ConsumerState<CommentBottomSheet> {
             feedId: widget.feedId,
           );
 
-      // Clear the text field after successful send
       _commentController.clear();
 
-      // Refresh comments
       await ref
           .read(feedCommentViewmodelProvider.notifier)
           .fetchFeedComments(feedId: widget.feedId);
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Comment posted successfully!'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to post comment: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.error,
           ),
         );
       }
@@ -91,98 +82,162 @@ class _CommentBottomSheetState extends ConsumerState<CommentBottomSheet> {
     final commentState = ref.watch(feedCommentViewmodelProvider);
     final createCommentState = ref.watch(createFeedCommentViewmodelProvider);
 
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.7,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.7,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: Column(
+        children: [
+          // Handle bar
+          const SizedBox(height: 12),
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: AppColors.cardBorder,
+              borderRadius: BorderRadius.circular(2),
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            // Header
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Comments',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+
+          // Header
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 12, 12),
+            child: Row(
+              children: [
+                Text(
+                  'Comments',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textDark,
                   ),
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close),
-                  ),
-                ],
-              ),
-            ),
-      
-            // Comments content
-            Expanded(
-              child: commentState.isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : commentState.comments.isEmpty
-                      ? const Center(child: Text('No comments yet'))
-                      : CommentCard(comments: commentState.comments),
-            ),
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _commentController,
-                        decoration: InputDecoration(
-                          hintText: 'Write a comment...',
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[100],
-                        ),
-                        onSubmitted: (_) => _sendComment(),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        onPressed: createCommentState.isLoading ? null : _sendComment,
-                        icon: createCommentState.isLoading
-                            ? const SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : const Icon(Icons.send, color: Colors.white),
-                      ),
-                    ),
-                  ],
                 ),
-              ),
-            )
-          ],
-        ),
+                const Spacer(),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(Icons.close_rounded, color: AppColors.textGrey),
+                  style: IconButton.styleFrom(
+                    backgroundColor: AppColors.surface,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          Divider(height: 1, color: AppColors.cardBorder),
+
+          // Comments list
+          Expanded(
+            child: commentState.isLoading
+                ? Center(
+                    child: CircularProgressIndicator(color: AppColors.primary),
+                  )
+                : commentState.comments.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.chat_bubble_outline_rounded,
+                              size: 40,
+                              color: AppColors.textGreyLight,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'No comments yet',
+                              style: TextStyle(
+                                color: AppColors.textGrey,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Be the first to comment',
+                              style: TextStyle(
+                                color: AppColors.textGreyLight,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : CommentCard(comments: commentState.comments),
+          ),
+
+          // Input
+          Container(
+            padding: EdgeInsets.fromLTRB(
+              16,
+              12,
+              12,
+              MediaQuery.of(context).padding.bottom + 12,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(top: BorderSide(color: AppColors.cardBorder)),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _commentController,
+                    decoration: InputDecoration(
+                      hintText: 'Write a comment...',
+                      hintStyle: TextStyle(color: AppColors.textGreyLight),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: BorderSide(color: AppColors.cardBorder),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: BorderSide(color: AppColors.cardBorder),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: BorderSide(color: AppColors.primary),
+                      ),
+                      filled: true,
+                      fillColor: AppColors.surface,
+                    ),
+                    onSubmitted: (_) => _sendComment(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    onPressed:
+                        createCommentState.isLoading ? null : _sendComment,
+                    icon: createCommentState.isLoading
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Icon(
+                            Icons.send_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

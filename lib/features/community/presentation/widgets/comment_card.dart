@@ -1,4 +1,6 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_comment_entity.dart';
+import 'package:ezycourse_community/features/community/presentation/utils/time_formatter.dart';
 import 'package:flutter/material.dart';
 
 class CommentCard extends StatelessWidget {
@@ -7,51 +9,68 @@ class CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+    return ListView.separated(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       itemCount: comments.length,
+      separatorBuilder: (_, __) => Divider(
+        height: 1,
+        color: AppColors.cardBorder,
+      ),
       itemBuilder: (context, index) {
         final comment = comments[index];
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.grey, width: 0.2)),
-          ),
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-        
-        CircleAvatar(
-          radius: 20,
-          backgroundColor: Colors.grey,
-          backgroundImage: comment.user.profilePic.isNotEmpty
-              ? NetworkImage(comment.user.profilePic)
-              : null,
-        ),
-              const SizedBox(width: 12),
-           
+              CircleAvatar(
+                radius: 18,
+                backgroundColor: AppColors.primary.withValues(alpha: 0.1),
+                backgroundImage: comment.user.profilePic.isNotEmpty
+                    ? NetworkImage(comment.user.profilePic)
+                    : null,
+                child: comment.user.profilePic.isEmpty
+                    ? Text(
+                        TimeFormatter.getInitials(comment.user.fullName),
+                        style: const TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                        ),
+                      )
+                    : null,
+              ),
+              const SizedBox(width: 10),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-            
-                    Text(
-                      comment.user.fullName,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        comment.user.fullName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                          color: AppColors.textDark,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    // Comment text
-                    Text(
-                      comment.commentText,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        height: 1.4,
+                      const SizedBox(height: 3),
+                      Text(
+                        comment.commentText,
+                        style: TextStyle(
+                          fontSize: 13,
+                          height: 1.4,
+                          color: AppColors.textDark,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

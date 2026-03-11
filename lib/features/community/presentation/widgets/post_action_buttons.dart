@@ -1,6 +1,6 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
-/// Row of action buttons (Photo, Video, Feeling) for create post.
 class PostActionButtons extends StatelessWidget {
   final VoidCallback? onPhoto;
   final VoidCallback? onVideo;
@@ -64,21 +64,25 @@ class _ActionButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: isDisabled ? Colors.grey[200] : Colors.white,
+          color: isDisabled ? AppColors.shimmerBase : AppColors.cardBackground,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey[300]!),
+          border: Border.all(color: AppColors.cardBorder),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 20, color: isDisabled ? Colors.grey : Colors.blue),
+            Icon(
+              icon,
+              size: 20,
+              color: isDisabled ? AppColors.textGrey : AppColors.primary,
+            ),
             const SizedBox(width: 6),
             Text(
               label,
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: isDisabled ? Colors.grey : Colors.blue,
+                color: isDisabled ? AppColors.textGrey : AppColors.primary,
               ),
             ),
           ],

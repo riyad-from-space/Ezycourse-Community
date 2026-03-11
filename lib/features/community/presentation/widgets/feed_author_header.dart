@@ -1,12 +1,12 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:ezycourse_community/features/community/domain/entities/feed_entity.dart';
 import 'package:ezycourse_community/features/community/presentation/utils/time_formatter.dart';
 import 'package:flutter/material.dart';
 
 class AuthorHeader extends StatelessWidget {
   final FeedEntity feed;
-  final VoidCallback? onMenuTap;
 
-  const AuthorHeader({super.key, required this.feed, this.onMenuTap});
+  const AuthorHeader({super.key, required this.feed});
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +14,21 @@ class AuthorHeader extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 20,
-          backgroundColor: Colors.grey,
-          backgroundImage: feed.userPic.isNotEmpty
-              ? NetworkImage(feed.userPic)
+          backgroundColor: AppColors.primary.withValues(alpha: 0.1),
+          backgroundImage:
+              feed.userPic.isNotEmpty ? NetworkImage(feed.userPic) : null,
+          child: feed.userPic.isEmpty
+              ? Text(
+                  TimeFormatter.getInitials(feed.userName),
+                  style: const TextStyle(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                )
               : null,
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 10),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,23 +36,21 @@ class AuthorHeader extends StatelessWidget {
               Text(
                 feed.userName,
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  color: AppColors.textDark,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(height: 2),
               Text(
                 TimeFormatter.formatRelativeTime(feed.createdAt),
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
+                style: TextStyle(
+                  color: AppColors.textGreyLight,
+                  fontSize: 12,
+                ),
               ),
             ],
           ),
-        ),
-        IconButton(
-          onPressed: onMenuTap,
-          icon: Icon(Icons.more_horiz),
-          constraints: BoxConstraints(),
-          padding: EdgeInsets.zero,
         ),
       ],
     );

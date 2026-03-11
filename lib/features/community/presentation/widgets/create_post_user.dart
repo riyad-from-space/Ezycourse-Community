@@ -1,3 +1,5 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
+import 'package:ezycourse_community/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class CreatePostUserInfo extends StatelessWidget {
@@ -6,29 +8,24 @@ class CreatePostUserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipOval(
           child: Container(
             width: 48,
             height: 48,
-            color: Colors.grey.shade200,
+            color: AppColors.shimmerBase,
             child: Image.network(
               'https://letcheck.b-cdn.net/human_icon.png',
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.person, color: Colors.grey),
+                  const Icon(Icons.person, color: AppColors.textGrey),
             ),
           ),
         ),
         const SizedBox(width: 12),
-        const Text(
+        Text(
           'student tester',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            color: Colors.black87,
-          ),
+          style: AppTextStyles.cardTitle.copyWith(fontSize: 18),
         ),
       ],
     );

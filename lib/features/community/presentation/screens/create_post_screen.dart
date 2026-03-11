@@ -1,3 +1,5 @@
+import 'package:ezycourse_community/core/theme/app_colors.dart';
+import 'package:ezycourse_community/core/theme/app_text_styles.dart';
 import 'package:ezycourse_community/features/community/presentation/viewmodel/community_feed_viewmodel.dart';
 import 'package:ezycourse_community/features/community/presentation/viewmodel/create_post_viewmodel.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/create_post_user.dart';
@@ -29,7 +31,6 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
     _textController.dispose();
     super.dispose();
   }
-
 
   Future<void> _handlePost() async {
     final postText = _textController.text.trim();
@@ -63,7 +64,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Post created successfully!'),
-            backgroundColor: Colors.green,
+            backgroundColor: AppColors.success,
           ),
         );
         Navigator.pop(context);
@@ -73,13 +74,12 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to create post: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.error,
           ),
         );
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -87,21 +87,17 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
     final isLoading = createPostState.isLoading;
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppColors.surface,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.cardBackground,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Create Post',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.black87,
-          ),
+          style: AppTextStyles.cardTitle.copyWith(fontSize: 18),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back, color: AppColors.textDark),
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
@@ -111,8 +107,10 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
               child: ElevatedButton(
                 onPressed: isLoading ? null : _handlePost,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  disabledBackgroundColor: Colors.grey,
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.textWhite,
+                  disabledBackgroundColor: AppColors.textGrey,
+                  disabledForegroundColor: AppColors.textWhite70,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
                     vertical: 8,
@@ -128,7 +126,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.white,
+                            AppColors.textWhite,
                           ),
                         ),
                       )
@@ -154,11 +152,11 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.cardBackground,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
