@@ -25,6 +25,12 @@ import 'package:ezycourse_community/features/community/domain/usecases/get_feed_
 import 'package:ezycourse_community/features/community/domain/usecases/get_gallery_items_usecase.dart';
 import 'package:ezycourse_community/features/community/domain/usecases/upload_gallery_file_usecase.dart';
 
+import 'package:ezycourse_community/features/user_profile/data/datasources/remote_datasource.dart';
+import 'package:ezycourse_community/features/user_profile/data/datasources/remote_datasource_impl.dart';
+import 'package:ezycourse_community/features/user_profile/data/repositories/user_profile_repository_impl.dart';
+import 'package:ezycourse_community/features/user_profile/domain/repositories/user_profile_repository.dart';
+import 'package:ezycourse_community/features/user_profile/domain/usecasaes/user_profile_usecase.dart';
+
 import 'package:get_it/get_it.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -38,6 +44,9 @@ Future<void> configureDependencies() async {
 
   //community
   _registerCommunityFeature();
+
+  //user profile
+  _registerUserProfileFeature();
 
   await serviceLocator.allReady();
 }
@@ -115,5 +124,23 @@ void _registerCommunityFeature() {
 
   serviceLocator.registerLazySingleton<UploadGalleryFileUseCase>(
     () => UploadGalleryFileUseCase(serviceLocator<CommunityRepository>()),
+  );
+}
+
+//User Profile
+void _registerUserProfileFeature() {
+  //datasource
+  serviceLocator.registerLazySingleton<UserProfileRemoteDatasource>(
+    () => UserProfileRemoteDatasourceImpl(serviceLocator<NetworkService>()),
+  );
+
+  //repository
+  serviceLocator.registerLazySingleton<UserProfileRepository>(
+    () => UserProfileRepositoryImpl(serviceLocator<UserProfileRemoteDatasource>()),
+  );
+
+  //usecase
+  serviceLocator.registerLazySingleton<UserProfileUsecase>(
+    () => UserProfileUsecase(serviceLocator<UserProfileRepository>()),
   );
 }

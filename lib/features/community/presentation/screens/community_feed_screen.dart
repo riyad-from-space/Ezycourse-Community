@@ -28,7 +28,6 @@ class FeedScreen extends ConsumerStatefulWidget {
 }
 
 class _FeedScreenState extends ConsumerState<FeedScreen> {
-  int _currentIndex = 0;
   List<CommunityChannelEntity> _channels = [];
   bool _channelsLoaded = false;
   int? _activeChannelId;
@@ -99,10 +98,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
               child: CircularProgressIndicator(color: AppColors.primary),
             )
           : _buildContent(feedState),
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: _currentIndex,
-        onIndexChanged: (index) => setState(() => _currentIndex = index),
-      ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 0),
     );
   }
 
@@ -120,7 +116,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
             MaterialPageRoute(
               builder: (context) => CreatePostScreen(
                 communityId: widget.communityId,
-                spaceId: _channels[_currentIndex].channelId,
+                spaceId: _activeChannelId!,
               ),
             ),
           ),

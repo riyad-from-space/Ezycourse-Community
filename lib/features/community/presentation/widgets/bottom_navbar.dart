@@ -2,18 +2,14 @@ import 'package:ezycourse_community/app/router/route_path.dart';
 import 'package:ezycourse_community/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ezycourse_community/features/auth/presentation/viewmodel/auth_viewmodel.dart';
-import 'package:ezycourse_community/features/community/presentation/widgets/logout_dialog.dart';
 import 'package:go_router/go_router.dart';
 
 class BottomNavBar extends ConsumerWidget {
   final int currentIndex;
-  final ValueChanged<int> onIndexChanged;
 
   const BottomNavBar({
     super.key,
     required this.currentIndex,
-    required this.onIndexChanged,
   });
 
   @override
@@ -32,46 +28,27 @@ class BottomNavBar extends ConsumerWidget {
                 icon: Icons.home_rounded,
                 label: 'Home',
                 isActive: currentIndex == 0,
-                onTap: () => onIndexChanged(0),
+                onTap: () {
+                  if (currentIndex != 0) {
+                    context.goNamed(RoutePathName.community);
+                  }
+                },
               ),
               _NavItem(
-                icon: Icons.logout_rounded,
-                label: 'Logout',
-                isActive: false,
-                onTap: () => _handleLogout(context, ref),
+                icon: Icons.person_rounded,
+                label: 'Profile',
+                isActive: currentIndex == 1,
+                onTap: () {
+                  if (currentIndex != 1) {
+                    context.goNamed(RoutePathName.profile);
+                  }
+                },
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  Future<void> _handleLogout(BuildContext context, WidgetRef ref) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) =>
-          ShowLogoutDialog(onConfirm: () => Navigator.of(ctx).pop(true)),
-    );
-
-    if (confirmed == true) {
-      try {
-        await ref.read(authViewModelProvider.notifier).logout();
-        if (context.mounted) {
-          context.pushReplacementNamed(RoutePathName.signIn);
-        }
-      } catch (e) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Logout failed: $e'),
-              backgroundColor: AppColors.error,
-            ),
-          );
-        }
-      }
-    }
   }
 }
 

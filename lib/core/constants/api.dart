@@ -29,4 +29,7 @@ class ApiEndpoints {
       '$baseUrl/teacher/gallery/getGalleryItemsFromLibary?type=$galleryFileType&parent_id=0';
   static const String uploadImage = '$baseUrl/teacher/gallery/uploadFile';
   static const String uploadVideo = '$baseUrl/teacher/gallery/create-video';
+
+  //user profile
+  static const String userProfile = '$baseUrl/student/auth/getUser';
 }

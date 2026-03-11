@@ -2,6 +2,7 @@ import 'package:ezycourse_community/app/router/route_path.dart';
 import 'package:ezycourse_community/features/auth/presentation/screens/login_screen.dart';
 import 'package:ezycourse_community/features/community/presentation/screens/community_feed_screen.dart';
 import 'package:ezycourse_community/features/community/presentation/screens/community_list_screen.dart';
+import 'package:ezycourse_community/features/user_profile/presentation/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -51,6 +52,12 @@ class AppRouter {
               coverImage: extra['coverImage'] as String? ?? '',
             );
           },
+        ),
+        GoRoute(
+          name: RoutePathName.profile,
+          path: RoutePath.profile,
+          builder: (final BuildContext context, final GoRouterState state) =>
+              const ProfileScreen(),
         ),
       ],
     );

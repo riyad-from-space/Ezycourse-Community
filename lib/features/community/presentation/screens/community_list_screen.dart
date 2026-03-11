@@ -5,6 +5,8 @@ import 'package:ezycourse_community/features/community/presentation/widgets/comm
 import 'package:ezycourse_community/features/community/presentation/widgets/community_error_state.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/community_list_card.dart';
 import 'package:ezycourse_community/features/community/presentation/widgets/community_list_shimmer.dart';
+import 'package:ezycourse_community/features/community/presentation/widgets/bottom_navbar.dart';
+import 'package:ezycourse_community/features/user_profile/presentation/viewmodel/user_profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,6 +26,7 @@ class _CommunityListScreenState extends ConsumerState<CommunityListScreen> {
     super.initState();
     Future.microtask(() {
       ref.read(communityListViewModelProvider.notifier).fetchCommunityList();
+      ref.read(userProfileViewModelProvider.notifier).fetchUserProfile();
     });
     _scrollController.addListener(_onScroll);
   }
@@ -48,6 +51,7 @@ class _CommunityListScreenState extends ConsumerState<CommunityListScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.surface,
+      bottomNavigationBar: const BottomNavBar(currentIndex: 0),
       body: RefreshIndicator(
         color: AppColors.primary,
         onRefresh: () async {
